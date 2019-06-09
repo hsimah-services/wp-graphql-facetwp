@@ -1,0 +1,1 @@
+wp-graphql-facetwp
