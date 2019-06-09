@@ -1,1 +1,1 @@
-wp-graphql-facetwp
+WPGraphQL provider for FacetWP
