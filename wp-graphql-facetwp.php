@@ -208,6 +208,14 @@ if ( ! class_exists( 'WPGraphQL_FacetWP' ) ) :
                 'fromType'          => $field,
                 'toType'            => $singular,
                 'fromFieldName'     => lcfirst( $plural ),
+                'connectionArgs'    => [
+                    'orderby'      => [ 
+                        'type'        => [
+                            'list_of' => 'PostObjectsConnectionOrderbyInput',
+                        ],
+                        'description' => __( 'What paramater to use to order the objects by.', 'wpgraphql-facetwp' ),
+                    ],
+                ],
                 'resolveNode'       => function( $id, $args, $context, $info ) {
 
                     return ! empty( $id ) ? DataSource::resolve_post_object( $id, $context ) : null;
@@ -363,13 +371,6 @@ if ( ! class_exists( 'WPGraphQL_FacetWP' ) ) :
             register_graphql_input_type( $field . 'WhereArgs', [
                 'description' => __( 'Arguments for ' . $field . ' query', 'wpgraphql-facetwp' ),
                 'fields'      => [
-                    // TODO pass orderby to facet query
-                    'orderby'      => [ 
-                        'type'        => [
-                            'list_of' => 'PostObjectsConnectionOrderbyInput',
-                        ],
-                        'description' => __( 'What paramater to use to order the objects by.', 'wpgraphql-facetwp' ),
-                    ],
                     'status' => [
                         'type' => 'PostStatusEnum',
                     ],
