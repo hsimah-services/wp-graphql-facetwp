@@ -109,9 +109,10 @@ if ( ! class_exists( 'WPGraphQL_FacetWP' ) ) :
             if ( ! $post_type->show_in_graphql ) return;
             
             $config = [
-                'type'                  => $type,
-                'graphql_type'          => $post_type->graphql_single_name,
-                'graphql_plural_type'   => $post_type->graphql_plural_name,
+                'type'      => $type,
+                'singular'  => $post_type->graphql_single_name,
+                'plural'    => $post_type->graphql_plural_name,
+                'field'     => $post_type->graphql_single_name . 'Facet',
             ];
 
             self::$instance->register_root_field( $config );
@@ -142,16 +143,16 @@ if ( ! class_exists( 'WPGraphQL_FacetWP' ) ) :
         private function register_root_field( $config ) {
 
             $type = $config['type'];
-            $graphql_type = $config['graphql_type'];
-            $field_name = $graphql_type . 'Facet';
+            $singular = $config['singular'];
+            $field = $config['field'];
 
-            register_graphql_field( 'RootQuery', $field_name, [
-                'type'        => $field_name,
-                'description' => __( $graphql_type . ' FacetWP Query', 'wpgraphql-facetwp' ),
+            register_graphql_field( 'RootQuery', $field, [
+                'type'        => $field,
+                'description' => __( $singular . ' FacetWP Query', 'wpgraphql-facetwp' ),
                 'args'        => [
                     'where' => [
-                        'type'          => $field_name . 'WhereArgs',
-                        'description'   => __( 'Arguments for ' . $field_name . ' query', 'wpgraphql-facetwp' ),
+                        'type'          => $field . 'WhereArgs',
+                        'description'   => __( 'Arguments for ' . $field . ' query', 'wpgraphql-facetwp' ),
                     ],
                 ],
                 'resolve'     => function ( $source, array $args ) use ( $type ) {    
@@ -199,14 +200,22 @@ if ( ! class_exists( 'WPGraphQL_FacetWP' ) ) :
         private function register_facet_connection( $config ) {
 
             $type = $config['type'];
-            $graphql_type = $config['graphql_type'];
-            $field_name = $graphql_type . 'Facet';
-            $graphql_plural_type = $config['graphql_plural_type'];
+            $singular = $config['singular'];
+            $field = $config['field'];
+            $plural = $config['plural'];
 
             register_graphql_connection( [
-                'fromType'          => $field_name,
-                'toType'            => $graphql_type,
-                'fromFieldName'     => lcfirst( $graphql_plural_type ),
+                'fromType'          => $field,
+                'toType'            => $singular,
+                'fromFieldName'     => lcfirst( $plural ),
+                'connectionArgs'    => [
+                    'orderby'      => [ 
+                        'type'        => [
+                            'list_of' => 'PostObjectsConnectionOrderbyInput',
+                        ],
+                        'description' => __( 'What paramater to use to order the objects by.', 'wpgraphql-facetwp' ),
+                    ],
+                ],
                 'resolveNode'       => function( $id, $args, $context, $info ) {
 
                     return ! empty( $id ) ? DataSource::resolve_post_object( $id, $context ) : null;
@@ -236,11 +245,11 @@ if ( ! class_exists( 'WPGraphQL_FacetWP' ) ) :
         private function register_output_types( $config ) {
 
             $type = $config['type'];
-            $graphql_type = $config['graphql_type'];
-            $field_name = $graphql_type . 'Facet';
+            $singular = $config['singular'];
+            $field = $config['field'];
 
-            register_graphql_object_type( $field_name, [
-                'description' => __( $graphql_type . ' FacetWP Payload', 'wpgraphql-facetwp' ),
+            register_graphql_object_type( $field, [
+                'description' => __( $singular . ' FacetWP Payload', 'wpgraphql-facetwp' ),
                 'fields' => [
                     'facets' => [
                         'type' => [
@@ -324,11 +333,11 @@ if ( ! class_exists( 'WPGraphQL_FacetWP' ) ) :
             $facets = FWP()->helper->get_facets();
     
             $type = $config['type'];
-            $graphql_type = $config['graphql_type'];
-            $field_name = $graphql_type . 'Facet';
+            $singular = $config['singular'];
+            $field = $config['field'];
 
             register_graphql_input_type( 'FacetQueryArgs', [
-                'description' => __( 'Seleted facets for ' . $field_name . ' query', 'wpgraphql-facetwp' ),
+                'description' => __( 'Seleted facets for ' . $field . ' query', 'wpgraphql-facetwp' ),
                 'fields'      => array_reduce( $facets, function( $prev, $cur ) {
                     if ( $cur && $cur['name'] ) {
                         // list_of String: checkbox, fselect && multiple
@@ -359,16 +368,9 @@ if ( ! class_exists( 'WPGraphQL_FacetWP' ) ) :
                 }, [] ),
             ] );
     
-            register_graphql_input_type( $field_name . 'WhereArgs', [
-                'description' => __( 'Arguments for ' . $field_name . ' query', 'wpgraphql-facetwp' ),
+            register_graphql_input_type( $field . 'WhereArgs', [
+                'description' => __( 'Arguments for ' . $field . ' query', 'wpgraphql-facetwp' ),
                 'fields'      => [
-                    // TODO pass orderby to facet query
-                    'orderby'      => [
-                        'type'        => [
-                            'list_of' => 'PostObjectsConnectionOrderbyInput',
-                        ],
-                        'description' => __( 'What paramater to use to order the objects by.', 'wpgraphql-facetwp' ),
-                    ],
                     'status' => [
                         'type' => 'PostStatusEnum',
                     ],
@@ -400,13 +402,9 @@ if ( ! function_exists( 'wpgraphql_facetwp_init' ) ) {
 }
 
 /**
- * Refactor below to external class TODO
- */
-
-/**
  * Register a post type as a FacetWP queryable
  *
- * @param string $type_name The name of the Type to register
+ * @param string $type_name The name of the WP object type to register
  */
 function register_graphql_facet_type( $type_name ) {
     \WPGraphQL_FacetWP::register( $type_name );
