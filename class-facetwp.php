@@ -143,6 +143,14 @@ final class WPGraphQL_FacetWP {
                     ],
                 ];
 
+                $filtered_ids = [];
+                    
+                // TODO find a better place to register this handler
+                add_filter( 'facetwp_filtered_post_ids', function( $post_ids, $class ) use ( &$filtered_ids ) {
+                    $filtered_ids = $post_ids;
+                    return $post_ids;
+                }, 10, 2 );
+
                 $fwp = new FacetWP_API_Fetch();
                 $payload = $fwp->process_request( $fwp_args );
 
@@ -163,7 +171,7 @@ final class WPGraphQL_FacetWP {
                  */
                 return [
                     'facets'    => array_values( $payload['facets'] ),
-                    'results'   => FWP()->unfiltered_post_ids,
+                    'results'   => $filtered_ids,
                 ];
             },
         ] );
@@ -204,7 +212,7 @@ final class WPGraphQL_FacetWP {
             'resolve'           => function ( $source, $args, $context, $info ) use ( $type ) {
                 
                 $resolver   = new PostObjectConnectionResolver( $source, $args, $context, $info, $type );
-                $resolver->setQueryArg( 'p', $source['results'] );
+                $resolver->setQueryArg( 'post__in', $source['results'] );
                 
                 $connection = $resolver->get_connection();
                 
