@@ -1,11 +1,58 @@
-WPGraphQL provider for FacetWP
+# WPGraphQL-FacetWP: WPGraphQL provider for FacetWP
 
-Usage:
+## Quick Install
+Download and install like any WordPress plugin.
+
+## Documentation
+The WPGraphQL documentation can be found [here](https://docs.wpgraphql.com).
+The FacetWP documentation can be found [here](https://facetwp.com/documentation/).
+
+- Requires PHP 5.5+
+- Requires WordPress 4.7+
+- Requires WPGraphQL 0.3.2+
+- Requires FacetWP 3.3.9+
+
+## Overview
+This plugin exposes configured facets through the graph schema. Once registered for a type, a root query is available. The payload includes both facet choices and information and a connection to the post type data allows for pagination of the returned data set.
+
+## Usage:
+Configure facets via the FacetWP admin pages.
+
+Register the facet and post type with WPGraphQL:
 ```
-$type = 'post'; // set WP post type for facet to filter
-register_graphql_facet_type( $type );
+// Register facet for Posts
+register_graphql_facet_type( 'post' );
 ```
 
-This will register a WPGraphQL `TypeFacet` field on the `RootQuery`. The payload includes a collection of queried `facets` and a `types` connection. The connection is a standard WPGraphQL connection supporting pagination and server side ordering. The connection payload only includes filtered posts.
+This will create a WPGraphQL `postFacet` field on the `RootQuery`. The payload includes a collection of queried `facets` and a `posts` connection. The connection is a standard WPGraphQL connection supporting pagination and server side ordering. The connection payload only includes filtered posts.
 
-See FacetWP and WPGraphQL documentation for more info at this time, or join #facetwp on the WPGraphQL slack workspace.
+A simple query might look like this:
+```
+query GetPosts($query: FacetQueryArgs, $after: String, $search: String, $orderBy: [PostObjectsConnectionOrderbyInput]) {
+  postFacet(where: {status: PUBLISH, query: $query}) {
+    facets {
+      selected
+      name
+      label
+      choices {
+        value
+        label
+        count
+      }
+    }
+    posts(first: 10, after: $after, where: {search: $search, orderby: $orderBy}) {
+      pageInfo {
+        hasNextPage
+        endCursor
+      }
+      nodes {
+        title
+        excerpt
+      }
+    }
+  }
+}
+```
+
+## Limitations
+Currently the plugin only has been tested using Checkbox and Radio facet types. Support for additional types is in development.

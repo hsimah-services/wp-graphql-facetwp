@@ -12,7 +12,7 @@
  *
  * @package  WPGraphQL_FacetWP
  * @author   hsimah
- * @version  0.0.1
+ * @version  0.1.0
  */
 
 // Exit if accessed directly.
@@ -20,14 +20,14 @@ if ( ! defined( 'ABSPATH' ) ) {
     exit;
 }
 
-if ( ! class_exists( 'WPGraphQL_FacetWP' ) ) :
+if ( ! class_exists( 'WPGraphQL_FacetWP' ) ) {
 
     add_action( 'admin_init', 'show_admin_notice' );
 
 	if ( class_exists( 'FacetWP' ) && class_exists( 'WPGraphQL' ) )
 		require_once __DIR__ . '/class-facetwp.php';
 
-endif;
+}
 
 
 /**
@@ -54,7 +54,9 @@ function show_admin_notice() {
 			function() use ( $wp_graphql_required_min_version ) {
 				?>
 			<div class="error notice">
-				<p><?php _e( sprintf('Both WPGraphQL (v%s+) and FacetWP (v3.3.9) must be active for "wp-graphql-facetwp" to work', $wp_graphql_required_min_version ), 'wpgraphiql-facetwp' ); ?></p>
+				<p>
+					<?php _e( sprintf('Both WPGraphQL (v%s+) and FacetWP (v3.3.9) must be active for "wp-graphql-facetwp" to work', $wp_graphql_required_min_version ), 'wpgraphiql-facetwp' ); ?>
+				</p>
 			</div>
 				<?php
 			}
