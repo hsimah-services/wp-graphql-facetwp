@@ -24,7 +24,8 @@ if ( ! class_exists( 'WPGraphQL_FacetWP' ) ) :
 
     add_action( 'admin_init', 'show_admin_notice' );
 
-    require_once __DIR__ . '/class-facetwp.php';
+	if ( class_exists( 'FacetWP' ) && class_exists( 'WPGraphQL' ) )
+		require_once __DIR__ . '/class-facetwp.php';
 
 endif;
 
