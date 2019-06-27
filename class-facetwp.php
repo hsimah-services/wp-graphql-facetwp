@@ -2,6 +2,7 @@
 
 use WPGraphQL\Data\DataSource;
 use WPGraphQL\Data\Connection\PostObjectConnectionResolver;
+use WPGraphQL\Connection\PostObjects;
 
 final class WPGraphQL_FacetWP {
         
@@ -196,14 +197,7 @@ final class WPGraphQL_FacetWP {
             'fromType'          => $field,
             'toType'            => $singular,
             'fromFieldName'     => lcfirst( $plural ),
-            'connectionArgs'    => [
-                'orderby'      => [ 
-                    'type'        => [
-                        'list_of' => 'PostObjectsConnectionOrderbyInput',
-                    ],
-                    'description' => __( 'What paramater to use to order the objects by.', 'wpgraphql-facetwp' ),
-                ],
-            ],
+            'connectionArgs'    => PostObjects::get_connection_args(),
             'resolveNode'       => function( $id, $args, $context, $info ) {
 
                 return ! empty( $id ) ? DataSource::resolve_post_object( $id, $context ) : null;
