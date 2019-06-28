@@ -13,12 +13,12 @@ The FacetWP documentation can be found [here](https://facetwp.com/documentation/
 - Requires FacetWP 3.3.9+
 
 ## Overview
-This plugin exposes configured facets through the graph schema. Once registered for a type, a root query is available. The payload includes both facet choices and information and a connection to the post type data allows for pagination of the returned data set.
+This plugin exposes configured facets through the graph schema. Once registered for a type, a query is available. The payload includes both facet choices and information and a connection to the post type data. This allows for standard GraphQL pagination of the returned data set.
 
 ## Usage:
-Configure facets via the FacetWP admin pages.
+**It is assumed that facets have been configured**
 
-Register the facet and post type with WPGraphQL:
+To register a FacetWP query in the WPGraphQL schema for a WordPress post type (eg `post`) simply call the following function:
 ```
 // Register facet for Posts
 register_graphql_facet_type( 'post' );
