@@ -1,3 +1,4 @@
+![Logo](./img/logo.png)
 # WPGraphQL-FacetWP: WPGraphQL provider for FacetWP
 
 ## Quick Install
