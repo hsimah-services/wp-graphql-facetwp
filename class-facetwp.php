@@ -3,6 +3,7 @@
 use WPGraphQL\Data\DataSource;
 use WPGraphQL\Data\Connection\PostObjectConnectionResolver;
 use WPGraphQL\Connection\PostObjects;
+use WPGraphQL\Type\WPEnumType;
 
 final class WPGraphQL_FacetWP {
         
@@ -129,13 +130,15 @@ final class WPGraphQL_FacetWP {
 
                 $where = $args['where'];
 
+                $query = $this->parse_query( $where['query'] );
+
                 // clean up null args
-                foreach ( $where['query'] as $key => $value ) {
-                    if ( ! $value ) $where['query'][$key] = [];
+                foreach ( $query as $key => $value ) {
+                    if ( ! $value ) $query[$key] = [];
                 }
 
                 $fwp_args = [
-                    'facets'        => $where['query'],
+                    'facets'        => $query,
                     'query_args'    => [
                         'post_type'         => $type,
                         'post_status'       => $where['status'],
@@ -217,6 +220,13 @@ final class WPGraphQL_FacetWP {
 
     }
 
+    /**
+     * Register output types.
+     *
+     * @access private
+     * @since  0.0.1
+     * @return void
+     */
     private function register_output_types() {
 
         register_graphql_object_type( 'FacetRangeSettings', [
@@ -458,11 +468,94 @@ final class WPGraphQL_FacetWP {
 
                     switch ( $cur['type'] ) {
                         case 'checkboxes':
+                            $type = [ 'list_of' => 'Int' ];
                             break;
                         case 'fselect':
                             if ( $cur['multiple'] === 'yes' ) break;
                         case 'radio':
                             $type = 'String';
+                            break;
+                        case 'date_range':
+                            register_graphql_input_type( 'FacetDateRangeArgs', [
+                                'description'   => __( 'Input args for Date Range facet type', 'wpgraphql-facetwp' ),
+                                'fields'        => [
+                                    'mix' => [
+                                        'type'  => 'String',
+                                    ],
+                                    'max'   => [
+                                        'type'  => 'String',
+                                    ],
+                                ],
+                            ]);
+                            $type = 'FacetDateRangeArgs';
+                            break;
+                        case 'number_range':
+                            register_graphql_input_type( 'FacetNumberRangeArgs', [
+                                'description'   => __( 'Input args for Number Range facet type', 'wpgraphql-facetwp' ),
+                                'fields'        => [
+                                    'min' => [
+                                        'type'  => 'Int',
+                                    ],
+                                    'max'   => [
+                                        'type'  => 'Int',
+                                    ],
+                                ],
+                            ]);
+                            $type = 'FacetNumberRangeArgs';
+                            break;
+                        case 'dropdown':
+                        case 'hierarchy':
+                        case 'search':
+                        case 'autocomplete':
+                        case 'slider':
+                            break;
+                        case 'proximity':
+                            register_graphql_enum_type( 'FacetProximityRadiusOptions', [
+                                'description'   => __( 'Proximity radius options', 'wpgraphql-facetwp' ),
+                                'values'        => [
+                                    WPEnumType::get_safe_name( '10' )    => [
+                                        'description'   => __( 'Radius of 10', 'wpgraphql-facetwp' ),
+                                        'value'         => 10,
+                                    ],
+                                    WPEnumType::get_safe_name( '25' )    => [
+                                        'description'   => __( 'Radius of 25', 'wpgraphql-facetwp' ),
+                                        'value'         => 25,
+                                    ],
+                                    WPEnumType::get_safe_name( '50' )    => [
+                                        'description'   => __( 'Radius of 50', 'wpgraphql-facetwp' ),
+                                        'value'         => 50,
+                                    ],
+                                    WPEnumType::get_safe_name( '100' )   => [
+                                        'description'   => __( 'Radius of 100', 'wpgraphql-facetwp' ),
+                                        'value'         => 100,
+                                    ],
+                                    WPEnumType::get_safe_name( '250' )   => [
+                                        'description'   => __( 'Radius of 250', 'wpgraphql-facetwp' ),
+                                        'value'         => 250,
+                                    ],
+                                ],
+                            ] );
+                            register_graphql_input_type( 'FacetProximityArgs', [
+                                'description'   => __( 'Input args for Number Range facet type', 'wpgraphql-facetwp' ),
+                                'fields'        => [
+                                    'latitude' => [
+                                        'type'  => 'Float',
+                                    ],
+                                    'longitude' => [
+                                        'type'  => 'Float',
+                                    ],
+                                    'chosenRadius' => [
+                                        'type'  => 'FacetProximityRadiusOptions',
+                                    ],
+                                    'locationName' => [
+                                        'type'  => 'String',
+                                    ],
+                                ],
+                            ]);
+                            $type = 'FacetProximityArgs';
+                            break;
+                        case 'rating':
+                            $type = 'Int';
                             break;
                     }
 
@@ -489,6 +582,66 @@ final class WPGraphQL_FacetWP {
         ] );
     }
 
+
+    /**
+     * Parse WPGraphQL query into FacetWP query
+     *
+     * @access private
+     * @since  0.0.1
+     * @return mixed FacetWP query
+     */
+    private function parse_query( $query ) {
+
+        $facets = FWP()->helper->get_facets();
+
+        return array_reduce( $facets, function( $prev, $cur) use ( $query ) {
+
+            $name = $name;
+            $facet = $facet;
+
+            if ( ! empty( $facet ) ) {
+                switch ( $cur['type'] ) {
+                    case 'checkboxes':
+                    case 'fselect':
+                    case 'rating':
+                    case 'radio':
+                        $prev[$name] = $facet;
+                        break;
+                    case 'date_range':
+                    case 'number_range':
+                        $input = $facet;
+                        $prev[$name] = [
+                            $input['min'],
+                            $input['max'],
+                        ];
+
+                        break;
+                    case 'dropdown':
+                    case 'hierarchy':
+                    case 'search':
+                    case 'autocomplete':
+                    case 'slider':
+                        $prev[$name] = $facet;
+                        break;
+                    case 'proximity':
+                        $input = $facet;
+                        $prev[$name] = [
+                            $input['latitude'],
+                            $input['longitude'],
+                            $input['chosenRadius'],
+                            $input['locationName'],
+                        ];
+                        break;
+                }
+            }
+
+            return $prev;
+
+        }, [] );
+
+    }
+
+    // move to helper class
     private static function to_camel_case( $input ) {
 
         if ( is_array( $input ) ) {
