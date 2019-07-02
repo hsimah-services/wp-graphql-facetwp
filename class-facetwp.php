@@ -447,20 +447,15 @@ final class WPGraphQL_FacetWP {
      */
     private function register_input_arg_types( $config ) {
         
-        $type = $config['type'];
-        $singular = $config['singular'];
         $field = $config['field'];
         
         $facets = FWP()->helper->get_facets();
-        $facet_types = FWP()->helper->facet_types;
 
         register_graphql_input_type( 'FacetQueryArgs', [
             'description' => __( 'Seleted facets for ' . $field . ' query', 'wpgraphql-facetwp' ),
             'fields'      => array_reduce( $facets, function( $prev, $cur ) {
+                
                 if ( $cur && $cur['name'] ) {
-                    // list_of String: checkbox, fselect && multiple
-                    // String: radio
-                    // TODO handle other facet types
 
                     $type = [
                         'list_of' => 'String'
@@ -468,15 +463,23 @@ final class WPGraphQL_FacetWP {
 
                     switch ( $cur['type'] ) {
                         case 'checkboxes':
+                            // Int array
                             $type = [ 'list_of' => 'Int' ];
+
                             break;
                         case 'fselect':
+                            // Single string for single fSelect
                             if ( $cur['multiple'] === 'yes' ) break;
-                        case 'radio':
+                        case 'search':
+                            // Single string
                             $type = 'String';
+
                             break;
                         case 'date_range':
-                            register_graphql_input_type( 'FacetDateRangeArgs', [
+                            // Custom payload
+                            $type = 'FacetDateRangeArgs';
+
+                            register_graphql_input_type( $type, [
                                 'description'   => __( 'Input args for Date Range facet type', 'wpgraphql-facetwp' ),
                                 'fields'        => [
                                     'mix' => [
@@ -487,10 +490,13 @@ final class WPGraphQL_FacetWP {
                                     ],
                                 ],
                             ]);
-                            $type = 'FacetDateRangeArgs';
+
                             break;
                         case 'number_range':
-                            register_graphql_input_type( 'FacetNumberRangeArgs', [
+                            // Custom payload
+                            $type = 'FacetNumberRangeArgs';
+
+                            register_graphql_input_type( $type, [
                                 'description'   => __( 'Input args for Number Range facet type', 'wpgraphql-facetwp' ),
                                 'fields'        => [
                                     'min' => [
@@ -501,15 +507,29 @@ final class WPGraphQL_FacetWP {
                                     ],
                                 ],
                             ]);
-                            $type = 'FacetNumberRangeArgs';
+
                             break;
-                        case 'dropdown':
-                        case 'hierarchy':
-                        case 'search':
-                        case 'autocomplete':
                         case 'slider':
+                            // Custom payload
+                            $type = 'FacetSliderArgs';
+
+                            register_graphql_input_type( $type, [
+                                'description'   => __( 'Input args for Slider facet type', 'wpgraphql-facetwp' ),
+                                'fields'        => [
+                                    'min' => [
+                                        'type'  => 'Float',
+                                    ],
+                                    'max'   => [
+                                        'type'  => 'Float',
+                                    ],
+                                ],
+                            ]);
+
                             break;
                         case 'proximity':
+                            // Custom payload
+                            $type = 'FacetProximityArgs';
+
                             register_graphql_enum_type( 'FacetProximityRadiusOptions', [
                                 'description'   => __( 'Proximity radius options', 'wpgraphql-facetwp' ),
                                 'values'        => [
@@ -535,7 +555,8 @@ final class WPGraphQL_FacetWP {
                                     ],
                                 ],
                             ] );
-                            register_graphql_input_type( 'FacetProximityArgs', [
+
+                            register_graphql_input_type( $type, [
                                 'description'   => __( 'Input args for Number Range facet type', 'wpgraphql-facetwp' ),
                                 'fields'        => [
                                     'latitude' => [
@@ -552,10 +573,18 @@ final class WPGraphQL_FacetWP {
                                     ],
                                 ],
                             ]);
-                            $type = 'FacetProximityArgs';
+
                             break;
+                        case 'radio':
                         case 'rating':
+                            // Single Int
                             $type = 'Int';
+
+                            break;
+                        case 'dropdown':
+                        case 'hierarchy':
+                        case 'autocomplete':
+                            // String array - default
                             break;
                     }
 
@@ -605,8 +634,13 @@ final class WPGraphQL_FacetWP {
                     case 'fselect':
                     case 'rating':
                     case 'radio':
+                    case 'dropdown':
+                    case 'hierarchy':
+                    case 'search':
+                    case 'autocomplete':
                         $prev[$name] = $facet;
                         break;
+                    case 'slider':
                     case 'date_range':
                     case 'number_range':
                         $input = $facet;
@@ -615,13 +649,6 @@ final class WPGraphQL_FacetWP {
                             $input['max'],
                         ];
 
-                        break;
-                    case 'dropdown':
-                    case 'hierarchy':
-                    case 'search':
-                    case 'autocomplete':
-                    case 'slider':
-                        $prev[$name] = $facet;
                         break;
                     case 'proximity':
                         $input = $facet;
