@@ -462,14 +462,10 @@ final class WPGraphQL_FacetWP {
                     ];
 
                     switch ( $cur['type'] ) {
-                        case 'checkboxes':
-                            // Int array
-                            $type = [ 'list_of' => 'Int' ];
-
-                            break;
                         case 'fselect':
                             // Single string for single fSelect
                             if ( $cur['multiple'] === 'yes' ) break;
+                        case 'radio':
                         case 'search':
                             // Single string
                             $type = 'String';
@@ -575,15 +571,15 @@ final class WPGraphQL_FacetWP {
                             ]);
 
                             break;
-                        case 'radio':
                         case 'rating':
                             // Single Int
                             $type = 'Int';
 
                             break;
+                        case 'autocomplete':
+                        case 'checkboxes':
                         case 'dropdown':
                         case 'hierarchy':
-                        case 'autocomplete':
                             // String array - default
                             break;
                     }
@@ -625,10 +621,10 @@ final class WPGraphQL_FacetWP {
 
         return array_reduce( $facets, function( $prev, $cur) use ( $query ) {
 
-            $name = $name;
-            $facet = $facet;
+            $name = $cur['name'];
+            $facet = $query[$name];
 
-            if ( ! empty( $facet ) ) {
+            if ( isset( $facet ) ) {
                 switch ( $cur['type'] ) {
                     case 'checkboxes':
                     case 'fselect':
