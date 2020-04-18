@@ -5,8 +5,9 @@ use WPGraphQL\Data\Connection\PostObjectConnectionResolver;
 use WPGraphQL\Connection\PostObjects;
 use WPGraphQL\Type\WPEnumType;
 
-final class WPGraphQL_FacetWP {
-        
+final class WPGraphQL_FacetWP
+{
+
     /**
      * Stores the instance of the WPGraphQL_FacetWP class
      *
@@ -15,7 +16,7 @@ final class WPGraphQL_FacetWP {
      * @access private
      */
     private static $instance;
-    
+
     /**
      * The instance of the WPGraphQL_FacetWP object
      *
@@ -23,9 +24,10 @@ final class WPGraphQL_FacetWP {
      * @since  0.0.1
      * @access public
      */
-    public static function instance() {
+    public static function instance()
+    {
 
-        if ( ! isset( self::$instance ) && ! ( self::$instance instanceof WPGraphQL_FacetWP ) ) {
+        if (!isset(self::$instance) && !(self::$instance instanceof WPGraphQL_FacetWP)) {
             self::$instance = new WPGraphQL_FacetWP();
             self::$instance->init();
         }
@@ -35,7 +37,7 @@ final class WPGraphQL_FacetWP {
          */
         return self::$instance;
     }
-    
+
     /**
      * Throw error on object clone.
      * The whole idea of the singleton design pattern is that there is a single object
@@ -45,11 +47,10 @@ final class WPGraphQL_FacetWP {
      * @access public
      * @return void
      */
-    public function __clone() {
-
+    public function __clone()
+    {
         // Cloning instances of the class is forbidden.
-        _doing_it_wrong( __FUNCTION__, esc_html__( 'The WPGraphQL_FacetWP class should not be cloned.', 'wpgraphql-facetwp' ), '0.0.1' );
-
+        _doing_it_wrong(__FUNCTION__, esc_html__('The WPGraphQL_FacetWP class should not be cloned.', 'wpgraphql-facetwp'), '0.0.1');
     }
 
     /**
@@ -59,11 +60,10 @@ final class WPGraphQL_FacetWP {
      * @access protected
      * @return void
      */
-    public function __wakeup() {
-
+    public function __wakeup()
+    {
         // De-serializing instances of the class is forbidden.
-        _doing_it_wrong( __FUNCTION__, esc_html__( 'De-serializing instances of the WPGraphQL_FacetWP class is not allowed', 'wpgraphql-facetwp' ), '0.0.1' );
-
+        _doing_it_wrong(__FUNCTION__, esc_html__('De-serializing instances of the WPGraphQL_FacetWP class is not allowed', 'wpgraphql-facetwp'), '0.0.1');
     }
 
     /**
@@ -73,12 +73,12 @@ final class WPGraphQL_FacetWP {
      * @since  0.0.1
      * @return void
      */
-    public static function register( $type ) {
-        
-        $post_type = get_post_type_object( $type );
+    public static function register($type)
+    {
+        $post_type = get_post_type_object($type);
 
-        if ( ! $post_type->show_in_graphql ) return;
-        
+        if (!$post_type->show_in_graphql) return;
+
         $config = [
             'type'      => $type,
             'singular'  => $post_type->graphql_single_name,
@@ -86,13 +86,12 @@ final class WPGraphQL_FacetWP {
             'field'     => $post_type->graphql_single_name . 'Facet',
         ];
 
-        self::$instance->register_root_field( $config );
-        self::$instance->register_input_arg_types( $config );
-        self::$instance->register_custom_output_types( $config );
-        self::$instance->register_facet_connection( $config );
-
+        self::$instance->register_root_field($config);
+        self::$instance->register_input_arg_types($config);
+        self::$instance->register_custom_output_types($config);
+        self::$instance->register_facet_connection($config);
     }
-    
+
     /**
      * Initialise plugin.
      *
@@ -100,7 +99,8 @@ final class WPGraphQL_FacetWP {
      * @since  0.0.1
      * @return void
      */
-    private function init() {
+    private function init()
+    {
         $this->register_output_types();
     }
 
@@ -111,30 +111,30 @@ final class WPGraphQL_FacetWP {
      * @since  0.0.1
      * @return void
      */
-    private function register_root_field( $config ) {
-
+    private function register_root_field($config)
+    {
         $type = $config['type'];
         $singular = $config['singular'];
         $field = $config['field'];
 
-        register_graphql_field( 'RootQuery', $field, [
+        register_graphql_field('RootQuery', $field, [
             'type'        => $field,
-            'description' => __( $singular . ' FacetWP Query', 'wpgraphql-facetwp' ),
+            'description' => __($singular . ' FacetWP Query', 'wpgraphql-facetwp'),
             'args'        => [
                 'where' => [
                     'type'          => $field . 'WhereArgs',
-                    'description'   => __( 'Arguments for ' . $field . ' query', 'wpgraphql-facetwp' ),
+                    'description'   => __('Arguments for ' . $field . ' query', 'wpgraphql-facetwp'),
                 ],
             ],
-            'resolve'     => function ( $source, array $args ) use ( $type ) {    
+            'resolve'     => function ($_source, array $args) use ($type) {
 
                 $where = $args['where'];
 
-                $query = $this->parse_query( $where['query'] );
+                $query = $this->parse_query($where['query']);
 
                 // clean up null args
-                foreach ( $query as $key => $value ) {
-                    if ( ! $value ) $query[$key] = [];
+                foreach ($query as $key => $value) {
+                    if (!$value) $query[$key] = [];
                 }
 
                 $fwp_args = [
@@ -148,22 +148,21 @@ final class WPGraphQL_FacetWP {
                 ];
 
                 $filtered_ids = [];
-                    
+
                 // TODO find a better place to register this handler
-                add_filter( 'facetwp_filtered_post_ids', function( $post_ids, $class ) use ( &$filtered_ids ) {
+                add_filter('facetwp_filtered_post_ids', function ($post_ids) use (&$filtered_ids) {
                     $filtered_ids = $post_ids;
                     return $post_ids;
-                }, 10, 2 );
+                }, 10, 2);
 
                 $fwp = new FacetWP_API_Fetch();
-                $payload = $fwp->process_request( $fwp_args );
+                $payload = $fwp->process_request($fwp_args);
 
                 // TODO helper function
-                foreach ( $payload['facets'] as $key => $facet ) {
-                    if ( isset( $facet['settings'] ) ) {
-                        
-                        $facet['settings'] = self::to_camel_case( $facet['settings'] );
-                        
+                foreach ($payload['facets'] as $key => $facet) {
+                    if (isset($facet['settings'])) {
+
+                        $facet['settings'] = self::to_camel_case($facet['settings']);
                     }
 
                     $payload['facets'][$key] = $facet;
@@ -174,12 +173,11 @@ final class WPGraphQL_FacetWP {
                  * results & pager are returned so the connection resoler can use the data
                  */
                 return [
-                    'facets'    => array_values( $payload['facets'] ),
+                    'facets'    => array_values($payload['facets']),
                     'results'   => $filtered_ids,
                 ];
             },
-        ] );
-
+        ]);
     }
 
     /**
@@ -189,35 +187,32 @@ final class WPGraphQL_FacetWP {
      * @since  0.0.1
      * @return void
      */
-    private function register_facet_connection( $config ) {
-
+    private function register_facet_connection($config)
+    {
         $type = $config['type'];
         $singular = $config['singular'];
         $field = $config['field'];
         $plural = $config['plural'];
 
-        register_graphql_connection( [
+        register_graphql_connection([
             'fromType'          => $field,
             'toType'            => $singular,
-            'fromFieldName'     => lcfirst( $plural ),
+            'fromFieldName'     => lcfirst($plural),
             'connectionArgs'    => PostObjects::get_connection_args(),
-            'resolveNode'       => function( $id, $args, $context, $info ) {
+            'resolveNode'       => function ($id, $_args, $context, $_info) {
 
-                return ! empty( $id ) ? DataSource::resolve_post_object( $id, $context ) : null;
-                
+                return !empty($id) ? DataSource::resolve_post_object($id, $context) : null;
             },
-            'resolve'           => function ( $source, $args, $context, $info ) use ( $type ) {
-                
-                $resolver   = new PostObjectConnectionResolver( $source, $args, $context, $info, $type );
-                $resolver->setQueryArg( 'post__in', $source['results'] );
-                
+            'resolve'           => function ($source, $args, $context, $info) use ($type) {
+
+                $resolver   = new PostObjectConnectionResolver($source, $args, $context, $info, $type);
+                $resolver->setQueryArg('post__in', $source['results']);
+
                 $connection = $resolver->get_connection();
-                
+
                 return $connection;
-
             },
-        ] );
-
+        ]);
     }
 
     /**
@@ -227,158 +222,158 @@ final class WPGraphQL_FacetWP {
      * @since  0.0.1
      * @return void
      */
-    private function register_output_types() {
-
-        register_graphql_object_type( 'FacetRangeSettings', [
-            'description'   => __( 'Range settings for Slider facets', 'wpgraphql-facetwp' ),
+    private function register_output_types()
+    {
+        register_graphql_object_type('FacetRangeSettings', [
+            'description'   => __('Range settings for Slider facets', 'wpgraphql-facetwp'),
             'fields'        => [
                 'min'   => [
                     'type'          => 'Float',
-                    'description'   => __( 'Slider min value', 'wpgraphql-facetwp' ),
+                    'description'   => __('Slider min value', 'wpgraphql-facetwp'),
                 ],
                 'max'   => [
                     'type'          => 'Float',
-                    'description'   => __( 'Slider max value', 'wpgraphql-facetwp' ),
+                    'description'   => __('Slider max value', 'wpgraphql-facetwp'),
                 ],
             ],
-        ] );
+        ]);
 
-        register_graphql_object_type( 'FacetSettings', [
-            'description'   => __( 'Union of possible Facet settings', 'wpgraphql-facetwp' ),
+        register_graphql_object_type('FacetSettings', [
+            'description'   => __('Union of possible Facet settings', 'wpgraphql-facetwp'),
             'fields'        => [
                 'showExpanded'          => [
                     'type'          => 'String',
-                    'description'   => __( 'Show expanded facet options', 'wpgraphql-facetwp' ),
+                    'description'   => __('Show expanded facet options', 'wpgraphql-facetwp'),
                 ],
                 'placeholder'           => [
                     'type'          => 'String',
-                    'description'   => __( 'Placeholder text', 'wpgraphql-facetwp' ),
+                    'description'   => __('Placeholder text', 'wpgraphql-facetwp'),
                 ],
                 'overflowText'          => [
                     'type'          => 'String',
-                    'description'   => __( 'Overflow text', 'wpgraphql-facetwp' ),
+                    'description'   => __('Overflow text', 'wpgraphql-facetwp'),
                 ],
                 'searchText'            => [
                     'type'          => 'String',
-                    'description'   => __( 'Search text', 'wpgraphql-facetwp' ),
+                    'description'   => __('Search text', 'wpgraphql-facetwp'),
                 ],
                 'noResultsText'         => [
                     'type'          => 'String',
-                    'description'   => __( 'No results text', 'wpgraphql-facetwp' ),
+                    'description'   => __('No results text', 'wpgraphql-facetwp'),
                 ],
                 'operator'              => [
                     'type'          => 'String',
-                    'description'   => __( 'Operator', 'wpgraphql-facetwp' ),
+                    'description'   => __('Operator', 'wpgraphql-facetwp'),
                 ],
                 'autoRefresh'           => [
                     'type'          => 'String',
-                    'description'   => __( 'Auto refresh', 'wpgraphql-facetwp' ),
+                    'description'   => __('Auto refresh', 'wpgraphql-facetwp'),
                 ],
                 'range'                 => [
                     'type'          => 'FacetRangeSettings',
-                    'description'   => __( 'Selected slider range values' , 'wpgraphql-facetwp' ),
+                    'description'   => __('Selected slider range values', 'wpgraphql-facetwp'),
                 ],
                 'decimalSeparator'      => [
                     'type'          => 'String',
-                    'description'   => __( 'Decimal separator', 'wpgraphql-facetwp' ),
+                    'description'   => __('Decimal separator', 'wpgraphql-facetwp'),
                 ],
                 'thousandsSeparator'    => [
                     'type'          => 'String',
-                    'description'   => __( 'Thousands separator', 'wpgraphql-facetwp' ),
+                    'description'   => __('Thousands separator', 'wpgraphql-facetwp'),
                 ],
                 'start'                 => [
                     'type'          => 'FacetRangeSettings',
-                    'description'   => __( 'Starting min and max position for the slider', 'wpgraphql-facetwp' ),
+                    'description'   => __('Starting min and max position for the slider', 'wpgraphql-facetwp'),
                 ],
                 'format'                => [
                     'type'          => 'String',
-                    'description'   => __( 'Date format', 'wpgraphql-facetwp' ),
+                    'description'   => __('Date format', 'wpgraphql-facetwp'),
                 ],
                 'prefix'                => [
                     'type'          => 'String',
-                    'description'   => __( 'Field prefix', 'wpgraphql-facetwp' ),
+                    'description'   => __('Field prefix', 'wpgraphql-facetwp'),
                 ],
                 'suffix'                => [
                     'type'          => 'String',
-                    'description'   => __( 'Field suffix', 'wpgraphql-facetwp' ),
+                    'description'   => __('Field suffix', 'wpgraphql-facetwp'),
                 ],
                 'step'                  => [
                     'type'          => 'Int',
-                    'description'   => __( 'The amount of increase between intervals', 'wpgraphql-facetwp' ),
+                    'description'   => __('The amount of increase between intervals', 'wpgraphql-facetwp'),
                 ],
             ],
-        ] );
+        ]);
 
-        register_graphql_object_type( 'Facet', [
-            'description' => __( 'Active FacetWP payload', 'wpgraphql-facetwp' ),
+        register_graphql_object_type('Facet', [
+            'description' => __('Active FacetWP payload', 'wpgraphql-facetwp'),
             'fields'    => [
                 'name'      => [
                     'type'          => 'String',
-                    'description'   => __( 'Facet name', 'wpgraphql-facetwp' ),
+                    'description'   => __('Facet name', 'wpgraphql-facetwp'),
                 ],
                 'label'     => [
                     'type'          => 'String',
-                    'description'   => __( 'Facet label', 'wpgraphql-facetwp' ),
+                    'description'   => __('Facet label', 'wpgraphql-facetwp'),
                 ],
                 'type'              => [
                     'type' => 'String',
-                    'description'   => __( 'Facet type', 'wpgraphql-facetwp' ),
+                    'description'   => __('Facet type', 'wpgraphql-facetwp'),
                 ],
                 'selected'  => [
                     'type'          => [
                         'list_of' => 'String',
                     ],
-                    'description'   => __( 'Selected values', 'wpgraphql-facetwp' ),
+                    'description'   => __('Selected values', 'wpgraphql-facetwp'),
                 ],
                 'choices'   => [
                     'type'          => [
                         'list_of' => 'FacetChoice',
                     ],
-                    'description'   => __( 'Facet choices', 'wpgraphql-facetwp' ),
+                    'description'   => __('Facet choices', 'wpgraphql-facetwp'),
                 ],
                 'settings'  => [
                     'type'          => 'FacetSettings',
-                    'description'   => __( 'Facet settings', 'wpgraphql-facetwp' ),
+                    'description'   => __('Facet settings', 'wpgraphql-facetwp'),
                 ],
             ],
         ]);
 
-        register_graphql_object_type( 'FacetChoice', [
-            'description'   => __( 'FacetWP choice', 'wpgraphql-facetwp' ),
+        register_graphql_object_type('FacetChoice', [
+            'description'   => __('FacetWP choice', 'wpgraphql-facetwp'),
             'fields'        => [
                 'value' => [
                     'type'          => 'String',
-                    'description'   => __( 'Taxonomy value or post ID', 'wpgraphql-facetwp' ),
+                    'description'   => __('Taxonomy value or post ID', 'wpgraphql-facetwp'),
                 ],
                 'label' => [
                     'type'          => 'String',
-                    'description'   => __( 'Taxonomy label or post title', 'wpgraphql-facetwp' ),
+                    'description'   => __('Taxonomy label or post title', 'wpgraphql-facetwp'),
                 ],
                 'count' => [
                     'type'          => 'Int',
-                    'description'   => __( 'Count', 'wpgraphql-facetwp' ),
+                    'description'   => __('Count', 'wpgraphql-facetwp'),
                 ],
                 'depth' => [
                     'type'          => 'Int',
-                    'description'   => __( 'Depth', 'wpgraphql-facetwp' ),
+                    'description'   => __('Depth', 'wpgraphql-facetwp'),
                 ],
                 'termId' => [
                     'type'          => 'Int',
-                    'description'   => __( 'Term ID (Taxonomy choices only)', 'wpgraphql-facetwp' ),
+                    'description'   => __('Term ID (Taxonomy choices only)', 'wpgraphql-facetwp'),
                 ],
                 'parentId' => [
                     'type'          => 'Int',
-                    'description'   => __( 'Parent Term ID (Taxonomy choices only', 'wpgraphql-facetwp' ),
+                    'description'   => __('Parent Term ID (Taxonomy choices only', 'wpgraphql-facetwp'),
                 ],
             ],
-        ] );
-
+        ]);
     }
 
     /**
      * Work in progress - pull settings from facetwp instead of hard coding them
      */
-    private function register_facet_settings() {
+    private function register_facet_settings()
+    {
         $facets = FWP()->helper->get_facets();
         $facet_types = FWP()->helper->facet_types;
 
@@ -388,26 +383,25 @@ final class WPGraphQL_FacetWP {
         // camelCase the field name
         // register graphql object
 
-        foreach ( $facet_types as $name => $value ) {
-            if ( method_exists( $facet_types[$name], 'settings_js' ) ) {
+        foreach ($facet_types as $name => $value) {
+            if (method_exists($facet_types[$name], 'settings_js')) {
                 $settings_name = str_replace("_", "", ucwords($name, " /_"));
-                $settings = $facet_types[$name]->settings_js( [] );
+                $settings = $facet_types[$name]->settings_js([]);
 
-                foreach ( $settings as $setting_key => $setting ) {
-                    if ( is_array( $setting ) ) {
+                foreach ($settings as $setting_key => $setting) {
+                    if (is_array($setting)) {
                         // recurse
                         continue;
                     }
 
-                    $setting_type = gettype( $setting );
+                    $setting_type = gettype($setting);
 
-                    switch ( $setting_type ) {
+                    switch ($setting_type) {
                         case 'string':
                             $type = 'String';
                             break;
                     }
                 }
-    
             }
         }
     }
@@ -419,14 +413,13 @@ final class WPGraphQL_FacetWP {
      * @since  0.0.1
      * @return void
      */
-    private function register_custom_output_types( $config ) {
-
-        $type = $config['type'];
+    private function register_custom_output_types($config)
+    {
         $singular = $config['singular'];
         $field = $config['field'];
 
-        register_graphql_object_type( $field, [
-            'description' => __( $singular . ' FacetWP Payload', 'wpgraphql-facetwp' ),
+        register_graphql_object_type($field, [
+            'description' => __($singular . ' FacetWP Payload', 'wpgraphql-facetwp'),
             'fields' => [
                 'facets' => [
                     'type'  => [
@@ -434,8 +427,7 @@ final class WPGraphQL_FacetWP {
                     ],
                 ],
             ],
-        ] );
-
+        ]);
     }
 
     /**
@@ -445,26 +437,26 @@ final class WPGraphQL_FacetWP {
      * @since  0.0.1
      * @return void
      */
-    private function register_input_arg_types( $config ) {
-        
+    private function register_input_arg_types($config)
+    {
         $field = $config['field'];
-        
+
         $facets = FWP()->helper->get_facets();
 
-        register_graphql_input_type( 'FacetQueryArgs', [
-            'description' => __( 'Seleted facets for ' . $field . ' query', 'wpgraphql-facetwp' ),
-            'fields'      => array_reduce( $facets, function( $prev, $cur ) {
-                
-                if ( $cur && $cur['name'] ) {
+        register_graphql_input_type('FacetQueryArgs', [
+            'description' => __('Seleted facets for ' . $field . ' query', 'wpgraphql-facetwp'),
+            'fields'      => array_reduce($facets, function ($prev, $cur) {
+
+                if ($cur && $cur['name']) {
 
                     $type = [
                         'list_of' => 'String'
                     ];
 
-                    switch ( $cur['type'] ) {
+                    switch ($cur['type']) {
                         case 'fselect':
                             // Single string for single fSelect
-                            if ( $cur['multiple'] === 'yes' ) break;
+                            if ($cur['multiple'] === 'yes') break;
                         case 'radio':
                         case 'search':
                             // Single string
@@ -475,8 +467,8 @@ final class WPGraphQL_FacetWP {
                             // Custom payload
                             $type = 'FacetDateRangeArgs';
 
-                            register_graphql_input_type( $type, [
-                                'description'   => __( 'Input args for Date Range facet type', 'wpgraphql-facetwp' ),
+                            register_graphql_input_type($type, [
+                                'description'   => __('Input args for Date Range facet type', 'wpgraphql-facetwp'),
                                 'fields'        => [
                                     'mix' => [
                                         'type'  => 'String',
@@ -492,8 +484,8 @@ final class WPGraphQL_FacetWP {
                             // Custom payload
                             $type = 'FacetNumberRangeArgs';
 
-                            register_graphql_input_type( $type, [
-                                'description'   => __( 'Input args for Number Range facet type', 'wpgraphql-facetwp' ),
+                            register_graphql_input_type($type, [
+                                'description'   => __('Input args for Number Range facet type', 'wpgraphql-facetwp'),
                                 'fields'        => [
                                     'min' => [
                                         'type'  => 'Int',
@@ -509,8 +501,8 @@ final class WPGraphQL_FacetWP {
                             // Custom payload
                             $type = 'FacetSliderArgs';
 
-                            register_graphql_input_type( $type, [
-                                'description'   => __( 'Input args for Slider facet type', 'wpgraphql-facetwp' ),
+                            register_graphql_input_type($type, [
+                                'description'   => __('Input args for Slider facet type', 'wpgraphql-facetwp'),
                                 'fields'        => [
                                     'min' => [
                                         'type'  => 'Float',
@@ -526,34 +518,34 @@ final class WPGraphQL_FacetWP {
                             // Custom payload
                             $type = 'FacetProximityArgs';
 
-                            register_graphql_enum_type( 'FacetProximityRadiusOptions', [
-                                'description'   => __( 'Proximity radius options', 'wpgraphql-facetwp' ),
+                            register_graphql_enum_type('FacetProximityRadiusOptions', [
+                                'description'   => __('Proximity radius options', 'wpgraphql-facetwp'),
                                 'values'        => [
-                                    WPEnumType::get_safe_name( '10' )    => [
-                                        'description'   => __( 'Radius of 10', 'wpgraphql-facetwp' ),
+                                    WPEnumType::get_safe_name('10')    => [
+                                        'description'   => __('Radius of 10', 'wpgraphql-facetwp'),
                                         'value'         => 10,
                                     ],
-                                    WPEnumType::get_safe_name( '25' )    => [
-                                        'description'   => __( 'Radius of 25', 'wpgraphql-facetwp' ),
+                                    WPEnumType::get_safe_name('25')    => [
+                                        'description'   => __('Radius of 25', 'wpgraphql-facetwp'),
                                         'value'         => 25,
                                     ],
-                                    WPEnumType::get_safe_name( '50' )    => [
-                                        'description'   => __( 'Radius of 50', 'wpgraphql-facetwp' ),
+                                    WPEnumType::get_safe_name('50')    => [
+                                        'description'   => __('Radius of 50', 'wpgraphql-facetwp'),
                                         'value'         => 50,
                                     ],
-                                    WPEnumType::get_safe_name( '100' )   => [
-                                        'description'   => __( 'Radius of 100', 'wpgraphql-facetwp' ),
+                                    WPEnumType::get_safe_name('100')   => [
+                                        'description'   => __('Radius of 100', 'wpgraphql-facetwp'),
                                         'value'         => 100,
                                     ],
-                                    WPEnumType::get_safe_name( '250' )   => [
-                                        'description'   => __( 'Radius of 250', 'wpgraphql-facetwp' ),
+                                    WPEnumType::get_safe_name('250')   => [
+                                        'description'   => __('Radius of 250', 'wpgraphql-facetwp'),
                                         'value'         => 250,
                                     ],
                                 ],
-                            ] );
+                            ]);
 
-                            register_graphql_input_type( $type, [
-                                'description'   => __( 'Input args for Number Range facet type', 'wpgraphql-facetwp' ),
+                            register_graphql_input_type($type, [
+                                'description'   => __('Input args for Number Range facet type', 'wpgraphql-facetwp'),
                                 'fields'        => [
                                     'latitude' => [
                                         'type'  => 'Float',
@@ -586,16 +578,16 @@ final class WPGraphQL_FacetWP {
 
                     $prev[$cur['name']] = [
                         'type'          => $type,
-                        'description'   => __( $cur['label'] . ' facet query', 'wpgraphql-facetwp' ),
+                        'description'   => __($cur['label'] . ' facet query', 'wpgraphql-facetwp'),
                     ];
                 }
-    
-                return $prev;
-            }, [] ),
-        ] );
 
-        register_graphql_input_type( $field . 'WhereArgs', [
-            'description' => __( 'Arguments for ' . $field . ' query', 'wpgraphql-facetwp' ),
+                return $prev;
+            }, []),
+        ]);
+
+        register_graphql_input_type($field . 'WhereArgs', [
+            'description' => __('Arguments for ' . $field . ' query', 'wpgraphql-facetwp'),
             'fields'      => [
                 'status'    => [
                     'type' => 'PostStatusEnum',
@@ -604,7 +596,7 @@ final class WPGraphQL_FacetWP {
                     'type' => 'FacetQueryArgs',
                 ],
             ],
-        ] );
+        ]);
     }
 
 
@@ -615,17 +607,17 @@ final class WPGraphQL_FacetWP {
      * @since  0.0.1
      * @return mixed FacetWP query
      */
-    private function parse_query( $query ) {
-
+    private function parse_query($query)
+    {
         $facets = FWP()->helper->get_facets();
 
-        return array_reduce( $facets, function( $prev, $cur) use ( $query ) {
+        return array_reduce($facets, function ($prev, $cur) use ($query) {
 
             $name = $cur['name'];
             $facet = $query[$name];
 
-            if ( isset( $facet ) ) {
-                switch ( $cur['type'] ) {
+            if (isset($facet)) {
+                switch ($cur['type']) {
                     case 'checkboxes':
                     case 'fselect':
                     case 'rating':
@@ -659,41 +651,35 @@ final class WPGraphQL_FacetWP {
             }
 
             return $prev;
-
-        }, [] );
-
+        }, []);
     }
 
     // move to helper class
-    private static function to_camel_case( $input ) {
-
-        if ( is_array( $input ) ) {
-
-            $out;
-
-            foreach ( $input as $key => $value ) {
-                $key = self::to_camel_case( $key );
+    private static function to_camel_case($input)
+    {
+        if (is_array($input)) {
+            foreach ($input as $key => $value) {
+                $key = self::to_camel_case($key);
                 $out[$key] = $value;
             }
 
             return $out;
         }
 
-        return lcfirst( str_replace( '_', '', ucwords( $input, ' /_' ) ) );
-        
+        return lcfirst(str_replace('_', '', ucwords($input, ' /_')));
     }
 }
 
-add_action( 'init', 'wpgraphql_facetwp_init' );
+add_action('init', 'wpgraphql_facetwp_init');
 
-if ( ! function_exists( 'wpgraphql_facetwp_init' ) ) {
+if (!function_exists('wpgraphql_facetwp_init')) {
     /**
      * Function that instantiates the plugins main class
      *
      * @since 0.0.1
      */
-    function wpgraphql_facetwp_init() {
-
+    function wpgraphql_facetwp_init()
+    {
         /**
          * Return an instance of the action
          */
@@ -706,6 +692,7 @@ if ( ! function_exists( 'wpgraphql_facetwp_init' ) ) {
  *
  * @param string $type_name The name of the WP object type to register
  */
-function register_graphql_facet_type( $type_name ) {
-    \WPGraphQL_FacetWP::register( $type_name );
+function register_graphql_facet_type($type_name)
+{
+    \WPGraphQL_FacetWP::register($type_name);
 }
