@@ -134,7 +134,9 @@ final class WPGraphQL_FacetWP
 
                 // clean up null args
                 foreach ($query as $key => $value) {
-                    if (!$value) $query[$key] = [];
+                    if (!$value) {
+                        $query[$key] = [];
+                    }
                 }
 
                 $fwp_args = [
@@ -200,17 +202,13 @@ final class WPGraphQL_FacetWP
             'fromFieldName'     => lcfirst($plural),
             'connectionArgs'    => PostObjects::get_connection_args(),
             'resolveNode'       => function ($id, $_args, $context, $_info) {
-
                 return !empty($id) ? DataSource::resolve_post_object($id, $context) : null;
             },
             'resolve'           => function ($source, $args, $context, $info) use ($type) {
-
                 $resolver   = new PostObjectConnectionResolver($source, $args, $context, $info, $type);
                 $resolver->setQueryArg('post__in', $source['results']);
 
-                $connection = $resolver->get_connection();
-
-                return $connection;
+                return $resolver->get_connection();
             },
         ]);
     }
@@ -446,7 +444,6 @@ final class WPGraphQL_FacetWP
         register_graphql_input_type('FacetQueryArgs', [
             'description' => __('Seleted facets for ' . $field . ' query', 'wpgraphql-facetwp'),
             'fields'      => array_reduce($facets, function ($prev, $cur) {
-
                 if ($cur && $cur['name']) {
 
                     $type = [
@@ -456,7 +453,9 @@ final class WPGraphQL_FacetWP
                     switch ($cur['type']) {
                         case 'fselect':
                             // Single string for single fSelect
-                            if ($cur['multiple'] === 'yes') break;
+                            if ($cur['multiple'] === 'yes') {
+                                break;
+                            }
                         case 'radio':
                         case 'search':
                             // Single string
