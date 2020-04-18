@@ -28,9 +28,17 @@ add_action('init', function () {
 }, 5);
 
 add_action('admin_init', function () {
-	$wp_graphql_required_min_version = '0.3.2';
+	$versions = [
+		'wp-graphql' => '0.8.1',
+		'facetwp' => '3.5.2.1',
+	];
 
-	if (!class_exists('FacetWP') || !class_exists('WPGraphQL') || (defined('WPGRAPHQL_VERSION') && version_compare(WPGRAPHQL_VERSION, $wp_graphql_required_min_version, 'lt'))) {
+	if (
+		!class_exists('FacetWP') ||
+		!class_exists('WPGraphQL') ||
+		(defined('WPGRAPHQL_VERSION') && version_compare(WPGRAPHQL_VERSION, $versions['wp-graphql'], 'lt')) ||
+		(defined('FACETWP_VERSION') && version_compare(FACETWP_VERSION, $versions['facetwp'], 'lt'))
+	) {
 
 		/**
 		 * For users with lower capabilities, don't show the notice
@@ -47,11 +55,11 @@ add_action('admin_init', function () {
 		 */
 		add_action(
 			'admin_notices',
-			function () use ($wp_graphql_required_min_version) {
+			function () use ($versions) {
 ?>
 			<div class="error notice">
 				<p>
-					<?php _e(sprintf('Both WPGraphQL (v%s+) and FacetWP (v3.3.9) must be active for "wp-graphql-facetwp" to work', $wp_graphql_required_min_version), 'wpgraphiql-facetwp'); ?>
+					<?php _e(vsprintf('Both WPGraphQL (v%s+) and FacetWP (v%s+) must be active for "wp-graphql-facetwp" to work', $versions), 'wpgraphql-facetwp'); ?>
 				</p>
 			</div>
 <?php
