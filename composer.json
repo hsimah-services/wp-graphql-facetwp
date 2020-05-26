@@ -1,0 +1,22 @@
+{
+  "name": "hsimah-services/wp-graphql-facetwp",
+  "description": "WPGraphQL integration for FacetWP",
+  "type": "wordpress-plugin",
+  "license": "GPL-3.0-or-later",
+  "authors": [
+    {
+      "name": "Hamish Blake",
+      "email": "hsimah.services@gmail.com"
+    }
+  ],
+  "require": {
+    "php": "^7.1||^8.0"
+  },
+  "config": {
+    "optimize-autoloader": true
+  },
+  "support": {
+    "issues": "https://github.com/hsimah-services/wp-graphql-facetwp/issues",
+    "source": "https://github.com/hsimah-services/wp-graphql-facetwp"
+  }
+}
