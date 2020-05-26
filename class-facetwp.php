@@ -201,11 +201,11 @@ final class WPGraphQL_FacetWP
             'toType'            => $singular,
             'fromFieldName'     => lcfirst($plural),
             'connectionArgs'    => PostObjects::get_connection_args(),
-            'resolveNode'       => function ($id, $_args, $context, $_info) {
-                return !empty($id) ? DataSource::resolve_post_object($id, $context) : null;
+            'resolveNode'       => function ($node, $_args, $context, $_info) {
+                return !empty($node) ? DataSource::resolve_post_object($node->ID, $context) : null;
             },
             'resolve'           => function ($source, $args, $context, $info) use ($type) {
-                $resolver   = new PostObjectConnectionResolver($source, $args, $context, $info, $type);
+                $resolver = new PostObjectConnectionResolver($source, $args, $context, $info, $type);
                 $resolver->setQueryArg('post__in', $source['results']);
 
                 return $resolver->get_connection();
