@@ -8,10 +8,8 @@ Download and install like any WordPress plugin.
 The WPGraphQL documentation can be found [here](https://docs.wpgraphql.com).
 The FacetWP documentation can be found [here](https://facetwp.com/documentation/).
 
-- Requires PHP 5.5+
-- Requires WordPress 4.7+
-- Requires WPGraphQL 0.3.2+
-- Requires FacetWP 3.3.9+
+- Requires WPGraphQL 0.8.1+
+- Requires FacetWP 3.5.2.1+
 
 ## Overview
 This plugin exposes configured facets through the graph schema. Once registered for a type, a query is available. The payload includes both facet choices and information and a connection to the post type data. This allows for standard GraphQL pagination of the returned data set.
