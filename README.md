@@ -14,6 +14,8 @@ The FacetWP documentation can be found [here](https://facetwp.com/documentation/
 ## Overview
 This plugin exposes configured facets through the graph schema. Once registered for a type, a query is available. The payload includes both facet choices and information and a connection to the post type data. This allows for standard GraphQL pagination of the returned data set.
 
+This plugin has been tested and is functional with SearchWP.
+
 ## Usage:
 **It is assumed that facets have been configured**
 
