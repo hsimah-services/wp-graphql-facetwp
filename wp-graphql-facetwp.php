@@ -2,18 +2,18 @@
 
 /**
  * Plugin Name: WP GraphQL FacetWP
- * Plugin URI: https://github.com/hsimah/wp-graphql-facetwp
+ * Plugin URI: https://github.com/hsimah-services/wp-graphql-facetwp
  * Description: WP GraphQL provider for FacetWP
  * Author: hsimah
  * Author URI: http://www.hsimah.com
- * Version: 0.1.1
+ * Version: 0.2.0
  * Text Domain: wpgraphql-facetwp
  * License: GPL-3
  * License URI: https://www.gnu.org/licenses/gpl-3.0.html
  *
  * @package  WPGraphQL_FacetWP
  * @author   hsimah
- * @version  0.1.1
+ * @version  0.2.0
  */
 
 // Exit if accessed directly.
@@ -29,8 +29,8 @@ add_action('init', function () {
 
 add_action('admin_init', function () {
 	$versions = [
-		'wp-graphql' => '0.8.1',
-		'facetwp' => '3.5.2.1',
+		'wp-graphql' => '1.0.4',
+		'facetwp' => '3.5.7',
 	];
 
 	if (
