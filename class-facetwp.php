@@ -124,11 +124,12 @@ final class WPGraphQL_FacetWP
                 'where' => [
                     'type'          => $field . 'WhereArgs',
                     'description'   => __('Arguments for ' . $field . ' query', 'wpgraphql-facetwp'),
-                ],
+				],
             ],
             'resolve'     => function ($_source, array $args) use ($type) {
 
-                $where = $args['where'];
+                $where      = $args['where'];
+				$pagination = $where['pager'];
 
                 $query = $this->parse_query($where['query']);
 
@@ -144,18 +145,12 @@ final class WPGraphQL_FacetWP
                     'query_args'    => [
                         'post_type'         => $type,
                         'post_status'       => $where['status'],
-                        'posts_per_page'    => 10,
-                        'paged'             => 1,
+                        'posts_per_page'    => (int) $pagination['per_page'],
+                        'paged'             => (int) $pagination['page'],
                     ],
                 ];
 
                 $filtered_ids = [];
-
-                // TODO find a better place to register this handler
-                add_filter('facetwp_filtered_post_ids', function ($post_ids) use (&$filtered_ids) {
-                    $filtered_ids = $post_ids;
-                    return $post_ids;
-                }, 10, 2);
 
                 $fwp = new FacetWP_API_Fetch();
                 $payload = $fwp->process_request($fwp_args);
@@ -176,7 +171,8 @@ final class WPGraphQL_FacetWP
                  */
                 return [
                     'facets'    => array_values($payload['facets']),
-                    'results'   => $filtered_ids,
+                    'results'   => $payload['results'],
+					'pager'     => $payload['pager'],
                 ];
             },
         ]);
@@ -365,6 +361,28 @@ final class WPGraphQL_FacetWP
                 ],
             ],
         ]);
+
+		register_graphql_object_type('FacetPager', [
+			'description' => __('FacetWP Pager', 'wpgraphql-facetwp'),
+			'fields'      => [
+				'page'        => [
+					'type'        => 'Int',
+					'description' => __('The current page', 'wpgraphql-facetwp'),
+				],
+				'per_page'    => [
+					'type'        => 'Int',
+					'description' => __('Results per page', 'wpgraphql-facetwp'),
+				],
+				'total_rows'  => [
+					'type'        => 'Int',
+					'description' => __('Total results', 'wpgraphql-facetwp'),
+				],
+				'total_pages' => [
+					'type'        => 'Int',
+					'description' => __('Total pages in results', 'wpgraphql-facetwp'),
+				],
+			]
+		]);
     }
 
     /**
@@ -424,6 +442,9 @@ final class WPGraphQL_FacetWP
                         'list_of' => 'Facet',
                     ],
                 ],
+				'pager' => [
+					'type' => 'FacetPager'
+				],
             ],
         ]);
     }
@@ -469,7 +490,7 @@ final class WPGraphQL_FacetWP
                             register_graphql_input_type($type, [
                                 'description'   => __('Input args for Date Range facet type', 'wpgraphql-facetwp'),
                                 'fields'        => [
-                                    'mix' => [
+                                    'min' => [
                                         'type'  => 'String',
                                     ],
                                     'max'   => [
@@ -585,6 +606,29 @@ final class WPGraphQL_FacetWP
             }, []),
         ]);
 
+        register_graphql_input_type($field . 'Pager', [
+            'description' => __(
+                'FacetWP Pager input type.',
+				'wpgraphql-facetwp'
+            ),
+            'fields' => [
+                'per_page' => [
+                    'type' => 'Int',
+                    'description' => __(
+                        'Number of post to show per page. Passed to posts_per_page of WP_Query.',
+                        'wpgraphql-facetwp'
+                    ),
+                ],
+                'page' => [
+                    'type' => 'Int',
+                    'description' => __(
+                        'The page to fetch.',
+                        'wpgraphql-facetwp'
+                    ),
+                ],
+            ],
+        ]);
+
         register_graphql_input_type($field . 'WhereArgs', [
             'description' => __('Arguments for ' . $field . ' query', 'wpgraphql-facetwp'),
             'fields'      => [
@@ -594,6 +638,9 @@ final class WPGraphQL_FacetWP
                 'query'     => [
                     'type' => 'FacetQueryArgs',
                 ],
+				'pager' => [
+					'type' => $field . 'Pager'
+				]
             ],
         ]);
     }
@@ -618,7 +665,7 @@ final class WPGraphQL_FacetWP
             if (isset($facet)) {
                 switch ($cur['type']) {
                     case 'checkboxes':
-                    case 'fselect':
+					case 'fselect':
                     case 'rating':
                     case 'radio':
                     case 'dropdown':
