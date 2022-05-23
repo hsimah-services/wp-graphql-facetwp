@@ -196,7 +196,7 @@ final class WPGraphQL_FacetWP
         $field = $config['field'];
         $plural = $config['plural'];
 
-        register_graphql_connection([
+        $default_facet_connection_config = [
             'fromType'          => $field,
             'toType'            => $singular,
             'fromFieldName'     => lcfirst($plural),
@@ -210,7 +210,15 @@ final class WPGraphQL_FacetWP
                     ->set_query_arg('post__in', $source['results'])
                     ->get_connection();
             },
-        ]);
+        ];
+
+        $graphql_connection_config = apply_filters(
+            'facetwp_graphql_facet_connection_config',
+            $default_facet_connection_config,
+            $config
+        );
+
+        register_graphql_connection($graphql_connection_config);
     }
 
     /**
