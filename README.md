@@ -57,5 +57,43 @@ query GetPosts($query: FacetQueryArgs, $after: String, $search: String, $orderBy
 }
 ```
 
+## WooCommerce Support
+
+Support for WooCommerce Products can be added with following configuration:
+
+```php
+add_action('graphql_register_types', function () {
+    register_graphql_facet_type('product');
+});
+
+add_filter('facetwp_graphql_facet_connection_config', function (array $default_graphql_config, array $config) {
+    $type = $config['type'];
+    $singular = $config['singular'];
+    $field = $config['field'];
+    $plural = $config['plural'];
+
+    return [
+        'fromType'          => $field,
+        'toType'            => $singular,
+        'fromFieldName'     => lcfirst($plural),
+        'connectionArgs'    => Products::get_connection_args(),
+        'resolveNode'       => function ($node, $_args, $context) use ($type) {
+            return $context->get_loader($type)->load_deferred($node->ID);
+        },
+        'resolve'           => function ($source, $args, $context, $info) use ($type) {
+            $resolver = new PostObjectConnectionResolver($source, $args, $context, $info, $type);
+
+            if ($type === 'product') {
+              $resolver = Products::set_ordering_query_args( $resolver, $args );
+            }
+
+            return $resolver
+                    ->set_query_arg('post__in', $source['results'])
+                    ->get_connection();
+        },
+    ];
+}, 100, 2);
+```
+
 ## Limitations
 Currently the plugin only has been tested using Checkbox and Radio facet types. Support for additional types is in development.
