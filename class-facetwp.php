@@ -667,8 +667,8 @@ final class WPGraphQL_FacetWP
 
         return array_reduce($facets, function ($prev, $cur) use ($query) {
 
-            $name = $cur['name'];
-            $facet = $query[$name];
+            $name  = $cur['name'];
+            $facet = isset( $query[$name] ) ? $query[$name] : null;
 
             if (isset($facet)) {
                 switch ($cur['type']) {
