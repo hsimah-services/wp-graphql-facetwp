@@ -217,11 +217,16 @@ final class WPGraphQL_FacetWP
                 return [
                     'facets'    => array_values($payload['facets']),
 <<<<<<< HEAD
+<<<<<<< HEAD
                     'results'   => count( $payload['results'] ) > 0 ? $payload['results'] : [-1],
 =======
 					// Return [-1] because an empty array will return all unfiltered results instead of none.
                     'results'   => count( $results ) ? $results : [-1],
 >>>>>>> 6c51f84 (Use GraphQL pagination filter)
+=======
+					// Return [-1] because an empty array will return all unfiltered results instead of none.
+                    'results'   => count( $results ) ? $results : [-1],
+>>>>>>> 6c51f8450b26a5ee87eb76fb31631403fe8847bf
 					'pager'     => $payload['pager'],
                 ];
             },
@@ -257,16 +262,22 @@ final class WPGraphQL_FacetWP
 				}
                 $resolver = new PostObjectConnectionResolver($source, $args, $context, $info, $type);
 <<<<<<< HEAD
+<<<<<<< HEAD
                 return $resolver
                     ->set_query_arg('post__in', $source['results'])
 					->set_query_arg('orderby', 'post__in')
                     ->get_connection();
 =======
+=======
+>>>>>>> 6c51f8450b26a5ee87eb76fb31631403fe8847bf
 
 				return $resolver
 					->set_query_arg('post__in', $source['results'])
 					->get_connection();
+<<<<<<< HEAD
 >>>>>>> 6c51f84 (Use GraphQL pagination filter)
+=======
+>>>>>>> 6c51f8450b26a5ee87eb76fb31631403fe8847bf
             },
         ]);
     }
