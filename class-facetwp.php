@@ -129,7 +129,14 @@ final class WPGraphQL_FacetWP
             'resolve'     => function ($_source, array $args) use ($type) {
 
                 $where      = $args['where'];
-				$pagination = $where['pager'];
+
+				$pagination = array(
+					'per_page' => 10,
+					'page'     => 1,
+				);
+				if ( ! empty( $where['pager'] ) ) {
+					$pagination = array_merge( $pagination, $where['pager'] );
+				}
 
                 $query = $this->parse_query($where['query']);
 
@@ -144,7 +151,7 @@ final class WPGraphQL_FacetWP
                     'facets'        => $query,
                     'query_args'    => [
                         'post_type'         => $type,
-                        'post_status'       => $where['status'],
+                        'post_status'       => ! empty( $where['status'] ) ? $where['status'] : 'publish',
                         'posts_per_page'    => (int) $pagination['per_page'],
                         'paged'             => (int) $pagination['page'],
                     ],
@@ -171,7 +178,7 @@ final class WPGraphQL_FacetWP
                  */
                 return [
                     'facets'    => array_values($payload['facets']),
-                    'results'   => $payload['results'],
+                    'results'   => count( $payload['results'] ) > 0 ? $payload['results'] : [-1],
 					'pager'     => $payload['pager'],
                 ];
             },
@@ -204,6 +211,7 @@ final class WPGraphQL_FacetWP
                 $resolver = new PostObjectConnectionResolver($source, $args, $context, $info, $type);
                 return $resolver
                     ->set_query_arg('post__in', $source['results'])
+					->set_query_arg('orderby', 'post__in')
                     ->get_connection();
             },
         ]);
@@ -659,8 +667,8 @@ final class WPGraphQL_FacetWP
 
         return array_reduce($facets, function ($prev, $cur) use ($query) {
 
-            $name = $cur['name'];
-            $facet = $query[$name];
+            $name  = $cur['name'];
+            $facet = isset( $query[$name] ) ? $query[$name] : null;
 
             if (isset($facet)) {
                 switch ($cur['type']) {
