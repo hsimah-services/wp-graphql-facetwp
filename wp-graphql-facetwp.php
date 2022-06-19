@@ -69,3 +69,7 @@ add_action('admin_init', function () {
 		return false;
 	}
 });
+
+add_filter('facetwp_graphql_facet_connection_config', function (array $default_graphql_config) {
+	return $default_graphql_config;
+}, 10, 1);
