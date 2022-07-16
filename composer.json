@@ -20,7 +20,8 @@
 		"process-timeout": 0,
 		"optimize-autoloader": true,
 		"allow-plugins": {
-			"dealerdirect/phpcodesniffer-composer-installer": true
+			"dealerdirect/phpcodesniffer-composer-installer": true,
+			"phpstan/extension-installer": true
 		}
 	},
 	"require": {
@@ -32,7 +33,10 @@
 		"automattic/vipwpcs": "^2.3",
 		"wp-coding-standards/wpcs": "^2.3",
 		"phpcompatibility/phpcompatibility-wp": "^2.1",
-		"poolshark/wp-graphql-stubs": "^0.0.2"
+		"poolshark/wp-graphql-stubs": "^0.0.2",
+		"phpstan/phpstan": "^1.4",
+		"phpstan/extension-installer": "^1.1",
+		"szepeviktor/phpstan-wordpress": "^1.0"
 	},
 	"scripts": {
 		"lint": "vendor/bin/phpcs",
@@ -44,6 +48,9 @@
 		],
 		"fix-cs": [
 			"php ./vendor/bin/phpcbf src"
+		],
+		"phpstan": [
+			"vendor/bin/phpstan analyze --ansi --memory-limit=1G"
 		]
 	},
 	"archive": {
