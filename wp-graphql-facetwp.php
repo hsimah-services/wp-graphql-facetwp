@@ -7,10 +7,11 @@
  * Author URI: http://www.hsimah.com
  * Version: 0.3.0
  * Text Domain: wpgraphql-facetwp
- * Requires at least: 5.4.1
+ * Requires at least: 5.0
  * Requires PHP: 7.1
- * WPGraphQL requires at least: 1.0.4
+ * WPGraphQL requires at least: 1.6.0
  * FacetWP requires at least: 3.5.7
+ * Tested up to: 6.0.1
  * License: GPL-3
  * License URI: https://www.gnu.org/licenses/gpl-3.0.html
  *
@@ -70,7 +71,7 @@ if ( ! function_exists( 'graphql_facetwp_deps_not_ready' ) ) {
 	 * @return array<class-string, string> The list of missing dependencies.
 	 */
 	function graphql_facetwp_deps_not_ready() : array {
-		$wpgraphql_version = '1.0.4';
+		$wpgraphql_version = '1.6.0';
 		$facetwp_version   = '3.5.7';
 
 		$deps = [];

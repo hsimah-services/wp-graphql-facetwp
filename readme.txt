@@ -1,10 +1,11 @@
 === WPGraphQL for FacetWP ===
 Contributors: hsimah
 Tags: GraphQL, Headless, Facet, FacetWP, WPGraphQL, WPGraphQL FacetWP
-Requires at least: 5.4.1
+Requires at least: 5.0
 Requires PHP: 7.1
 Requires FacetWP: 3.5.7
-Requires WPGraphQL: 1.0.4
+Requires WPGraphQL: 1.6.0
+Tested up to: 6.0.1
 Stable tag: 0.3.0
 Maintained at: https://github.com/hsimah-services/wp-graphql-facetwp
 License: GPL-3
