@@ -275,7 +275,7 @@ class FacetRegistry {
 									break;
 								case 'slider':
 									// Custom payload.
-									$type = Input\FacetSliderArgs::$type;
+									$type = Input\SliderArgs::$type;
 
 									break;
 								case 'proximity':
