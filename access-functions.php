@@ -3,8 +3,10 @@
  * This file contains access functions for various class methods.
  *
  * @package WPGraphQL/FacetWP
- * @since 0.3.0
+ * @since @todo
  */
+
+use WPGraphQL\FacetWP\Registry\FacetRegistry;
 
 /**
  * Get an option value from the plugin settings.
@@ -23,6 +25,11 @@ if ( ! function_exists( 'register_graphql_facet_type' ) ) {
 	 * @param string $type_name The name of the WP object type to register.
 	 */
 	function register_graphql_facet_type( string $type_name ) : void {
-		\WPGraphQL_FacetWP::register( $type_name );
+		add_action(
+			get_graphql_register_action(),
+			function() use ( $type_name ) {
+				FacetRegistry::register( $type_name );
+			}
+		);
 	}
 }

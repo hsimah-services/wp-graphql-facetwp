@@ -26,7 +26,29 @@ class ComposerStaticInitc20b69dd90cb480eaf0203e0fe618208
 
     public static $classMap = array (
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
+        'WPGraphQL\\FacetWP\\Interfaces\\EnumType' => __DIR__ . '/../..' . '/src/Interfaces/EnumType.php',
+        'WPGraphQL\\FacetWP\\Interfaces\\GraphQLType' => __DIR__ . '/../..' . '/src/Interfaces/GraphQLType.php',
+        'WPGraphQL\\FacetWP\\Interfaces\\Initializable' => __DIR__ . '/../..' . '/src/Interfaces/Initializable.php',
+        'WPGraphQL\\FacetWP\\Interfaces\\TypeWithDescription' => __DIR__ . '/../..' . '/src/Interfaces/TypeWithDescription.php',
+        'WPGraphQL\\FacetWP\\Interfaces\\TypeWithFields' => __DIR__ . '/../..' . '/src/Interfaces/TypeWithFields.php',
         'WPGraphQL\\FacetWP\\Main' => __DIR__ . '/../..' . '/src/Main.php',
+        'WPGraphQL\\FacetWP\\Registry\\FacetRegistry' => __DIR__ . '/../..' . '/src/Registry/FacetRegistry.php',
+        'WPGraphQL\\FacetWP\\Registry\\TypeRegistry' => __DIR__ . '/../..' . '/src/Registry/TypeRegistry.php',
+        'WPGraphQL\\FacetWP\\Type\\AbstractType' => __DIR__ . '/../..' . '/src/Type/AbstractType.php',
+        'WPGraphQL\\FacetWP\\Type\\Enum\\AbstractEnum' => __DIR__ . '/../..' . '/src/Type/Enum/AbstractEnum.php',
+        'WPGraphQL\\FacetWP\\Type\\Enum\\ProximityRadiusOptions' => __DIR__ . '/../..' . '/src/Type/Enum/ProximityRadiusOptions.php',
+        'WPGraphQL\\FacetWP\\Type\\Input\\AbstractInput' => __DIR__ . '/../..' . '/src/Type/Input/AbstractInput.php',
+        'WPGraphQL\\FacetWP\\Type\\Input\\DateRangeArgs' => __DIR__ . '/../..' . '/src/Type/Input/DateRangeArgs.php',
+        'WPGraphQL\\FacetWP\\Type\\Input\\NumberRangeArgs' => __DIR__ . '/../..' . '/src/Type/Input/NumberRangeArgs.php',
+        'WPGraphQL\\FacetWP\\Type\\Input\\ProximityArgs' => __DIR__ . '/../..' . '/src/Type/Input/ProximityArgs.php',
+        'WPGraphQL\\FacetWP\\Type\\Input\\QueryArgs' => __DIR__ . '/../..' . '/src/Type/Input/QueryArgs.php',
+        'WPGraphQL\\FacetWP\\Type\\Input\\SliderArgs' => __DIR__ . '/../..' . '/src/Type/Input/SliderArgs.php',
+        'WPGraphQL\\FacetWP\\Type\\WPObject\\AbstractObject' => __DIR__ . '/../..' . '/src/Type/WPObject/AbstractObject.php',
+        'WPGraphQL\\FacetWP\\Type\\WPObject\\Facet' => __DIR__ . '/../..' . '/src/Type/WPObject/Facet.php',
+        'WPGraphQL\\FacetWP\\Type\\WPObject\\FacetChoice' => __DIR__ . '/../..' . '/src/Type/WPObject/FacetChoice.php',
+        'WPGraphQL\\FacetWP\\Type\\WPObject\\FacetPager' => __DIR__ . '/../..' . '/src/Type/WPObject/FacetPager.php',
+        'WPGraphQL\\FacetWP\\Type\\WPObject\\FacetRangeSettings' => __DIR__ . '/../..' . '/src/Type/WPObject/FacetRangeSettings.php',
+        'WPGraphQL\\FacetWP\\Type\\WPObject\\FacetSettings' => __DIR__ . '/../..' . '/src/Type/WPObject/FacetSettings.php',
     );
 
     public static function getInitializer(ClassLoader $loader)
