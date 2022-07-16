@@ -25,7 +25,11 @@ plugin-build
 auth.json
 
 # Composer deps
-vendor
+!vendor
+vendor/*
+!vendor/autoload.php
+!vendor/composer
+vendor/composer/*/
 
 # NPM deps
 node_modules
