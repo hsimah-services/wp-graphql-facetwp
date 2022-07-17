@@ -1,0 +1,18 @@
+parameters:
+		level: 8
+		inferPrivatePropertyTypeFromConstructor: true
+		checkMissingIterableValueType: false
+		featureToggles:
+			disableRuntimeReflectionProvider: true
+		stubFiles:
+			# Simulate added properties
+			- phpstan/class-wp-post-type.stub
+		bootstrapFiles:
+			- phpstan/constants.php
+			- wp-graphql-facetwp.php
+		paths:
+			- wp-graphql-facetwp.php
+			- class-facetwp.php
+		scanDirectories:
+			- ../wp-graphql
+			- ../facetwp
