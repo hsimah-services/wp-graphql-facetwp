@@ -12,7 +12,7 @@ parameters:
 			- wp-graphql-facetwp.php
 		paths:
 			- wp-graphql-facetwp.php
-			- class-facetwp.php
+			- src/
 		scanDirectories:
-			- ../wp-graphql
-			- ../facetwp
+			- ../wp-graphql/
+			- ../facetwp/

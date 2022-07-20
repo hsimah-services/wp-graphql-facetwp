@@ -8,7 +8,7 @@ Download and install like any WordPress plugin.
 The WPGraphQL documentation can be found [here](https://docs.wpgraphql.com).
 The FacetWP documentation can be found [here](https://facetwp.com/documentation/).
 
-- Requires WPGraphQL 1.0.4+
+- Requires WPGraphQL 1.6.0+
 - Requires FacetWP 3.5.7+
 
 ## Overview
