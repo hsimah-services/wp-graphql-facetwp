@@ -24,6 +24,14 @@
 			"phpstan/extension-installer": true
 		}
 	},
+	"autoload": {
+		"files": [
+			"access-functions.php"
+		],
+		"psr-4": {
+			"WPGraphQL\\FacetWP\\": "src/"
+		}
+	},
 	"require": {
 		"php": "^7.1||^8.0"
 	},
