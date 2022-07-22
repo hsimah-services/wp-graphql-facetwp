@@ -47,6 +47,8 @@
 		"szepeviktor/phpstan-wordpress": "^1.0"
 	},
 	"scripts": {
+		"install-test-env": "bash bin/install-test-env.sh",
+		"install-stan-env": "bash bin/install-stan-env.sh",
 		"lint": "vendor/bin/phpcs",
 		"phpcs-i": [
 			"php ./vendor/bin/phpcs -i"
