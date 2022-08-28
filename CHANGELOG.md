@@ -2,6 +2,7 @@
 
 ## Unreleased
 - feat!: Complete plugin refactor for v1.6.0+ compatibility.
+- chore!: Bump minimum PHP version to `v7.4`.
 - ci: Add GitHub Workflows.
 - repo: Add PR and Issue templates.
 - repo: Switch commit flow to `develop` => `main`. The existing `master` branch will be removed in the future.
