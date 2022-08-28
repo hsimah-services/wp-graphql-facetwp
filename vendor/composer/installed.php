@@ -1,22 +1,22 @@
 <?php return array(
     'root' => array(
-        'pretty_version' => 'dev-master',
-        'version' => 'dev-master',
+        'pretty_version' => 'dev-develop',
+        'version' => 'dev-develop',
         'type' => 'wordpress-plugin',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-        'reference' => '08c6f914c66b2088d14f78f3a77ab10edb92489e',
+        'reference' => 'c678762580ba051dfb8108bf3dfdb40d3f981c27',
         'name' => 'hsimah-services/wp-graphql-facetwp',
         'dev' => false,
     ),
     'versions' => array(
         'hsimah-services/wp-graphql-facetwp' => array(
-            'pretty_version' => 'dev-master',
-            'version' => 'dev-master',
+            'pretty_version' => 'dev-develop',
+            'version' => 'dev-develop',
             'type' => 'wordpress-plugin',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
-            'reference' => '08c6f914c66b2088d14f78f3a77ab10edb92489e',
+            'reference' => 'c678762580ba051dfb8108bf3dfdb40d3f981c27',
             'dev_requirement' => false,
         ),
     ),

@@ -8,7 +8,7 @@
  * Version: 0.3.0
  * Text Domain: wpgraphql-facetwp
  * Requires at least: 5.0
- * Requires PHP: 7.1
+ * Requires PHP: 7.4
  * WPGraphQL requires at least: 1.6.0
  * FacetWP requires at least: 3.5.7
  * Tested up to: 6.0.1
