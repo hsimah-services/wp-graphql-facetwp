@@ -6,14 +6,14 @@
  * Description: WP GraphQL provider for FacetWP
  * Author: hsimah
  * Author URI: http://www.hsimah.com
- * Version: 0.2.0
+ * Version: 0.3.0.1
  * Text Domain: wpgraphql-facetwp
  * License: GPL-3
  * License URI: https://www.gnu.org/licenses/gpl-3.0.html
  *
  * @package  WPGraphQL_FacetWP
  * @author   hsimah
- * @version  0.2.0
+ * @version  0.3.0.1
  */
 
 // Exit if accessed directly.
