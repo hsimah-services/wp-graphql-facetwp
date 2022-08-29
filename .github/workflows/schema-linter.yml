@@ -9,7 +9,7 @@ on:
     branches:
       - develop
       - main
-    types:  [opened, synchronize, reopened, labeled ]
+    types: [ opened, synchronize, reopened, labeled ]
 
 jobs:
   run:
@@ -28,7 +28,7 @@ jobs:
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
 
     steps:
-    - name: Cancel previous runs of this workflow (pull requests only)
+      - name: Cancel previous runs of this workflow (pull requests only)
         if: ${{ github.event_name == 'pull_request_target' }}
         uses: styfle/cancel-workflow-action@0.5.0
         with:
