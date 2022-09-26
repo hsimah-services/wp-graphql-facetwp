@@ -1,8 +1,8 @@
 <?php
 /**
- * Plugin Name: WP GraphQL FacetWP
+ * Plugin Name: WPGraphQL for FacetWP
  * Plugin URI: https://github.com/hsimah-services/wp-graphql-facetwp
- * Description: WP GraphQL provider for FacetWP
+ * Description: WPGraphQL provider for FacetWP
  * Author: hsimah
  * Author URI: http://www.hsimah.com
  * Version: 0.3.0.1

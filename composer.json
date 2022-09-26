@@ -36,7 +36,18 @@
 		"php": "^7.4||^8.0"
 	},
 	"require-dev": {
+		"codeception/lib-innerbrowser": "^1.0",
+		"codeception/module-asserts": "^1.0",
+		"codeception/module-cli": "^1.0",
+		"codeception/module-db": "^1.0",
+		"codeception/module-filesystem": "^1.0",
+		"codeception/module-phpbrowser": "^1.0",
+		"codeception/module-rest": "^1.0",
+		"codeception/module-webdriver": "^1.0",
+		"codeception/phpunit-wrapper": "^9.0",
+		"codeception/util-universalframework": "^1.0",
 		"dealerdirect/phpcodesniffer-composer-installer": "^0.7.2",
+		"lucatume/wp-browser": "^3.0",
 		"squizlabs/php_codesniffer": "^3.7",
 		"automattic/vipwpcs": "^2.3",
 		"wp-coding-standards/wpcs": "^2.3",
@@ -44,7 +55,10 @@
 		"poolshark/wp-graphql-stubs": "^0.0.2",
 		"phpstan/phpstan": "^1.8",
 		"phpstan/extension-installer": "^1.1",
-		"szepeviktor/phpstan-wordpress": "^1.1"
+		"szepeviktor/phpstan-wordpress": "^1.1",
+		"wp-graphql/wp-graphql-testcase": "~2.3",
+		"wp-cli/wp-cli-bundle": "^2.6",
+		"php-coveralls/php-coveralls": "^2.5"
 	},
 	"scripts": {
 		"install-test-env": "bash bin/install-test-env.sh",
