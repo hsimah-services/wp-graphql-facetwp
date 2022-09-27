@@ -1,11 +1,9 @@
 #!/bin/bash
 
-
-
 install_facetwp() {
 	if [ ! -d $WP_CORE_DIR/wp-content/plugins/facetwp ]; then
 		echo "Cloning FacetWP: https://${GIT_TOKEN}@${FACET_REPO}"
-		git clone -b master --single-branch https://${GIT_TOKEN}@${FACET_REPO} $WP_CORE_DIR/wp-content/plugins/facetwp
+		git clone -b master --single-branch https://${GIT_TOKEN}@${FACET_REPO} $PLUGINS_DIR/facetwp
 	fi
 	echo "Activating FacetWP"
 	wp plugin activate facetwp --allow-root
