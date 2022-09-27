@@ -8,7 +8,6 @@
 
 namespace WPGraphQL\FacetWP\Registry;
 
-use FacetWP_API_Fetch;
 use WPGraphQL\Connection\PostObjects;
 use WPGraphQL\Data\Connection\PostObjectConnectionResolver;
 use WPGraphQL\FacetWP\Type\Input;
@@ -84,11 +83,13 @@ class FacetRegistry {
 						'per_page' => 10,
 						'page'     => 1,
 					];
+
 					if ( ! empty( $where['pager'] ) ) {
 						$pagination = array_merge( $pagination, $where['pager'] );
 					}
 
-					$query = self::parse_query( $where['query'] );
+					$query = ! empty( $where['query'] ) ? $where['query'] : [];
+					$query = self::parse_query( $query );
 
 					// Clean up null args.
 					foreach ( $query as $key => $value ) {
@@ -122,8 +123,7 @@ class FacetRegistry {
 						);
 					}
 
-					$fwp     = new FacetWP_API_Fetch();
-					$payload = $fwp->process_request( $fwp_args );
+					$payload = FWP()->api->process_request( $fwp_args );
 
 					$results = $payload['results'];
 					if ( $use_graphql_pagination ) {
@@ -143,16 +143,11 @@ class FacetRegistry {
 					 * The facets array is the resolved payload for this field.
 					 * Results & pager are returned so the connection resolver can use the data.
 					 */
-					$return_vals = [
+					return [
 						'facets'  => array_values( $payload['facets'] ),
-						'results' => count( $results ) ? $results : [ -1 ],
+						'results' => count( $results ) ? $results : null,
+						'pager'   => $payload['pager'] ?? [],
 					];
-
-					if ( $use_graphql_pagination ) {
-						$return_vals['pager'] = $payload['pager'];
-					}
-
-					return $return_vals;
 				},
 			]
 		);
@@ -434,11 +429,13 @@ class FacetRegistry {
 					// Manually override the first query arg if per_page > 10, the first default value.
 					$args['first'] = $source['pager']['per_page'];
 				}
-				$resolver = new PostObjectConnectionResolver( $source, $args, $context, $info, $type );
 
-				return $resolver
-					->set_query_arg( 'post__in', $source['results'] )
-					->get_connection();
+				$resolver = new PostObjectConnectionResolver( $source, $args, $context, $info, $type );
+				if ( ! empty( $source['results'] ) ) {
+					$resolver->set_query_arg( 'post__in', $source['results'] );
+				}
+
+				return $resolver->get_connection();
 			},
 		];
 
@@ -458,14 +455,19 @@ class FacetRegistry {
 	/**
 	 * Parse WPGraphQL query into FacetWP query
 	 *
-	 * @param mixed $query @todo.
+	 * @param array $query @todo.
 	 *
-	 * @return mixed FacetWP query
+	 * @return array FacetWP query
 	 */
-	private static function parse_query( $query ) {
+	private static function parse_query( array $query ) : array {
+		// Bail early if no query set.
+		if ( empty( $query ) ) {
+			return [];
+		}
+
 		$facets = FWP()->helper->get_facets();
 
-		return array_reduce(
+		$reduced_query = array_reduce(
 			$facets,
 			function ( $prev, $cur ) use ( $query ) {
 				$name  = $cur['name'];
@@ -509,6 +511,8 @@ class FacetRegistry {
 			},
 			[]
 		);
+
+		return $reduced_query ?: [];
 	}
 
 	/**
@@ -528,7 +532,7 @@ class FacetRegistry {
 				$camel_key = self::to_camel_case( $key );
 				// @todo refactor recursion to avoid this.
 				if ( is_string( $camel_key ) ) {
-					$camel_key = $key;
+					$key = $camel_key;
 				}
 				$out[ $key ] = $value;
 			}
@@ -536,7 +540,7 @@ class FacetRegistry {
 			return $out;
 		}
 
-		return lcfirst( str_replace( '_', '', ucwords( $input, ' /_' ) ) );
+		return lcfirst( str_replace( '_', '', ucwords( $input, '_' ) ) );
 	}
 
 	/**
