@@ -24,7 +24,7 @@ This plugin has been tested and is functional with SearchWP.
 * PHP 7.4+ || 8.0
 * WordPress 5.4.1+
 * WPGraphQL 1.6.0+ (1.9.0+ recommended)
-* FacetWP 3.5.7+ (4.0+ recommended)
+* FacetWP 4.0
 ## Quick Install
 
 1. Install & activate [WPGraphQL](https://www.wpgraphql.com/).
