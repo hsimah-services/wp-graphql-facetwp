@@ -5,7 +5,7 @@
  * Description: WPGraphQL provider for FacetWP
  * Author: hsimah
  * Author URI: http://www.hsimah.com
- * Version: 0.3.0.1
+ * Version: 0.4.0
  * Text Domain: wpgraphql-facetwp
  * Requires at least: 5.0
  * Requires PHP: 7.4
@@ -18,7 +18,7 @@
  * @package WPGraphQL_FacetWP
  * @author  hsimah
  * @license GPL-3
- * @version 0.3.0.1
+ * @version 0.4.0
  */
 
 // Exit if accessed directly.
@@ -39,7 +39,7 @@ if ( ! function_exists( 'graphql_facetwp_constants' ) ) {
 	function graphql_facetwp_constants() : void {
 			// Plugin version.
 		if ( ! defined( 'WPGRAPHQL_FACETWP_VERSION' ) ) {
-			define( 'WPGRAPHQL_FACETWP_VERSION', '0.3.0' );
+			define( 'WPGRAPHQL_FACETWP_VERSION', '0.4.0' );
 		}
 
 		// Plugin Folder Path.
