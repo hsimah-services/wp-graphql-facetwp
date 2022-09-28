@@ -2,23 +2,23 @@
 /**
  * Plugin Name: WPGraphQL for FacetWP
  * Plugin URI: https://github.com/hsimah-services/wp-graphql-facetwp
- * Description: WPGraphQL provider for FacetWP
+ * Description: Adds FacetWP support to WPGraphQL
  * Author: hsimah
  * Author URI: http://www.hsimah.com
- * Version: 0.3.0.1
+ * Version: 0.4.0
  * Text Domain: wpgraphql-facetwp
- * Requires at least: 5.0
+ * Requires at least: 5.4.1
  * Requires PHP: 7.4
  * WPGraphQL requires at least: 1.6.0
- * FacetWP requires at least: 3.5.7
- * Tested up to: 6.0.1
+ * FacetWP requires at least: 4.0
+ * Tested up to: 6.0.2
  * License: GPL-3
  * License URI: https://www.gnu.org/licenses/gpl-3.0.html
  *
  * @package WPGraphQL_FacetWP
  * @author  hsimah
  * @license GPL-3
- * @version 0.3.0.1
+ * @version 0.4.0
  */
 
 // Exit if accessed directly.
@@ -39,7 +39,7 @@ if ( ! function_exists( 'graphql_facetwp_constants' ) ) {
 	function graphql_facetwp_constants() : void {
 			// Plugin version.
 		if ( ! defined( 'WPGRAPHQL_FACETWP_VERSION' ) ) {
-			define( 'WPGRAPHQL_FACETWP_VERSION', '0.3.0' );
+			define( 'WPGRAPHQL_FACETWP_VERSION', '0.4.0' );
 		}
 
 		// Plugin Folder Path.
@@ -72,7 +72,7 @@ if ( ! function_exists( 'graphql_facetwp_deps_not_ready' ) ) {
 	 */
 	function graphql_facetwp_deps_not_ready() : array {
 		$wpgraphql_version = '1.6.0';
-		$facetwp_version   = '3.5.7';
+		$facetwp_version   = '4.0';
 
 		$deps = [];
 
