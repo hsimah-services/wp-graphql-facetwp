@@ -32,6 +32,11 @@
 			"WPGraphQL\\FacetWP\\": "src/"
 		}
 	},
+	"autoload-dev": {
+		"psr-4": {
+			"Tests\\WPGraphQL\\FacetWP\\": "tests/_support/"
+		}
+	},
 	"require": {
 		"php": "^7.4||^8.0"
 	},
