@@ -7,8 +7,8 @@ ARG PHP_VERSION
 
 FROM wp-graphql-facetwp:latest-wp${WP_VERSION}-php${PHP_VERSION}
 
-LABEL author=axewp
-LABEL author_uri=https://github.com/axewp
+LABEL author=axepress
+LABEL author_uri=https://github.com/AxeWP
 
 SHELL [ "/bin/bash", "-c" ]
 
