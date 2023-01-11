@@ -91,17 +91,17 @@ if ( ! function_exists( 'graphql_facetwp_deps_not_ready' ) ) {
 if ( ! function_exists( 'graphql_facetwp_init' ) ) {
 	/**
 	 * Initializes the plugin.
-	 *
-	 * @return \WPGraphQL\FacetWP\Main|false
 	 */
-	function graphql_facetwp_init() {
+	function graphql_facetwp_init() : void {
 		graphql_facetwp_constants();
 
 		$not_ready = graphql_facetwp_deps_not_ready();
 
 		if ( empty( $not_ready ) && defined( 'WPGRAPHQL_FACETWP_PLUGIN_DIR' ) ) {
 			require_once WPGRAPHQL_FACETWP_PLUGIN_DIR . 'src/Main.php';
-			return \WPGraphQL\FacetWP\Main::instance();
+			\WPGraphQL\FacetWP\Main::instance();
+
+			return;
 		}
 
 		/**
@@ -110,7 +110,7 @@ if ( ! function_exists( 'graphql_facetwp_init' ) ) {
 		 * @todo Are we sure we don't what to tell all users with backend access that the plugin isnt working?
 		 */
 		if ( ! current_user_can( 'manage_options' ) ) {
-			return false;
+			return;
 		}
 
 		foreach ( $not_ready as $dep => $version ) {
@@ -135,8 +135,6 @@ if ( ! function_exists( 'graphql_facetwp_init' ) ) {
 				}
 			);
 		}
-
-		return false;
 	}
 }
 

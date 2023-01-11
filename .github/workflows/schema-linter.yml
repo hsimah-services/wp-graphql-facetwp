@@ -30,12 +30,10 @@ jobs:
     steps:
       - name: Cancel previous runs of this workflow (pull requests only)
         if: ${{ github.event_name == 'pull_request_target' }}
-        uses: styfle/cancel-workflow-action@0.5.0
-        with:
-          access_token: ${{ github.token }}
+        uses: styfle/cancel-workflow-action@0.11.0
 
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           ref: ${{ github.event.pull_request.head.sha }}
 
@@ -48,9 +46,9 @@ jobs:
           tools: composer:v2, wp-cli
 
       - name: Setup Node.js
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v3
         with:
-          node-version: 12.x
+          node-version: 16.x
 
       - name: Setup GraphQL Schema Linter
         run: npm install -g graphql-schema-linter@^3.0 graphql@^16

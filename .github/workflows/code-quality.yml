@@ -29,13 +29,11 @@ jobs:
 
     steps:
       - name: Cancel previous runs of this workflow (pull requests only)
-        if: ${{ github.event_name == 'pull_request_target' }}
-        uses: styfle/cancel-workflow-action@0.5.0
-        with:
-          access_token: ${{ github.token }}
+        if: ${{ github.event_name == 'pull_request' }}
+        uses: styfle/cancel-workflow-action@0.11.0
 
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           ref: ${{ github.event.pull_request.head.sha }}
 
@@ -44,8 +42,8 @@ jobs:
         with:
           php-version: 8.0
           extensions: mbstring, intl, bcmath, exif, gd, mysqli, opcache, zip, pdo_mysql
-          tools: composer:v2, wp-cli
           coverage: none
+          tools: composer:v2, wp-cli
 
       - name: Install dependencies
         uses: ramsey/composer-install@v2

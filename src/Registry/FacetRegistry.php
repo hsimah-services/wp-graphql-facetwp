@@ -119,7 +119,7 @@ class FacetRegistry {
 								return $post_ids;
 							},
 							10,
-							2
+							1
 						);
 					}
 
