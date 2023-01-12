@@ -57,13 +57,13 @@
 		"automattic/vipwpcs": "^2.3",
 		"wp-coding-standards/wpcs": "^2.3",
 		"phpcompatibility/phpcompatibility-wp": "^2.1",
-		"poolshark/wp-graphql-stubs": "^0.0.2",
 		"phpstan/phpstan": "^1.8",
 		"phpstan/extension-installer": "^1.1",
 		"szepeviktor/phpstan-wordpress": "^1.1",
 		"wp-graphql/wp-graphql-testcase": "~2.3",
 		"wp-cli/wp-cli-bundle": "^2.6",
-		"php-coveralls/php-coveralls": "^2.5"
+		"php-coveralls/php-coveralls": "^2.5",
+		"axepress/wp-graphql-stubs": "^1.13"
 	},
 	"scripts": {
 		"install-test-env": "bash bin/install-test-env.sh",

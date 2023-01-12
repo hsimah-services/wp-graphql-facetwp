@@ -45,7 +45,7 @@
 	<rule ref="WordPress.NamingConventions.PrefixAllGlobals">
 		<properties>
 			<!-- Value: replace the function, class, and variable prefixes used. Separate multiple prefixes with a comma. -->
-			<property name="prefixes" type="array" value="WPGraphQL\FacetWP, WPGRAPHQL_FACETWP, wp_graphql, graphql_facetwp, register_graphql" />
+			<property name="prefixes" type="array" value="WPGraphQL\FacetWP, WPGRAPHQL_FACETWP, wp_graphql, graphql_facetwp, register_graphql, get_graphql" />
 		</properties>
 	</rule>
 	<rule ref="WordPress.WP.I18n">
