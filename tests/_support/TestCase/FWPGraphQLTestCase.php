@@ -10,6 +10,8 @@
 
 namespace Tests\WPGraphQL\FacetWP\TestCase;
 
+use ReflectionProperty;
+
 /**
  * Class - GraphQLTestCase
  */
@@ -28,6 +30,7 @@ class FWPGraphQLTestCase extends \Tests\WPGraphQL\TestCase\WPGraphQLTestCase {
 	 */
 	public function tearDown(): void {
 		$this->clearFacets();
+		$this->clearSchema();
 		// Then...
 		parent::tearDown();
 	}
@@ -46,15 +49,21 @@ class FWPGraphQLTestCase extends \Tests\WPGraphQL\TestCase\WPGraphQLTestCase {
 			'ghosts' => 'no',
 			'preserve_ghosts' => 'no',
 			'operator' => 'and',
-			'soft_limit' => '5'
+			'soft_limit' => '5',
+			'show_in_graphql' => true,
 		];
 
 		$config = array_merge( $defaults, $config );
 
-		FWP()->helper->settings['facets'] = [ $config ];
+		FWP()->helper->settings['facets'][] = $config;
 	}
 
 	public function clearFacets() : void {
-		FWP()->helper->settings['facets'] = [];
+		unset( FWP()->helper->settings['facets'] );
+
+		// Clear the FacetRegistry::$facets property.
+		$facets_property = new ReflectionProperty( 'WPGraphQL\FacetWP\Registry\FacetRegistry', 'facets' );
+		$facets_property->setAccessible( true );
+		$facets_property->setValue( null, null );
 	}
 }

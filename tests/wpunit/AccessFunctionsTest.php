@@ -21,7 +21,8 @@ class AccessFunctionsTest extends FWPGraphQLTestCase {
 	 * {@inheritDoc}
 	 */
 	public function tearDown(): void {
-		$this->clearSchema();
+		delete_option( 'graphql_general_settings' );
+
 		parent::tearDown();
 	}
 
@@ -189,6 +190,67 @@ class AccessFunctionsTest extends FWPGraphQLTestCase {
 		foreach ($posts_nodes_categories as $node ) {
 			$this->assertEquals( $term_one_id, $node['nodes'][0]['databaseId'] );
 		}
+	}
+
+	public function testGetGraphqlAllowedFacets() {
+		$config = [
+			'name' => 'test',
+			'label' => 'Test',
+			'type' => 'checkboxes',
+			'source' => 'post_type',
+			'post_type' => 'post',
+			'choices' => [
+				[
+					'value' => 'test',
+					'label' => 'Test',
+				]
+			]
+		];
+		// Register exposed facet.
+		$this->register_facet( $config );
+		// Register unexposed facet.
+		$this->register_facet([
+				'name' => 'test2',
+				'label' => 'Test2',
+				'type' => 'checkboxes',
+				'source' => 'post_type',
+				'post_type' => 'post',
+				'choices' => [
+					[
+						'value' => 'test2',
+						'label' => 'Test2',
+					]
+				],
+				'show_in_graphql' => false,
+		]);
+		// Register facet with explicit properties.
+		$this->register_facet([
+			'name' => 'test3',
+			'label' => 'Test3',
+			'type' => 'checkboxes',
+			'source' => 'post_type',
+			'post_type' => 'post',
+			'show_in_graphql' => true,
+			'graphql_field_name' => 'myTestField',
+		]);
+
+		$allowed_facets = get_graphql_allowed_facets();
+
+		codecept_debug( $allowed_facets );
+
+		// Check only one facet is returned.
+		$this->assertEquals( 2, count( $allowed_facets ), 'Only exposed facet should be returned' );
+
+		// Check that the first the correct facet. and the default properties are set.
+		$this->assertEquals( $config['name'], $allowed_facets[0]['name'], 'The first facet should be returned' );
+		$this->assertTrue( $allowed_facets[0]['show_in_graphql'] );
+		$this->assertEquals( graphql_format_field_name( $config['name'] ), $allowed_facets[0]['graphql_field_name'], 'The GraphQL field name should be set by default based on the name' );
+		$this->assertEquals( ['list_of' => 'String'], $allowed_facets[0]['graphql_type'], 'A checkbox facet should return a String[]' );
+
+		// Test that the GraphQL properties can be overridden.
+		$this->assertEquals('test3', $allowed_facets[1]['name'], 'The last facet should be returned' );
+		$this->assertTrue( $allowed_facets[1]['show_in_graphql'] );
+		$this->assertEquals( 'myTestField', $allowed_facets[1]['graphql_field_name'], 'The GraphQL field name should be overridden' );
 	}
 
 }
