@@ -21,7 +21,7 @@ This plugin has been tested and is functional with SearchWP.
 
 ## System Requirements
 
-* PHP 7.4+ || 8.0
+* PHP 7.4-8.1.x
 * WordPress 5.4.1+
 * WPGraphQL 1.6.0+ (1.9.0+ recommended)
 * FacetWP 4.0
