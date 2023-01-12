@@ -3,12 +3,11 @@
  * Registers individual facetsto the GraphQL schema.
  *
  * @package WPGraphQL\FacetWP\Registry
- * @since @todo
+ * @since 0.4.0
  */
 
 namespace WPGraphQL\FacetWP\Registry;
 
-use WPGraphQL;
 use WPGraphQL\Connection\PostObjects;
 use WPGraphQL\Data\Connection\PostObjectConnectionResolver;
 use WPGraphQL\FacetWP\Type\Input;
@@ -60,7 +59,7 @@ class FacetRegistry {
 	 *
 	 * @return string|array
 	 *
-	 * @since @todo
+	 * @since 0.4.1
 	 */
 	public static function get_facet_input_type( array $config ) {
 		// The default facet type is a list of strings.
@@ -304,7 +303,7 @@ class FacetRegistry {
 								'type'              => $cur['graphql_type'],
 								'description'       => sprintf(
 									// translators: The current Facet label.
-									__( 'DEPRECATED since @todo', 'wpgraphql-facetwp' ),
+									__( 'DEPRECATED since 0.4.1', 'wpgraphql-facetwp' ),
 									$cur['label']
 								),
 								'deprecationReason' => sprintf(

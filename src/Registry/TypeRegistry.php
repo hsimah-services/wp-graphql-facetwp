@@ -3,7 +3,7 @@
  * Registers Plugin types to the GraphQL schema.
  *
  * @package WPGraphQL\FacetWP\Registry
- * @since @todo
+ * @since 0.4.0
  */
 
 namespace WPGraphQL\FacetWP\Registry;

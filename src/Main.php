@@ -3,7 +3,7 @@
  * Initializes a singleton instance of the plugin.
  *
  * @package WPGraphQL\FacetWP
- * @since @todo
+ * @since 0.4.0
  */
 
 namespace WPGraphQL\FacetWP;

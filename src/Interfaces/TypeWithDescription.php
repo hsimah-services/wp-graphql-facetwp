@@ -3,7 +3,7 @@
  * Interface for a GraphQL TypeWithDescription.
  *
  * @package WPGraphQL\FacetWP\Interfaces
- * @since @todo
+ * @since 0.4.0
  */
 
 namespace WPGraphQL\FacetWP\Interfaces;

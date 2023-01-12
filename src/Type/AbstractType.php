@@ -3,7 +3,7 @@
  * Abstract GraphQL Type.
  *
  * @package WPGraphQL\FacetWP\Type
- * @since   @todo
+ * @since   0.4.0
  */
 
 namespace WPGraphQL\FacetWP\Type;
