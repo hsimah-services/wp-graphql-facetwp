@@ -3,7 +3,7 @@
         'name' => 'hsimah-services/wp-graphql-facetwp',
         'pretty_version' => 'dev-develop',
         'version' => 'dev-develop',
-        'reference' => 'babeb4e4b62fa905df70527b987ffd3f16c099a6',
+        'reference' => 'e62d1343bce6cc4a6a6387946e74d866f266feab',
         'type' => 'wordpress-plugin',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -13,7 +13,7 @@
         'hsimah-services/wp-graphql-facetwp' => array(
             'pretty_version' => 'dev-develop',
             'version' => 'dev-develop',
-            'reference' => 'babeb4e4b62fa905df70527b987ffd3f16c099a6',
+            'reference' => 'e62d1343bce6cc4a6a6387946e74d866f266feab',
             'type' => 'wordpress-plugin',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),

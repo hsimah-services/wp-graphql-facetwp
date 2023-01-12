@@ -1,5 +1,11 @@
 # Changelog
 
+## Unreleased
+- chore: update Composer dependencies.
+- chore: switch `poolshark/wp-graphql-stubs` for `axepress/wp-graphql-stubs`
+- chore: stub `FWP()` and FacetWP class properties.
+- chore: change stubfile extensions to `.php`.
+
 ## v.0.4.0
 This _major_ release refactors the underlying PHP codebase, bringing with it support for the latest versions of WPGraphQL and FacetWP. Care has been taken to ensure there are _no breaking changes_ to the GraphQL schema.
 

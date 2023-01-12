@@ -6,7 +6,8 @@ parameters:
 			disableRuntimeReflectionProvider: true
 		stubFiles:
 			# Simulate added properties
-			- phpstan/class-wp-post-type.stub
+			- phpstan/class-facetwp.php
+			- phpstan/class-wp-post-type.php
 		bootstrapFiles:
 			- phpstan/constants.php
 			- wp-graphql-facetwp.php
