@@ -25,6 +25,7 @@ This plugin has been tested and is functional with SearchWP.
 * WordPress 5.4.1+
 * WPGraphQL 1.6.0+ (1.9.0+ recommended)
 * FacetWP 4.0
+
 ## Quick Install
 
 1. Install & activate [WPGraphQL](https://www.wpgraphql.com/).
@@ -90,9 +91,9 @@ query GetPostsByFacet( $query: FacetQueryArgs, $after: String, $search: String, 
     }
     posts ( # The results of the facet query. Can be filtered by WPGraphQL connection where args 
       first: 10,
-			after: $after,
-			where: { search: $search, orderby: $orderBy}
-		) {
+      after: $after,
+      where: { search: $search, orderby: $orderBy}
+    ) {
       pageInfo {
         hasNextPage
         endCursor
@@ -112,41 +113,41 @@ Support for WooCommerce Products can be added with following configuration:
 
 ```php
 add_action( 'graphql_register_types', function () {
-	register_graphql_facet_type( 'product' );
+  register_graphql_facet_type( 'product' );
 });
 
 add_filter( 'facetwp_graphql_facet_connection_config', 
-	function ( array $default_graphql_config, array $config ) {
-		$type     = $config['type'];
-		$singular = $config['singular'];
-		$field    = $config['field'];
-		$plural   = $config['plural'];
+  function ( array $default_graphql_config, array $config ) {
+    $type     = $config['type'];
+    $singular = $config['singular'];
+    $field    = $config['field'];
+    $plural   = $config['plural'];
 
-		return [
-				'fromType'          => $field,
-				'toType'            => $singular,
-				'fromFieldName'     => lcfirst( $plural ),
-				'connectionArgs'    => Products::get_connection_args(),
-				'resolveNode'       => function ( $node, $_args, $context) use ( $type ) {
-						return $context->get_loader( $type )->load_deferred( $node->ID );
-				},
-				'resolve'           => function ( $source, $args, $context, $info ) use ( $type ) {
-						$resolver = new PostObjectConnectionResolver( $source, $args, $context, $info, $type);
+    return [
+        'fromType'          => $field,
+        'toType'            => $singular,
+        'fromFieldName'     => lcfirst( $plural ),
+        'connectionArgs'    => Products::get_connection_args(),
+        'resolveNode'       => function ( $node, $_args, $context) use ( $type ) {
+            return $context->get_loader( $type )->load_deferred( $node->ID );
+        },
+        'resolve'           => function ( $source, $args, $context, $info ) use ( $type ) {
+            $resolver = new PostObjectConnectionResolver( $source, $args, $context, $info, $type);
 
-						if ( $type === 'product' ) {
-							$resolver = Products::set_ordering_query_args( $resolver, $args );
-						}
+            if ( $type === 'product' ) {
+              $resolver = Products::set_ordering_query_args( $resolver, $args );
+            }
 
-						if( ! empty( $source['results'] ) ) {
-							$resolver->->set_query_arg( 'post__in', $source['results'] );
-						}
+            if( ! empty( $source['results'] ) ) {
+              $resolver->->set_query_arg( 'post__in', $source['results'] );
+            }
 
-						return $resolver ->get_connection();
-				},
-		];
-	},
- 	100,
-	2
+            return $resolver ->get_connection();
+        },
+    ];
+  },
+   100,
+  2
 );
 ```
 
