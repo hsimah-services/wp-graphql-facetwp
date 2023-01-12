@@ -33,3 +33,14 @@ if ( ! function_exists( 'register_graphql_facet_type' ) ) {
 		);
 	}
 }
+
+if ( ! function_exists( 'get_graphql_allowed_facets' ) ) {
+	/**
+	 * Get the facets that are allowed to be queried via GraphQL.
+	 *
+	 * @since @todo
+	 */
+	function get_graphql_allowed_facets() : array {
+		return FacetRegistry::get_allowed_facets();
+	}
+}

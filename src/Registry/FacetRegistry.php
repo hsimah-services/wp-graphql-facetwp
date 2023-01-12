@@ -8,6 +8,7 @@
 
 namespace WPGraphQL\FacetWP\Registry;
 
+use WPGraphQL;
 use WPGraphQL\Connection\PostObjects;
 use WPGraphQL\Data\Connection\PostObjectConnectionResolver;
 use WPGraphQL\FacetWP\Type\Input;
@@ -16,6 +17,113 @@ use WPGraphQL\FacetWP\Type\Input;
  * Class - FacetRegistry
  */
 class FacetRegistry {
+
+	/**
+	 * The facet configs to register to WPGraphQL
+	 *
+	 * @var ?array
+	 */
+	protected static $facets;
+
+	/**
+	 * Gets the facet configs to be registered to WPGraphQL.
+	 */
+	public static function get_allowed_facets() : array {
+		if ( ! isset( self::$facets ) ) {
+			$configs = FWP()->helper->get_facets();
+
+			// Add GraphQL properties to each facet config.
+			foreach ( $configs as $key => $config ) {
+				// @todo set these on the backend.
+				$configs[ $key ]['graphql_field_name'] = $config['graphql_field_name'] ?? graphql_format_field_name( $config['name'] );
+				$configs[ $key ]['show_in_graphql']    = $config['show_in_graphql'] ?? true;
+				$configs[ $key ]['graphql_type']       = self::get_facet_input_type( $config );
+			}
+
+			self::$facets = array_values(
+				array_filter(
+					$configs,
+					function( $config ) {
+						return $config['show_in_graphql'];
+					}
+				)
+			);
+		}
+
+		return self::$facets;
+	}
+
+	/**
+	 * Gets the GraphQL input type for a facet.
+	 *
+	 * @param array $config The facet config.
+	 *
+	 * @return string|array
+	 *
+	 * @since @todo
+	 */
+	public static function get_facet_input_type( array $config ) {
+		// The default facet type is a list of strings.
+		$type = [ 'list_of' => 'String' ];
+
+		switch ( $config['type'] ) {
+			case 'fselect':
+				// Single string for single fSelect.
+				if ( 'yes' === $config['multiple'] ) {
+					break;
+				}
+				// Continuing...
+			case 'radio':
+			case 'search':
+				// Single string.
+				$type = 'String';
+
+				break;
+			case 'date_range':
+				// Custom payload.
+				$type = Input\DateRangeArgs::$type;
+
+				break;
+			case 'number_range':
+				// Custom payload.
+				$type = Input\NumberRangeArgs::$type;
+
+				break;
+			case 'slider':
+				// Custom payload.
+				$type = Input\SliderArgs::$type;
+
+				break;
+			case 'proximity':
+				// Custom payload.
+				$type = Input\ProximityArgs::$type;
+
+				break;
+			case 'rating':
+				// Single Int.
+				$type = 'Int';
+
+				break;
+			case 'autocomplete':
+			case 'checkboxes':
+			case 'dropdown':
+			case 'hierarchy':
+			default:
+				// String array - default.
+				break;
+		}
+
+		/**
+		 * Filter the GraphQL input type for a facet.
+		 *
+		 * @param string|array $input_type The GraphQL Input type name to use.
+		 * @param string       $facet_type The FacetWP facet type.
+		 * @param array        $facet_config The FacetWP facet config.
+		 */
+		$type = apply_filters( 'graphql_facetwp_facet_input_type', $type, $config['type'], $config );
+
+		return $type;
+	}
 
 	/**
 	 * Register WPGraphQL Facet query.
@@ -163,71 +271,7 @@ class FacetRegistry {
 
 		$use_graphql_pagination = self::use_graphql_pagination();
 
-		$facets = FWP()->helper->get_facets();
-
-		$graphql_fields = array_reduce(
-			$facets,
-			function ( $prev, $cur ) {
-				if ( $cur && $cur['name'] ) {
-					$type = [
-						'list_of' => 'String',
-					];
-
-					switch ( $cur['type'] ) {
-						case 'fselect':
-							// Single string for single fSelect.
-							if ( 'yes' === $cur['multiple'] ) {
-								break;
-							}
-							// Continuing...
-						case 'radio':
-						case 'search':
-							// Single string.
-							$type = 'String';
-							break;
-						case 'date_range':
-							// Custom payload.
-							$type = Input\DateRangeArgs::$type;
-							break;
-						case 'number_range':
-							// Custom payload.
-							$type = Input\NumberRangeArgs::$type;
-							break;
-						case 'slider':
-							// Custom payload.
-							$type = Input\SliderArgs::$type;
-							break;
-						case 'proximity':
-							// Custom payload.
-							$type = Input\ProximityArgs::$type;
-							break;
-						case 'rating':
-							// Single Int.
-							$type = 'Int';
-							break;
-						case 'autocomplete':
-						case 'checkboxes':
-						case 'dropdown':
-						case 'hierarchy':
-						default:
-							// String array - default.
-							break;
-					}
-
-					$prev[ $cur['name'] ] = [
-						'type'        => $type,
-						'description' => sprintf(
-							// translators: The current Facet label.
-							__( '%s facet query', 'wpgraphql-facetwp' ),
-							$cur['label']
-						),
-					];
-				}
-
-				return $prev;
-			},
-			[]
-		);
+		$facets = self::get_allowed_facets();
 
 		register_graphql_input_type(
 			'FacetQueryArgs',
@@ -240,64 +284,33 @@ class FacetRegistry {
 				'fields'      => array_reduce(
 					$facets,
 					function ( $prev, $cur ) {
-						if ( $cur && $cur['name'] ) {
-							$type = [
-								'list_of' => 'String',
-							];
+						if ( empty( $cur['graphql_field_name'] ) ) {
+							return $prev;
+						}
 
-							switch ( $cur['type'] ) {
-								case 'fselect':
-									// Single string for single fSelect.
-									if ( 'yes' === $cur['multiple'] ) {
-										break;
-									}
-									// Continuing...
-								case 'radio':
-								case 'search':
-									// Single string.
-									$type = 'String';
+						// Add the field config.
+						$prev[ $cur['graphql_field_name'] ] = [
+							'type'        => $cur['graphql_type'],
+							'description' => sprintf(
+								// translators: The current Facet label.
+								__( '%s facet query', 'wpgraphql-facetwp' ),
+								$cur['label']
+							),
+						];
 
-									break;
-								case 'date_range':
-									// Custom payload.
-									$type = Input\DateRangeArgs::$type;
-
-									break;
-								case 'number_range':
-									// Custom payload.
-									$type = Input\NumberRangeArgs::$type;
-
-									break;
-								case 'slider':
-									// Custom payload.
-									$type = Input\SliderArgs::$type;
-
-									break;
-								case 'proximity':
-									// Custom payload.
-									$type = Input\ProximityArgs::$type;
-
-									break;
-								case 'rating':
-									// Single Int.
-									$type = 'Int';
-
-									break;
-								case 'autocomplete':
-								case 'checkboxes':
-								case 'dropdown':
-								case 'hierarchy':
-								default:
-									// String array - default.
-									break;
-							}
-
+						// Maybe add the deprecate type name.
+						if ( $cur['name'] !== $cur['graphql_field_name'] ) {
 							$prev[ $cur['name'] ] = [
-								'type'        => $type,
-								'description' => sprintf(
+								'type'              => $cur['graphql_type'],
+								'description'       => sprintf(
 									// translators: The current Facet label.
-									__( '%s facet query', 'wpgraphql-facetwp' ),
+									__( 'DEPRECATED since @todo', 'wpgraphql-facetwp' ),
 									$cur['label']
+								),
+								'deprecationReason' => sprintf(
+									// translators: The the GraphQL field name.
+									__( 'Use %s instead.', 'wpgraphql-facetwp' ),
+									$cur['graphql_field_name']
 								),
 							];
 						}
