@@ -3,7 +3,7 @@
  * Interface for classes that register a GraphQL type to the GraphQL schema.
  *
  * @package WPGraphQL\FacetWP\Interfaces
- * @since @todo
+ * @since 0.4.0
  */
 
 namespace WPGraphQL\FacetWP\Interfaces;

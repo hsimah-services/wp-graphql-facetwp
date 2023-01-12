@@ -3,7 +3,7 @@
  * This file contains access functions for various class methods.
  *
  * @package WPGraphQL/FacetWP
- * @since @todo
+ * @since 0.4.0
  */
 
 use WPGraphQL\FacetWP\Registry\FacetRegistry;
@@ -38,7 +38,7 @@ if ( ! function_exists( 'get_graphql_allowed_facets' ) ) {
 	/**
 	 * Get the facets that are allowed to be queried via GraphQL.
 	 *
-	 * @since @todo
+	 * @since 0.4.1
 	 */
 	function get_graphql_allowed_facets() : array {
 		return FacetRegistry::get_allowed_facets();

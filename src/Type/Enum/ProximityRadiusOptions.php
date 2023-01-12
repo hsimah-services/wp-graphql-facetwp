@@ -3,7 +3,7 @@
  * GraphQL Enum Type - ProximityRadiusOptions.
  *
  * @package WPGraphQL\FacetWP\Type\Enum
- * @since   @todo
+ * @since   0.4.0
  */
 
 namespace WPGraphQL\FacetWP\Type\Enum;

@@ -3,7 +3,7 @@
  * GraphQL Input Type - SliderArgs.
  *
  * @package WPGraphQL\FacetWP\Type\Input
- * @since   @todo
+ * @since   0.4.0
  */
 
 namespace WPGraphQL\FacetWP\Type\Input;

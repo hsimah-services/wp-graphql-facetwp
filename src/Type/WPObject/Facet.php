@@ -3,7 +3,7 @@
  * GraphQL Object Type - Facet.
  *
  * @package WPGraphQL\FacetWP\Type\WPObject
- * @since   @todo
+ * @since   0.4.0
  */
 
 namespace WPGraphQL\FacetWP\Type\WPObject;

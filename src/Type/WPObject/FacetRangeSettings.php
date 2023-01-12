@@ -3,7 +3,7 @@
  * GraphQL Object Type - FacetRangeSettings.
  *
  * @package WPGraphQL\FacetWP\Type\WPObject
- * @since   @todo
+ * @since   0.4.0
  */
 
 namespace WPGraphQL\FacetWP\Type\WPObject;

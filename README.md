@@ -7,7 +7,7 @@ Adds WPGraphQL support for [FacetWP](https://facetwp.com/).
 * [Documentation](#usage)
 -----
 
-![Packagist License](https://img.shields.io/packagist/l/hsimah-services/wp-graphql-facetwp?color=green) ![Packagist Version](https://img.shields.io/packagist/v/hsimah-services/wp-graphql-facetwp?label=stable) ![GitHub commits since latest release (by SemVer)](https://img.shields.io/github/commits-since/hsimah-services/wp-graphql-facetwp/0.4.0) ![GitHub forks](https://img.shields.io/github/forks/hsimah-services/wp-graphql-facetwp?style=social) ![GitHub Repo stars](https://img.shields.io/github/stars/hsimah-services/wp-graphql-facetwp?style=social)<br />
+![Packagist License](https://img.shields.io/packagist/l/hsimah-services/wp-graphql-facetwp?color=green) ![Packagist Version](https://img.shields.io/packagist/v/hsimah-services/wp-graphql-facetwp?label=stable) ![GitHub commits since latest release (by SemVer)](https://img.shields.io/github/commits-since/hsimah-services/wp-graphql-facetwp/0.4.1) ![GitHub forks](https://img.shields.io/github/forks/hsimah-services/wp-graphql-facetwp?style=social) ![GitHub Repo stars](https://img.shields.io/github/stars/hsimah-services/wp-graphql-facetwp?style=social)<br />
 ![CodeQuality](https://img.shields.io/github/workflow/status/hsimah-services/wp-graphql-facetwp/Code%20Quality?label=Code%20Quality)
 ![GitHub Workflow Status](https://img.shields.io/github/workflow/status/hsimah-services/wp-graphql-facetwp/Integration%20Testing?label=Integration%20Testing)
 ![Coding Standards](https://img.shields.io/github/workflow/status/hsimah-services/wp-graphql-facetwp/WordPress%20Coding%20Standards?label=WordPress%20Coding%20Standards)
