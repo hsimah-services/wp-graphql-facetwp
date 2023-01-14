@@ -162,7 +162,7 @@ class AccessFunctionsTest extends FWPGraphQLTestCase {
 								$this->expectedObject(
 									'settings',
 									[
-										$this->expectedField('showExpanded', 'no' )
+										$this->expectedField( 'showExpanded', 'no' ),
 									]
 								),
 							],
@@ -178,7 +178,7 @@ class AccessFunctionsTest extends FWPGraphQLTestCase {
 							]
 						),
 					]
-				)
+				),
 			]
 		);
 
@@ -186,53 +186,57 @@ class AccessFunctionsTest extends FWPGraphQLTestCase {
 		$this->assertNonEmptyMultidimensionalArray( $actual['data']['postFacet']['posts']['nodes'] );
 		$this->assertCount( 5, $actual['data']['postFacet']['posts']['nodes'] );
 		$posts_nodes_categories = array_column( $actual['data']['postFacet']['posts']['nodes'], 'categories' );
-		
-		foreach ($posts_nodes_categories as $node ) {
+
+		foreach ( $posts_nodes_categories as $node ) {
 			$this->assertEquals( $term_one_id, $node['nodes'][0]['databaseId'] );
 		}
 	}
 
 	public function testGetGraphqlAllowedFacets() {
 		$config = [
-			'name' => 'test',
-			'label' => 'Test',
-			'type' => 'checkboxes',
-			'source' => 'post_type',
+			'name'      => 'test',
+			'label'     => 'Test',
+			'type'      => 'checkboxes',
+			'source'    => 'post_type',
 			'post_type' => 'post',
-			'choices' => [
+			'choices'   => [
 				[
 					'value' => 'test',
 					'label' => 'Test',
-				]
-			]
+				],
+			],
 		];
 		// Register exposed facet.
 		$this->register_facet( $config );
 		// Register unexposed facet.
-		$this->register_facet([
-				'name' => 'test2',
-				'label' => 'Test2',
-				'type' => 'checkboxes',
-				'source' => 'post_type',
-				'post_type' => 'post',
-				'choices' => [
+		$this->register_facet(
+			[
+				'name'            => 'test2',
+				'label'           => 'Test2',
+				'type'            => 'checkboxes',
+				'source'          => 'post_type',
+				'post_type'       => 'post',
+				'choices'         => [
 					[
 						'value' => 'test2',
 						'label' => 'Test2',
-					]
+					],
 				],
 				'show_in_graphql' => false,
-		]);
+			]
+		);
 		// Register facet with explicit properties.
-		$this->register_facet([
-			'name' => 'test3',
-			'label' => 'Test3',
-			'type' => 'checkboxes',
-			'source' => 'post_type',
-			'post_type' => 'post',
-			'show_in_graphql' => true,
-			'graphql_field_name' => 'myTestField',
-		]);
+		$this->register_facet(
+			[
+				'name'               => 'test3',
+				'label'              => 'Test3',
+				'type'               => 'checkboxes',
+				'source'             => 'post_type',
+				'post_type'          => 'post',
+				'show_in_graphql'    => true,
+				'graphql_field_name' => 'myTestField',
+			]
+		);
 
 		$allowed_facets = get_graphql_allowed_facets();
 
@@ -245,10 +249,10 @@ class AccessFunctionsTest extends FWPGraphQLTestCase {
 		$this->assertEquals( $config['name'], $allowed_facets[0]['name'], 'The first facet should be returned' );
 		$this->assertTrue( $allowed_facets[0]['show_in_graphql'] );
 		$this->assertEquals( graphql_format_field_name( $config['name'] ), $allowed_facets[0]['graphql_field_name'], 'The GraphQL field name should be set by default based on the name' );
-		$this->assertEquals( ['list_of' => 'String'], $allowed_facets[0]['graphql_type'], 'A checkbox facet should return a String[]' );
+		$this->assertEquals( [ 'list_of' => 'String' ], $allowed_facets[0]['graphql_type'], 'A checkbox facet should return a String[]' );
 
 		// Test that the GraphQL properties can be overridden.
-		$this->assertEquals('test3', $allowed_facets[1]['name'], 'The last facet should be returned' );
+		$this->assertEquals( 'test3', $allowed_facets[1]['name'], 'The last facet should be returned' );
 		$this->assertTrue( $allowed_facets[1]['show_in_graphql'] );
 		$this->assertEquals( 'myTestField', $allowed_facets[1]['graphql_field_name'], 'The GraphQL field name should be overridden' );
 	}
