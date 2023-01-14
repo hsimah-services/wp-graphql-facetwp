@@ -28,15 +28,14 @@ if ( ! class_exists( 'WPGraphQL\FacetWP\Main' ) ) :
 		 */
 		public static function instance() : self {
 			if ( ! isset( self::$instance ) || ! self::$instance instanceof self ) {
-				// You cant test a singleton.
-				// @codeCoverageIgnoreStart .
+				// @codeCoverageIgnoreStart
 				if ( ! function_exists( 'is_plugin_active' ) ) {
 					require_once ABSPATH . 'wp-admin/includes/plugin.php';
 				}
+				// @codeCoverageIgnoreEnd
 				self::$instance = new self();
 				self::$instance->includes();
 				self::$instance->setup();
-				// @codeCoverageIgnoreEnd .
 			}
 
 			/**

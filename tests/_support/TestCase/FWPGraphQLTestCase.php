@@ -1,11 +1,11 @@
 <?php
 /**
- * WPGraphQL test case
+ * FWPGraphQL test case
  *
- * For testing WPGraphQL responses.
+ * For testing WPGraphQL FacetWP response
  *
- * @since 0.8.0
- * @package Tests\WPGraphQL\TestCase
+ * @since 0.4.0
+ * @package Tests\WPGraphQL\FacetWP\TestCase
  */
 
 namespace Tests\WPGraphQL\FacetWP\TestCase;
@@ -13,11 +13,9 @@ namespace Tests\WPGraphQL\FacetWP\TestCase;
 use ReflectionProperty;
 
 /**
- * Class - GraphQLTestCase
+ * Class - FWPGraphQLTestCase
  */
 class FWPGraphQLTestCase extends \Tests\WPGraphQL\TestCase\WPGraphQLTestCase {
-	public $fwp;
-
 	/**
 	 * Creates users and loads factories.
 	 */
@@ -36,22 +34,7 @@ class FWPGraphQLTestCase extends \Tests\WPGraphQL\TestCase\WPGraphQLTestCase {
 	}
 
 	public function register_facet( array $config = [] ) : void {
-		$defaults = [
-			'label' => 'Categories',
-			'name' => 'categories',
-			'type' => 'checkboxes',
-			'source' => 'tax/category',
-			'parent_term' => '',
-			'hierarchical' => 'no',
-			'orderby' => 'count',
-			'count' => '20',
-			'show_expanded' => 'no',
-			'ghosts' => 'no',
-			'preserve_ghosts' => 'no',
-			'operator' => 'and',
-			'soft_limit' => '5',
-			'show_in_graphql' => true,
-		];
+		$defaults = $this->tester->get_default_checkbox_facet_args();
 
 		$config = array_merge( $defaults, $config );
 
