@@ -1,7 +1,7 @@
 # Changelog
 
 ## Unreleased
-
+- dev: initialize plugin using `facetwp_init` hook.
 - dev!: Refactor GraphQL type classes to use `axepress/wp-graphql-plugin-boilerplate`.
 - tests: backfill tests for `Main` class.
 
