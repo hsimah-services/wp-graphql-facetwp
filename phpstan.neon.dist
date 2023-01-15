@@ -7,6 +7,7 @@ parameters:
 		stubFiles:
 			# Simulate added properties
 			- phpstan/class-facetwp.php
+			- phpstan/class-facetwp-facet.php
 			- phpstan/class-wp-post-type.php
 		bootstrapFiles:
 			- phpstan/constants.php
