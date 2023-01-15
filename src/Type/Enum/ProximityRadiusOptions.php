@@ -8,19 +8,19 @@
 
 namespace WPGraphQL\FacetWP\Type\Enum;
 
-use WPGraphQL\FacetWP\Type\Enum\AbstractEnum;
+use WPGraphQL\FacetWP\Vendor\AxeWP\GraphQL\Abstracts\EnumType;
 use WPGraphQL\Type\WPEnumType;
 
 /**
  * Class - ProximityRadiusOptions
  */
-class ProximityRadiusOptions extends AbstractEnum {
+class ProximityRadiusOptions extends EnumType {
 	/**
-	 * Type registered in WPGraphQL.
-	 *
-	 * @var string
+	 * {@inheritDoc}
 	 */
-	public static $type = 'FacetProximityRadiusOptions';
+	protected static function type_name() : string {
+		return 'FacetProximityRadiusOptions';
+	}
 
 	/**
 	 * {@inheritDoc}

@@ -9,11 +9,11 @@
 namespace WPGraphQL\FacetWP\Registry;
 
 use Exception;
-use WPGraphQL\FacetWP\Interfaces\GraphQLType;
 use WPGraphQL\FacetWP\Interfaces\Initializable;
 use WPGraphQL\FacetWP\Type\Enum;
 use WPGraphQL\FacetWP\Type\Input;
 use WPGraphQL\FacetWP\Type\WPObject;
+use WPGraphQL\FacetWP\Vendor\AxeWP\GraphQL\Interfaces\GraphQLType;
 
 /**
  * Class - TypeRegistry
@@ -119,11 +119,11 @@ class TypeRegistry implements Initializable {
 		foreach ( $classes_to_register as $class ) {
 			if ( ! is_a( $class, GraphQLType::class, true ) ) {
 				// translators: PHP class.
-				throw new Exception( sprintf( __( 'To be registered to the GraphQL schema, %s needs to implement \WPGraphQL\Interfaces\GraphQLType', 'wpgraphql-facetwp' ), $class ) );
+				throw new Exception( sprintf( __( 'To be registered to the WPGraphQL schema, %s needs to implement \WPGraphQL\FacetWP\Vendor\AxeWP\GraphQL\Interfaces\GraphQLType.', 'wpgraphql-facetwp' ), $class ) );
 			}
 
 			// Register the type to the GraphQL schema.
-			$class::init();
+			$class::register();
 		}
 	}
 }

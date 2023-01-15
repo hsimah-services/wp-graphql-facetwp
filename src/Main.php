@@ -67,6 +67,7 @@ if ( ! class_exists( 'WPGraphQL\FacetWP\Main' ) ) :
 		private function setup() : void {
 			// Initialize plugin type registry.
 			TypeRegistry::init();
+			CoreSchemaFilters::init();
 		}
 
 		/**

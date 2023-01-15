@@ -9,18 +9,18 @@
 namespace WPGraphQL\FacetWP\Type\WPObject;
 
 use WPGraphQL\FacetWP\Registry\FacetRegistry;
-use WPGraphQL\FacetWP\Type\WPObject\AbstractObject;
+use WPGraphQL\FacetWP\Vendor\AxeWP\GraphQL\Abstracts\ObjectType;
 
 /**
  * Class - FacetPager
  */
-class FacetPager extends AbstractObject {
+class FacetPager extends ObjectType {
 	/**
-	 * Type registered in WPGraphQL.
-	 *
-	 * @var string
+	 * {@inheritDoc}
 	 */
-	public static $type = 'FacetPager';
+	public static function type_name() : string {
+		return 'FacetPager';
+	}
 
 	/**
 	 * {@inheritDoc}

@@ -8,18 +8,18 @@
 
 namespace WPGraphQL\FacetWP\Type\WPObject;
 
-use WPGraphQL\FacetWP\Type\WPObject\AbstractObject;
+use WPGraphQL\FacetWP\Vendor\AxeWP\GraphQL\Abstracts\ObjectType;
 
 /**
  * Class - FacetChoice
  */
-class FacetChoice extends AbstractObject {
+class FacetChoice extends ObjectType {
 	/**
-	 * Type registered in WPGraphQL.
-	 *
-	 * @var string
+	 * {@inheritDoc}
 	 */
-	public static $type = 'FacetChoice';
+	public static function type_name() : string {
+		return 'FacetChoice';
+	}
 
 	/**
 	 * {@inheritDoc}

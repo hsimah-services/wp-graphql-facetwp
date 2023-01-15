@@ -24,13 +24,29 @@
 			"phpstan/extension-installer": true
 		}
 	},
+	"extra": {
+		"strauss": {
+			"target_directory": "/src/vendor",
+			"namespace_prefix": "WPGraphQL\\FacetWP\\Vendor\\",
+			"classmap_prefix": "GraphQL_FacetWP_Vendor",
+			"constant_prefix": "GRAPHQL_FACETWP_VENDOR_",
+			"packages": [
+				"axepress/wp-graphql-plugin-boilerplate"
+			],
+			"delete_vendor_files": false,
+			"include_modified_date": false
+		}
+	},
 	"autoload": {
 		"files": [
 			"access-functions.php"
 		],
 		"psr-4": {
 			"WPGraphQL\\FacetWP\\": "src/"
-		}
+		},
+		"classmap": [
+			"src/vendor"
+		]
 	},
 	"autoload-dev": {
 		"psr-4": {
@@ -38,7 +54,8 @@
 		}
 	},
 	"require": {
-		"php": ">=7.4, <=8.1"
+		"php": ">=7.4, <=8.1",
+		"axepress/wp-graphql-plugin-boilerplate": "^0.0.6"
 	},
 	"require-dev": {
 		"codeception/lib-innerbrowser": "^1.0",
@@ -63,7 +80,8 @@
 		"wp-graphql/wp-graphql-testcase": "~2.3",
 		"wp-cli/wp-cli-bundle": "^2.6",
 		"php-coveralls/php-coveralls": "^2.5",
-		"axepress/wp-graphql-stubs": "^1.13"
+		"axepress/wp-graphql-stubs": "^1.13",
+		"brianhenryie/strauss": "^0.13.0"
 	},
 	"scripts": {
 		"install-test-env": "bash bin/install-test-env.sh",
@@ -79,6 +97,16 @@
 		"build-test": "@docker-build -t",
 		"run-app": "@docker-run -a",
 		"run-test": "@docker-run -t",
+		"strauss": [
+			"php strauss.phar",
+			"composer dump-autoload --optimize"
+		],
+		"post-install-cmd": [
+			"@strauss"
+		],
+		"post-update-cmd": [
+			"@strauss"
+		],
 		"lint": "vendor/bin/phpcs",
 		"phpcs-i": [
 			"php ./vendor/bin/phpcs -i"
@@ -112,7 +140,8 @@
 			"/docker-compose.yml",
 			"/phpstan.neon.dist",
 			"/phpunit.xml.dist",
-			"/README.md"
+			"/README.md",
+			"/strauss.phar"
 		]
 	}
 }

@@ -1,6 +1,6 @@
 <?php
 /**
- * Registers individual facetsto the GraphQL schema.
+ * Registers individual facets to the GraphQL schema.
  *
  * @package WPGraphQL\FacetWP\Registry
  * @since 0.4.0
@@ -80,22 +80,22 @@ class FacetRegistry {
 				break;
 			case 'date_range':
 				// Custom payload.
-				$type = Input\DateRangeArgs::$type;
+				$type = Input\DateRangeArgs::get_type_name();
 
 				break;
 			case 'number_range':
 				// Custom payload.
-				$type = Input\NumberRangeArgs::$type;
+				$type = Input\NumberRangeArgs::get_type_name();
 
 				break;
 			case 'slider':
 				// Custom payload.
-				$type = Input\SliderArgs::$type;
+				$type = Input\SliderArgs::get_type_name();
 
 				break;
 			case 'proximity':
 				// Custom payload.
-				$type = Input\ProximityArgs::$type;
+				$type = Input\ProximityArgs::get_type_name();
 
 				break;
 			case 'rating':
@@ -591,6 +591,7 @@ class FacetRegistry {
 			}
 		}
 	}
+
 
 	/**
 	 * Whether to use WPGraphQL Pagination

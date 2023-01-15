@@ -8,18 +8,18 @@
 
 namespace WPGraphQL\FacetWP\Type\Input;
 
-use WPGraphQL\FacetWP\Type\Input\AbstractInput;
+use WPGraphQL\FacetWP\Vendor\AxeWP\GraphQL\Abstracts\InputType;
 
 /**
  * Class - DateRangeArgs
  */
-class DateRangeArgs extends AbstractInput {
+class DateRangeArgs extends InputType {
 	/**
-	 * Type registered in WPGraphQL.
-	 *
-	 * @var string
+	 * {@inheritDoc}
 	 */
-	public static $type = 'FacetDateRangeArgs';
+	public static function type_name() : string {
+		return 'FacetDateRangeArgs';
+	}
 
 	/**
 	 * {@inheritDoc}
@@ -34,10 +34,12 @@ class DateRangeArgs extends AbstractInput {
 	public static function get_fields() : array {
 		return [
 			'max' => [
-				'type' => 'String',
+				'type'        => 'String',
+				'description' => __( 'The end date', 'wpgraphql-facetwp' ),
 			],
 			'min' => [
-				'type' => 'String',
+				'type'        => 'String',
+				'description' => __( 'The start date', 'wpgraphql-facetwp' ),
 			],
 		];
 	}

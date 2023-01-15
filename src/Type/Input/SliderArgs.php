@@ -8,18 +8,18 @@
 
 namespace WPGraphQL\FacetWP\Type\Input;
 
-use WPGraphQL\FacetWP\Type\Input\AbstractInput;
+use WPGraphQL\FacetWP\Vendor\AxeWP\GraphQL\Abstracts\InputType;
 
 /**
  * Class - SliderArgs
  */
-class SliderArgs extends AbstractInput {
+class SliderArgs extends InputType {
 	/**
-	 * Type registered in WPGraphQL.
-	 *
-	 * @var string
+	 * {@inheritDoc}
 	 */
-	public static $type = 'FacetSliderArgs';
+	public static function type_name() : string {
+		return 'FacetSliderArgs';
+	}
 
 	/**
 	 * {@inheritDoc}
@@ -34,10 +34,12 @@ class SliderArgs extends AbstractInput {
 	public static function get_fields() : array {
 		return [
 			'max' => [
-				'type' => 'Float',
+				'type'        => 'Float',
+				'description' => __( 'Maximum value', 'wpgraphql-facetwp' ),
 			],
 			'min' => [
-				'type' => 'Float',
+				'type'        => 'Float',
+				'description' => __( 'Minimum value', 'wpgraphql-facetwp' ),
 			],
 		];
 	}
