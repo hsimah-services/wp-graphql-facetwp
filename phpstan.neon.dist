@@ -14,6 +14,12 @@ parameters:
 		paths:
 			- wp-graphql-facetwp.php
 			- src/
+		excludePaths:
+			analyse:
+				- src/vendor
+			analyseAndScan:
+				- ../wp-graphql/tests
 		scanDirectories:
+			- src/vendor/
 			- ../wp-graphql/
 			- ../facetwp/
