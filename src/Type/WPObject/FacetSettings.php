@@ -8,18 +8,18 @@
 
 namespace WPGraphQL\FacetWP\Type\WPObject;
 
-use WPGraphQL\FacetWP\Type\WPObject\AbstractObject;
+use WPGraphQL\FacetWP\Vendor\AxeWP\GraphQL\Abstracts\ObjectType;
 
 /**
  * Class - FacetSettings
  */
-class FacetSettings extends AbstractObject {
+class FacetSettings extends ObjectType {
 	/**
-	 * Type registered in WPGraphQL.
-	 *
-	 * @var string
+	 * {@inheritDoc}
 	 */
-	public static $type = 'FacetSettings';
+	public static function type_name() : string {
+		return 'FacetSettings';
+	}
 
 	/**
 	 * {@inheritDoc}
@@ -66,7 +66,7 @@ class FacetSettings extends AbstractObject {
 				'description' => __( 'Field prefix', 'wpgraphql-facetwp' ),
 			],
 			'range'              => [
-				'type'        => FacetRangeSettings::$type,
+				'type'        => FacetRangeSettings::get_type_name(),
 				'description' => __( 'Selected slider range values', 'wpgraphql-facetwp' ),
 			],
 			'searchText'         => [
@@ -78,7 +78,7 @@ class FacetSettings extends AbstractObject {
 				'description' => __( 'Show expanded facet options', 'wpgraphql-facetwp' ),
 			],
 			'start'              => [
-				'type'        => FacetRangeSettings::$type,
+				'type'        => FacetRangeSettings::get_type_name(),
 				'description' => __( 'Starting min and max position for the slider', 'wpgraphql-facetwp' ),
 			],
 			'step'               => [

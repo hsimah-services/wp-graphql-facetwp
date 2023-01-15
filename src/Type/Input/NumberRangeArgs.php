@@ -8,18 +8,18 @@
 
 namespace WPGraphQL\FacetWP\Type\Input;
 
-use WPGraphQL\FacetWP\Type\Input\AbstractInput;
+use WPGraphQL\FacetWP\Vendor\AxeWP\GraphQL\Abstracts\InputType;
 
 /**
  * Class - NumberRangeArgs
  */
-class NumberRangeArgs extends AbstractInput {
+class NumberRangeArgs extends InputType {
 	/**
-	 * Type registered in WPGraphQL.
-	 *
-	 * @var string
+	 * {@inheritDoc}
 	 */
-	public static $type = 'FacetNumberRangeArgs';
+	public static function type_name() : string {
+		return 'FacetNumberRangeArgs';
+	}
 
 	/**
 	 * {@inheritDoc}
@@ -34,10 +34,12 @@ class NumberRangeArgs extends AbstractInput {
 	public static function get_fields() : array {
 		return [
 			'max' => [
-				'type' => 'Int',
+				'type'        => 'Int',
+				'description' => __( 'Maximum value', 'wpgraphql-facetwp' ),
 			],
 			'min' => [
-				'type' => 'Int',
+				'type'        => 'Int',
+				'description' => __( 'Minimum value', 'wpgraphql-facetwp' ),
 			],
 		];
 	}

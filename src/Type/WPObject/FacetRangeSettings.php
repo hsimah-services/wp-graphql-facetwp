@@ -8,18 +8,18 @@
 
 namespace WPGraphQL\FacetWP\Type\WPObject;
 
-use WPGraphQL\FacetWP\Type\WPObject\AbstractObject;
+use WPGraphQL\FacetWP\Vendor\AxeWP\GraphQL\Abstracts\ObjectType;
 
 /**
  * Class - FacetRangeSettings
  */
-class FacetRangeSettings extends AbstractObject {
+class FacetRangeSettings extends ObjectType {
 	/**
-	 * Type registered in WPGraphQL.
-	 *
-	 * @var string
+	 * {@inheritDoc}
 	 */
-	public static $type = 'FacetRangeSettings';
+	public static function type_name() : string {
+		return 'FacetRangeSettings';
+	}
 
 	/**
 	 * {@inheritDoc}

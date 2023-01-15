@@ -1,6 +1,6 @@
 <?php
 /**
- * Registers individual facetsto the GraphQL schema.
+ * Registers individual facets to the GraphQL schema.
  *
  * @package WPGraphQL\FacetWP\Registry
  * @since 0.4.0
@@ -10,12 +10,13 @@ namespace WPGraphQL\FacetWP\Registry;
 
 use WPGraphQL\Connection\PostObjects;
 use WPGraphQL\Data\Connection\PostObjectConnectionResolver;
+use WPGraphQL\FacetWP\Interfaces\Initializable;
 use WPGraphQL\FacetWP\Type\Input;
 
 /**
  * Class - FacetRegistry
  */
-class FacetRegistry {
+class FacetRegistry implements Initializable {
 
 	/**
 	 * The facet configs to register to WPGraphQL
@@ -23,6 +24,13 @@ class FacetRegistry {
 	 * @var ?array
 	 */
 	protected static $facets;
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public static function init() : void {
+		add_action( 'graphql_register_types', [ __CLASS__, 'register_facets' ] );
+	}
 
 	/**
 	 * Gets the facet configs to be registered to WPGraphQL.
@@ -80,22 +88,22 @@ class FacetRegistry {
 				break;
 			case 'date_range':
 				// Custom payload.
-				$type = Input\DateRangeArgs::$type;
+				$type = Input\DateRangeArgs::get_type_name();
 
 				break;
 			case 'number_range':
 				// Custom payload.
-				$type = Input\NumberRangeArgs::$type;
+				$type = Input\NumberRangeArgs::get_type_name();
 
 				break;
 			case 'slider':
 				// Custom payload.
-				$type = Input\SliderArgs::$type;
+				$type = Input\SliderArgs::get_type_name();
 
 				break;
 			case 'proximity':
 				// Custom payload.
-				$type = Input\ProximityArgs::$type;
+				$type = Input\ProximityArgs::get_type_name();
 
 				break;
 			case 'rating':

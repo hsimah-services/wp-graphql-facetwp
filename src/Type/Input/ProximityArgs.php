@@ -9,18 +9,18 @@
 namespace WPGraphQL\FacetWP\Type\Input;
 
 use WPGraphQL\FacetWP\Type\Enum\ProximityRadiusOptions;
-use WPGraphQL\FacetWP\Type\Input\AbstractInput;
+use WPGraphQL\FacetWP\Vendor\AxeWP\GraphQL\Abstracts\InputType;
 
 /**
  * Class - ProximityArgs
  */
-class ProximityArgs extends AbstractInput {
+class ProximityArgs extends InputType {
 	/**
-	 * Type registered in WPGraphQL.
-	 *
-	 * @var string
+	 * {@inheritDoc}
 	 */
-	public static $type = 'FacetProximityArgs';
+	public static function type_name() : string {
+		return 'FacetProximityArgs';
+	}
 
 	/**
 	 * {@inheritDoc}
@@ -35,16 +35,20 @@ class ProximityArgs extends AbstractInput {
 	public static function get_fields() : array {
 		return [
 			'chosenRadius' => [
-				'type' => ProximityRadiusOptions::$type,
+				'type'        => ProximityRadiusOptions::get_type_name(),
+				'description' => __( 'The chosen radius from the location.', 'wpgraphql-facetwp' ),
 			],
 			'latitude'     => [
-				'type' => 'Float',
+				'type'        => 'Float',
+				'description' => __( 'The latitude of the location.', 'wpgraphql-facetwp' ),
 			],
 			'locationName' => [
-				'type' => 'String',
+				'type'        => 'String',
+				'description' => __( 'The name of the location.', 'wpgraphql-facetwp' ),
 			],
 			'longitude'    => [
-				'type' => 'Float',
+				'type'        => 'Float',
+				'description' => __( 'The longitude of the location.', 'wpgraphql-facetwp' ),
 			],
 		];
 	}
