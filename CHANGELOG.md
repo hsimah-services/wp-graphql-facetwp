@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- dev!: Refactor GraphQL type classes to use `axepress/wp-graphql-plugin-boilerplate`.
 - tests: backfill tests for `Main` class.
 
 ## v0.4.1
