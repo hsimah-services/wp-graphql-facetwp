@@ -10,13 +10,12 @@ namespace WPGraphQL\FacetWP\Registry;
 
 use WPGraphQL\Connection\PostObjects;
 use WPGraphQL\Data\Connection\PostObjectConnectionResolver;
-use WPGraphQL\FacetWP\Interfaces\Initializable;
 use WPGraphQL\FacetWP\Type\Input;
 
 /**
  * Class - FacetRegistry
  */
-class FacetRegistry implements Initializable {
+class FacetRegistry {
 
 	/**
 	 * The facet configs to register to WPGraphQL
@@ -24,13 +23,6 @@ class FacetRegistry implements Initializable {
 	 * @var ?array
 	 */
 	protected static $facets;
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public static function init() : void {
-		add_action( 'graphql_register_types', [ __CLASS__, 'register_facets' ] );
-	}
 
 	/**
 	 * Gets the facet configs to be registered to WPGraphQL.
@@ -599,6 +591,7 @@ class FacetRegistry implements Initializable {
 			}
 		}
 	}
+
 
 	/**
 	 * Whether to use WPGraphQL Pagination
