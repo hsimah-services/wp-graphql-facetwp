@@ -138,7 +138,7 @@ if ( ! function_exists( 'graphql_facetwp_init' ) ) {
 	}
 }
 
-add_action( 'graphql_init', 'graphql_facetwp_init' );
+add_action( 'facetwp_init', 'graphql_facetwp_init' );
 
 
 add_filter(
