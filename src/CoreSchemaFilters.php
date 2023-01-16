@@ -8,12 +8,12 @@
 
 namespace WPGraphQL\FacetWP;
 
-use WPGraphQL\FacetWP\Interfaces\Initializable;
+use WPGraphQL\FacetWP\Vendor\AxeWP\GraphQL\Interfaces\Registrable;
 
 /**
  * Class - CoreSchemaFilters
  */
-class CoreSchemaFilters implements Initializable {
+class CoreSchemaFilters implements Registrable {
 	/**
 	 * {@inheritDoc}
 	 */
