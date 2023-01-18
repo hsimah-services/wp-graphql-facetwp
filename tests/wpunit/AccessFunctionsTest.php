@@ -1,6 +1,7 @@
 <?php
 
 use Tests\WPGraphQL\FacetWP\TestCase\FWPGraphQLTestCase;
+use WPGraphQL\Type\WPEnumType;
 
 /**
  * Tests access functons
@@ -17,6 +18,8 @@ class AccessFunctionsTest extends FWPGraphQLTestCase {
 		$settings                                 = get_option( 'graphql_general_settings' );
 		$settings['public_introspection_enabled'] = 'on';
 		update_option( 'graphql_general_settings', $settings );
+
+		$this->clearFacets();
 	}
 
 	/**
@@ -24,6 +27,8 @@ class AccessFunctionsTest extends FWPGraphQLTestCase {
 	 */
 	public function tearDown(): void {
 		delete_option( 'graphql_general_settings' );
+
+		$this->clearFacets();
 
 		parent::tearDown();
 	}
@@ -194,7 +199,7 @@ class AccessFunctionsTest extends FWPGraphQLTestCase {
 										$this->expectedField( 'count', 5 ),
 									]
 								),
-								$this->expectedField( 'type', 'checkboxes' ),
+								$this->expectedField( 'type', WPEnumType::get_safe_name( $expected['type']) ),
 								$this->expectedObject(
 									'settings',
 									[
