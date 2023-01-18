@@ -49,6 +49,7 @@ class TypeRegistry implements Registrable {
 		// Enums to register.
 		$classes_to_register = [
 			Enum\ProximityRadiusOptions::class,
+			Enum\FacetTypeEnum::class,
 			Enum\SortOptionsEnum::class,
 		];
 
@@ -119,6 +120,7 @@ class TypeRegistry implements Registrable {
 			WPObject\FacetSortOptionSetting::class,
 			WPObject\FacetSettings::class,
 			WPObject\Facet::class,
+			WPObject\FacetObjects::class,
 		];
 
 		/**

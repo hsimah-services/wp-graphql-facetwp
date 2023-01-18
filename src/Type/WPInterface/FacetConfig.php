@@ -7,6 +7,7 @@
 
 namespace WPGraphQL\FacetWP\Type\WPInterface;
 
+use WPGraphQL\FacetWP\Type\Enum\FacetTypeEnum;
 use WPGraphQL\FacetWP\Type\WPObject\FacetChoice;
 use WPGraphQL\FacetWP\Type\WPObject\FacetSettings;
 use WPGraphQL\FacetWP\Vendor\AxeWP\GraphQL\Abstracts\InterfaceType;
@@ -55,10 +56,9 @@ class FacetConfig extends InterfaceType {
 				'type'        => FacetSettings::get_type_name(),
 				'description' => __( 'Facet settings', 'wpgraphql-facetwp' ),
 			],
-			// @todo change to Enum
 			'type'     => [
-				'type'        => 'String',
-				'description' => __( 'Facet type', 'wpgraphql-facetwp' ),
+				'type'        => FacetTypeEnum::get_type_name(),
+				'description' => __( 'Facet type.', 'wpgraphql-facetwp' ),
 			],
 		];
 	}
