@@ -70,6 +70,7 @@ class TypeRegistry implements Registrable {
 	 */
 	private static function inputs(): array {
 		$classes_to_register = [
+			Input\FacetsInput::class,
 			Input\DateRangeArgs::class,
 			Input\NumberRangeArgs::class,
 			Input\ProximityArgs::class,
@@ -94,6 +95,7 @@ class TypeRegistry implements Registrable {
 	private static function interfaces(): array {
 		$classes_to_register = [
 			WPInterface\FacetConfig::class,
+			WPInterface\NodeWithFacets::class,
 		];
 
 		/**

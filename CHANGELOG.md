@@ -1,6 +1,8 @@
 # Changelog
 
 ## Unreleased
+- feat: Add Facets as `FacetsInput` where args on `RootQuery` connections to post types.
+- feat!: Change `Facet.type` from type `String` to type `FacetTypeEnum`.
 
 ## v0.4.4
 
