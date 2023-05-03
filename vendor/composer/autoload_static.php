@@ -61,6 +61,7 @@ class ComposerStaticInit94ba7081fc2468f9e563a32da84c1218
         'WPGraphQL\\FacetWP\\Type\\Input\\NumberRangeArgs' => __DIR__ . '/../..' . '/src/Type/Input/NumberRangeArgs.php',
         'WPGraphQL\\FacetWP\\Type\\Input\\ProximityArgs' => __DIR__ . '/../..' . '/src/Type/Input/ProximityArgs.php',
         'WPGraphQL\\FacetWP\\Type\\Input\\SliderArgs' => __DIR__ . '/../..' . '/src/Type/Input/SliderArgs.php',
+        'WPGraphQL\\FacetWP\\Type\\WPInterface\\FacetConfig' => __DIR__ . '/../..' . '/src/Type/WPInterface/FacetConfig.php',
         'WPGraphQL\\FacetWP\\Type\\WPObject\\Facet' => __DIR__ . '/../..' . '/src/Type/WPObject/Facet.php',
         'WPGraphQL\\FacetWP\\Type\\WPObject\\FacetChoice' => __DIR__ . '/../..' . '/src/Type/WPObject/FacetChoice.php',
         'WPGraphQL\\FacetWP\\Type\\WPObject\\FacetPager' => __DIR__ . '/../..' . '/src/Type/WPObject/FacetPager.php',

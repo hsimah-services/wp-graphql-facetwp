@@ -11,6 +11,7 @@ namespace WPGraphQL\FacetWP\Registry;
 use Exception;
 use WPGraphQL\FacetWP\Type\Enum;
 use WPGraphQL\FacetWP\Type\Input;
+use WPGraphQL\FacetWP\Type\WPInterface;
 use WPGraphQL\FacetWP\Type\WPObject;
 use WPGraphQL\FacetWP\Vendor\AxeWP\GraphQL\Interfaces\Registrable;
 
@@ -32,6 +33,7 @@ class TypeRegistry implements Registrable {
 		$classes_to_register = array_merge(
 			self::enums(),
 			self::inputs(),
+			self::interfaces(),
 			self::objects()
 		);
 
@@ -76,6 +78,24 @@ class TypeRegistry implements Registrable {
 		 * @param array           $classes_to_register Array of classes to be registered to the schema.
 		 */
 		return apply_filters( 'graphql_facetwp_registered_input_classes', $classes_to_register );
+	}
+
+	/**
+	 * List of Interface classes to register.
+	 */
+	private static function interfaces() : array {
+		$classes_to_register = [
+			WPInterface\FacetConfig::class,
+		];
+
+		/**
+		 * Filters the list of interface classes to register.
+		 *
+		 * Useful for adding/removing FacetWP specific inputs to the schema.
+		 *
+		 * @param array           $classes_to_register Array of classes to be registered to the schema.
+		 */
+		return apply_filters( 'graphql_facetwp_registered_interface_classes', $classes_to_register );
 	}
 
 		/**

@@ -34,6 +34,7 @@ return array(
     'WPGraphQL\\FacetWP\\Type\\Input\\NumberRangeArgs' => $baseDir . '/src/Type/Input/NumberRangeArgs.php',
     'WPGraphQL\\FacetWP\\Type\\Input\\ProximityArgs' => $baseDir . '/src/Type/Input/ProximityArgs.php',
     'WPGraphQL\\FacetWP\\Type\\Input\\SliderArgs' => $baseDir . '/src/Type/Input/SliderArgs.php',
+    'WPGraphQL\\FacetWP\\Type\\WPInterface\\FacetConfig' => $baseDir . '/src/Type/WPInterface/FacetConfig.php',
     'WPGraphQL\\FacetWP\\Type\\WPObject\\Facet' => $baseDir . '/src/Type/WPObject/Facet.php',
     'WPGraphQL\\FacetWP\\Type\\WPObject\\FacetChoice' => $baseDir . '/src/Type/WPObject/FacetChoice.php',
     'WPGraphQL\\FacetWP\\Type\\WPObject\\FacetPager' => $baseDir . '/src/Type/WPObject/FacetPager.php',
