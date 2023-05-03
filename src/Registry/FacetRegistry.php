@@ -172,7 +172,7 @@ class FacetRegistry {
 				'type'        => $field,
 				'description' => sprintf(
 					// translators: The GraphQL singular type name.
-					__( '%s FacetWP Query', 'wpgraphql-facetwp' ),
+					__( 'The %s FacetWP Query', 'wpgraphql-facetwp' ),
 					$singular
 				),
 				'args'        => [
@@ -355,16 +355,19 @@ class FacetRegistry {
 
 		$where_fields = [
 			'status' => [
-				'type' => 'PostStatusEnum',
+				'type'        => 'PostStatusEnum',
+				'description' => __( 'The post status.', 'wpgraphql-facetwp' ),
 			],
 			'query'  => [
-				'type' => 'FacetQueryArgs',
+				'type'        => 'FacetQueryArgs',
+				'description' => __( 'The FacetWP query args.', 'wpgraphql-facetwp' ),
 			],
 		];
 
 		if ( ! $use_graphql_pagination ) {
 			$where_fields['pager'] = [
-				'type' => $field . 'Pager',
+				'type'        => $field . 'Pager',
+				'description' => __( 'The FacetWP pager args.', 'wpgraphql-facetwp' ),
 			];
 		}
 
@@ -394,15 +397,15 @@ class FacetRegistry {
 
 		$fields = [
 			'facets' => [
-				'type' => [
-					'list_of' => 'Facet',
-				],
+				'type'        => [ 'list_of' => 'Facet' ],
+				'description' => __( 'The facets for this query.', 'wpgraphql-facetwp' ),
 			],
 		];
 
 		if ( ! $use_graphql_pagination ) {
 			$fields['pager'] = [
-				'type' => 'FacetPager',
+				'type'        => 'FacetPager',
+				'description' => __( 'The FacetWP pager for this query.', 'wpgraphql-facetwp' ),
 			];
 		}
 
