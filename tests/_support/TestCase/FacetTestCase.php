@@ -4,13 +4,11 @@
  *
  * For testing individual facets in WPGraphQL.
  *
- * @since @todo
+ * @since 0.4.2
  * @package Tests\WPGraphQL\FacetWP\TestCase
  */
 
 namespace Tests\WPGraphQL\FacetWP\TestCase;
-
-use ReflectionClass;
 
 /**
  * Class - FacetTestCase

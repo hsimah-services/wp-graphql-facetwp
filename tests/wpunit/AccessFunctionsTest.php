@@ -77,7 +77,7 @@ class AccessFunctionsTest extends FWPGraphQLTestCase {
 		// Register facet.
 		register_graphql_facet_type( 'post' );
 
-// Query for fields registered to FacetQueryArgs
+		// Query for fields registered to FacetQueryArgs
 		$query = '
 			query GetFacetQueryArgs{
 				__type(name: "FacetQueryArgs") {
