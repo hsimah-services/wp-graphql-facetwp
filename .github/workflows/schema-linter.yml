@@ -58,6 +58,11 @@ jobs:
           cp .env.dist .env
           echo GIT_TOKEN=${{ secrets.GIT_TOKEN }} >> .env
           composer run install-test-env
+      
+      - name: Register Facet to WPGraphQL
+        run: |
+          mkdir -p /tmp/wordpress/wp-content/mu-plugins/
+          echo "<?php add_action( 'graphql_register_types', function () { register_graphql_facet_type( 'post' ); } );" > /tmp/wordpress/wp-content/mu-plugins/test-facet.php
 
       - name: Generate the Static Schema
         run: |

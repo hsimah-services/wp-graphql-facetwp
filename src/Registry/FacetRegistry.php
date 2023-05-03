@@ -26,6 +26,8 @@ class FacetRegistry {
 
 	/**
 	 * Gets the facet configs to be registered to WPGraphQL.
+	 *
+	 * @since 0.4.1
 	 */
 	public static function get_allowed_facets() : array {
 		if ( ! isset( self::$facets ) ) {
@@ -272,6 +274,45 @@ class FacetRegistry {
 
 		$facets = self::get_allowed_facets();
 
+		$field_configs = array_reduce(
+			$facets,
+			function ( $prev, $cur ) {
+				if ( empty( $cur['graphql_field_name'] ) ) {
+					return $prev;
+				}
+
+				// Add the field config.
+				$prev[ $cur['graphql_field_name'] ] = [
+					'type'        => $cur['graphql_type'],
+					'description' => sprintf(
+						// translators: The current Facet label.
+						__( '%s facet query', 'wpgraphql-facetwp' ),
+						$cur['label']
+					),
+				];
+
+				// Maybe add the deprecate type name.
+				if ( $cur['name'] !== $cur['graphql_field_name'] ) {
+					$prev[ $cur['name'] ] = [
+						'type'              => $cur['graphql_type'],
+						'description'       => sprintf(
+							// translators: The current Facet label.
+							__( 'DEPRECATED since 0.4.1', 'wpgraphql-facetwp' ),
+							$cur['label']
+						),
+						'deprecationReason' => sprintf(
+							// translators: The the GraphQL field name.
+							__( 'Use %s instead.', 'wpgraphql-facetwp' ),
+							$cur['graphql_field_name']
+						),
+					];
+				}
+
+				return $prev;
+			},
+			[]
+		);
+
 		register_graphql_input_type(
 			'FacetQueryArgs',
 			[
@@ -280,44 +321,7 @@ class FacetRegistry {
 					__( 'Seleted facets for %s query', 'wpgraphql-facetwp' ),
 					$field
 				),
-				'fields'      => array_reduce(
-					$facets,
-					function ( $prev, $cur ) {
-						if ( empty( $cur['graphql_field_name'] ) ) {
-							return $prev;
-						}
-
-						// Add the field config.
-						$prev[ $cur['graphql_field_name'] ] = [
-							'type'        => $cur['graphql_type'],
-							'description' => sprintf(
-								// translators: The current Facet label.
-								__( '%s facet query', 'wpgraphql-facetwp' ),
-								$cur['label']
-							),
-						];
-
-						// Maybe add the deprecate type name.
-						if ( $cur['name'] !== $cur['graphql_field_name'] ) {
-							$prev[ $cur['name'] ] = [
-								'type'              => $cur['graphql_type'],
-								'description'       => sprintf(
-									// translators: The current Facet label.
-									__( 'DEPRECATED since 0.4.1', 'wpgraphql-facetwp' ),
-									$cur['label']
-								),
-								'deprecationReason' => sprintf(
-									// translators: The the GraphQL field name.
-									__( 'Use %s instead.', 'wpgraphql-facetwp' ),
-									$cur['graphql_field_name']
-								),
-							];
-						}
-
-						return $prev;
-					},
-					[]
-				),
+				'fields'      => $field_configs,
 			]
 		);
 

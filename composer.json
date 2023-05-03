@@ -80,8 +80,7 @@
 		"wp-graphql/wp-graphql-testcase": "~2.3",
 		"wp-cli/wp-cli-bundle": "^2.6",
 		"php-coveralls/php-coveralls": "^2.5",
-		"axepress/wp-graphql-stubs": "^1.13",
-		"brianhenryie/strauss": "^0.13.0"
+		"axepress/wp-graphql-stubs": "^1.13"
 	},
 	"scripts": {
 		"install-test-env": "bash bin/install-test-env.sh",

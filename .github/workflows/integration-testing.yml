@@ -106,19 +106,19 @@ jobs:
       #     echo GIT_TOKEN=${{ secrets.GIT_TOKEN }} >> .env
       #     composer run-test
 
-      # - name: Run WPUnit Tests w/ Docker
-      #   env:
-      #     COVERAGE: ${{ matrix.coverage }}
-      #     USING_XDEBUG: ${{ matrix.coverage }}
-      #     DEBUG: ${{ secrets.ACTIONS_STEP_DEBUG || matrix.debug }}
-      #     SKIP_TESTS_CLEANUP: ${{ matrix.coverage }}
-      #     PHP_VERSION: ${{ matrix.php }}
-      #     WP_VERSION: ${{ matrix.wordpress }}
-      #     GIT_TOKEN: ${{ secrets.GIT_TOKEN }}
-      #   run: |
-      #     cp .env.dist .env
-      #     echo GIT_TOKEN=${{ secrets.GIT_TOKEN }} >> .env
-      #     composer run-test
+      - name: Run WPUnit Tests w/ Docker
+        env:
+          COVERAGE: ${{ matrix.coverage }}
+          USING_XDEBUG: ${{ matrix.coverage }}
+          DEBUG: ${{ secrets.ACTIONS_STEP_DEBUG || matrix.debug }}
+          SKIP_TESTS_CLEANUP: ${{ matrix.coverage }}
+          PHP_VERSION: ${{ matrix.php }}
+          WP_VERSION: ${{ matrix.wordpress }}
+          GIT_TOKEN: ${{ secrets.GIT_TOKEN }}
+        run: |
+          cp .env.dist .env
+          echo GIT_TOKEN=${{ secrets.GIT_TOKEN }} >> .env
+          composer run-test
 
       - name: Push Codecoverage to Coveralls.io
         if: ${{ matrix.coverage == 1 }}
