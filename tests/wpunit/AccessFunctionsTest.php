@@ -6,6 +6,8 @@ use Tests\WPGraphQL\FacetWP\TestCase\FWPGraphQLTestCase;
  * Tests access functons
  */
 class AccessFunctionsTest extends FWPGraphQLTestCase {
+	protected $tester;
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -58,11 +60,45 @@ class AccessFunctionsTest extends FWPGraphQLTestCase {
 			]
 		);
 
+		$config = array_merge(
+			$this->tester->get_default_checkbox_facet_args(),
+			[
+				'name' => 'categories',
+				'label' => 'Categories',
+				'source' => 'tax/category',
+			]
+		);
+
+		$this->register_facet( $config );
+
 		// Run indexer.
 		FWP()->indexer->index();
 
 		// Register facet.
 		register_graphql_facet_type( 'post' );
+
+// Query for fields registered to FacetQueryArgs
+		$query = '
+			query GetFacetQueryArgs{
+				__type(name: "FacetQueryArgs") {
+					inputFields {
+						name
+						type {
+							name
+							kind
+							ofType {
+								name
+								kind
+							}
+						}
+					}
+				}
+			}
+		';
+
+		$actual = $this->graphql( compact( 'query' ) );
+
+		$expected = get_graphql_allowed_facets()[0];
 
 		$query = '
 			query GetPostsByFacet($query: FacetQueryArgs ) {
@@ -129,7 +165,7 @@ class AccessFunctionsTest extends FWPGraphQLTestCase {
 
 		$variables = [
 			'query' => [
-				'categories' => [ 'category-one' ],
+				$expected['graphql_field_name'] => [ 'category-one' ],
 			],
 		];
 
@@ -148,8 +184,8 @@ class AccessFunctionsTest extends FWPGraphQLTestCase {
 							'facets',
 							[
 								$this->expectedField( 'selected', [ 'category-one' ] ),
-								$this->expectedField( 'name', 'categories' ),
-								$this->expectedField( 'label', 'Categories' ),
+								$this->expectedField( 'name', $expected['name'] ),
+								$this->expectedField( 'label', $expected['label'] ),
 								$this->expectedNode(
 									'choices',
 									[
@@ -162,7 +198,7 @@ class AccessFunctionsTest extends FWPGraphQLTestCase {
 								$this->expectedObject(
 									'settings',
 									[
-										$this->expectedField( 'showExpanded', 'no' ),
+										$this->expectedField( 'showExpanded', $expected['show_expanded'] ),
 									]
 								),
 							],
@@ -190,6 +226,10 @@ class AccessFunctionsTest extends FWPGraphQLTestCase {
 		foreach ( $posts_nodes_categories as $node ) {
 			$this->assertEquals( $term_one_id, $node['nodes'][0]['databaseId'] );
 		}
+
+		// Cleanup
+		wp_delete_term( $term_one_id, 'category' );
+		wp_delete_term( $term_two_id, 'category' );
 	}
 
 	public function testGetGraphqlAllowedFacets() {

@@ -2,7 +2,7 @@
 
 class ActivationCest {
 	// tests
-	public function testActivation( AcceptanceTesterActions $I ) {
+	public function testActivation( AcceptanceTester $I ) {
 		$pluginSlug = 'wpgraphql-for-facetwp';
 
 		$I->wantTo( 'activate and deactivate the plugin correctly' );

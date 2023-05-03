@@ -21,6 +21,10 @@ class FWPGraphQLTestCase extends \Tests\WPGraphQL\TestCase\WPGraphQLTestCase {
 	 */
 	public function setUp() : void {
 		parent::setUp();
+		$this->clearFacets();
+		$this->clearSchema();
+
+		unset( FWP()->helper->term_cache );
 	}
 
 	/**
@@ -29,6 +33,10 @@ class FWPGraphQLTestCase extends \Tests\WPGraphQL\TestCase\WPGraphQLTestCase {
 	public function tearDown(): void {
 		$this->clearFacets();
 		$this->clearSchema();
+
+		unset( FWP()->helper->term_cache );
+		FWP()->indexer->index();
+
 		// Then...
 		parent::tearDown();
 	}
@@ -42,7 +50,8 @@ class FWPGraphQLTestCase extends \Tests\WPGraphQL\TestCase\WPGraphQLTestCase {
 	}
 
 	public function clearFacets() : void {
-		unset( FWP()->helper->settings['facets'] );
+		FWP()->helper->settings['facets'] = [];
+		unset( FWP()->facet->facets );
 
 		// Clear the FacetRegistry::$facets property.
 		$facets_property = new ReflectionProperty( 'WPGraphQL\FacetWP\Registry\FacetRegistry', 'facets' );

@@ -5,7 +5,7 @@ namespace _generated;
 // You should not change it manually as it will be overwritten on next build
 // @codingStandardsIgnoreFile
 
-trait AcceptanceTesterActionsActions
+trait AcceptanceTesterActions
 {
     /**
      * @return \Codeception\Scenario

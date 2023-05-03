@@ -140,7 +140,6 @@ if ( ! function_exists( 'graphql_facetwp_init' ) ) {
 
 add_action( 'facetwp_init', 'graphql_facetwp_init' );
 
-
 add_filter(
 	'facetwp_graphql_facet_connection_config',
 	function ( array $default_graphql_config ) {

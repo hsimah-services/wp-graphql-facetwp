@@ -1,30 +1,12 @@
 <?php
+namespace Helper;
 
+// here you can define custom actions
+// all public methods declared in helper class will be available in $I
 
-/**
- * Inherited Methods
- *
- * @method void wantToTest($text)
- * @method void wantTo($text)
- * @method void execute($callable)
- * @method void expectTo($prediction)
- * @method void expect($prediction)
- * @method void amGoingTo($argumentation)
- * @method void am($role)
- * @method void lookForwardTo($achieveValue)
- * @method void comment($description)
- * @method void pause()
- *
- * @SuppressWarnings(PHPMD)
- */
-class WpunitTesterActions extends \Codeception\Actor {
-
-	use _generated\WpunitTesterActionsActions;
-
-	/**
-	 * Define custom actions here
-	 */
-
+class Wpunit extends \Codeception\Module
+{
+	
 	/**
 	 * Get the default checkbox facet args.
 	 */

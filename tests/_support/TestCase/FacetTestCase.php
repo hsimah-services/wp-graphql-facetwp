@@ -10,9 +10,25 @@
 
 namespace Tests\WPGraphQL\FacetWP\TestCase;
 
+use ReflectionClass;
+
 /**
  * Class - FacetTestCase
  */
 class FacetTestCase extends FWPGraphQLTestCase {
+	/**
+	 * Creates users and loads factories.
+	 */
+	public function setUp() : void {
+		parent::setUp();
+	}
 
+	
+	/**
+	 * Post test tear down.
+	 */
+	public function tearDown(): void {
+		// Then...
+		parent::tearDown();
+	}
 }
