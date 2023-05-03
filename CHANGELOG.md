@@ -5,6 +5,7 @@
 - dev!: Refactor GraphQL type classes to use `axepress/wp-graphql-plugin-boilerplate`.
 - dev!: Remove unused PHP interfaces.
 - tests: Backfill tests for `Main` class.
+- ci: Test against WordPress 6.2.
 - chore: Stub `FacetWP_Facet` class properties.
 - chore: Update composer dev deps.
 
