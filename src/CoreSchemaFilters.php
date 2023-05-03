@@ -3,7 +3,7 @@
  * Adds filters that modify core schema.
  *
  * @package WPGraphQL\FacetWP
- * @since   @todo
+ * @since   0.4.1
  */
 
 namespace WPGraphQL\FacetWP;

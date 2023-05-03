@@ -1,18 +1,22 @@
 # Changelog
 
 ## Unreleased
+
+## v0.4.2
+
+This _minor_ release lays the groundwork for the upcoming Facet autoregistration / official Sort Facet support. It introduces a new `FacetConfig` interface, which is implemented by the `Facet` object. Additionally, we adopted the use of WPGraphQL Plugin Boilerplate to scaffold our PHP classes, updated our Composer dev dependencies, and started testing against WordPress 6.2 and running WPUnit tests as part of our CI workflow.
+
 - feat: Change `Facet` object to implement new `FacetConfig` interface.
 - fix: Add missing descriptions to GraphQL types.
-- dev: Initialize plugin using `facetwp_init` hook.
 - dev!: Refactor GraphQL type classes to use `axepress/wp-graphql-plugin-boilerplate`.
 - dev!: Remove unused PHP interfaces.
+- dev: Initialize plugin using `facetwp_init` hook.
 - chore: Build `FacetQueryArgs` config before calling the registration method.
 - chore: Stub `FacetWP_Facet` class properties.
 - chore: Update Composer dev deps.
-- chore: Update Strauss to v0.14.0, and move the `strauss.phar` out of the repository.
-- chore: Relocate prefixed deps from `src/vendor` to `vendor-prefixed`. 
-- tests: Refactor and enable WPUnit tests.
+- chore: Implement Strauss to namespace PHP dependencies.
 - chore: Fix doc reference and internal usage of `register_graphql_facet_type()` function to be called on `graphql_facetwp_init` hook.
+- tests: Refactor and enable WPUnit tests.
 - ci: Test against WordPress 6.2.
 - ci: Register test post facet so `graphql-schema-linter` generates a valid schema.
 - ci: Run GitHub workflows on `push` events to `main` or `develop` branches.
