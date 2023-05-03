@@ -17,10 +17,13 @@ parameters:
 			- src/
 		excludePaths:
 			analyse:
-				- src/vendor
+				- vendor-prefixed
 			analyseAndScan:
 				- ../wp-graphql/tests
 		scanDirectories:
-			- src/vendor/
 			- ../wp-graphql/
 			- ../facetwp/
+		ignoreErrors:
+			-
+				message: '#Static method WPGraphQL\\FacetWP\\Registry\\FacetRegistry::register_facet_settings\(\) is unused\.#'
+				path: src/Registry/FacetRegistry.php

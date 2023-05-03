@@ -592,7 +592,6 @@ class FacetRegistry {
 		}
 	}
 
-
 	/**
 	 * Whether to use WPGraphQL Pagination
 	 *
