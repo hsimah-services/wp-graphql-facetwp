@@ -62,11 +62,6 @@ jobs:
       - name: Register Facet to WPGraphQL
         run: |
           mkdir -p /tmp/wordpress/wp-content/mu-plugins/
-          echo "<?php add_action( 'graphql_register_types', function () { register_graphql_facet_type( 'post' ); } );" > /tmp/wordpress/wp-content/mu-plugins/test-facet.php
-
-      - name: Register post Facet
-        run: |
-          mkdir -p /tmp/wordpress/wp-content/mu-plugins/
           echo "<?php add_action( 'graphql_facetwp_init', function () { register_graphql_facet_type( 'post' ); } );" > /tmp/wordpress/wp-content/mu-plugins/test-facet.php
 
       - name: Generate the Static Schema
@@ -77,7 +72,7 @@ jobs:
 
       - name: Lint the Static Schema
         run: |
-          graphql-schema-linter --except=relay-connection-types-spec,relay-page-info-spec --ignore '{"defined-types-are-used":["MenuItemsWhereArgs","PostObjectUnion","TermObjectUnion","TimezoneEnum"], "fields-have-descriptions":["WPGatsbyCompatibility","WPGatsbyPageNode","WPGatsbyPreviewStatus"], "enum-values-have-descriptions":["WPGatsbyRemotePreviewStatusEnum","WPGatsbyWPPreviewedNodeStatus"]}' /tmp/schema.graphql
+          graphql-schema-linter --except=relay-connection-types-spec,relay-page-info-spec --ignore '{"defined-types-are-used":["MenuItemsWhereArgs","PostObjectUnion","TermObjectUnion","TimezoneEnum"], "fields-have-descriptions":["WPGatsbyCompatibility","WPGatsbyPageNode","WPGatsbyPreviewStatus"], "enum-values-have-descriptions":["WPGatsbyRemotePreviewStatusEnum","WPGatsbyWPPreviewedNodeStatus"], "fields-are-camel-cased":["FacetPager"], "input-object-values-are-camel-cased":["PostFacetPager"]}' /tmp/schema.graphql
 
       - name: Display ignored linting errors
         run: |
