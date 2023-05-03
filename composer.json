@@ -55,7 +55,7 @@
 	},
 	"require": {
 		"php": ">=7.4, <=8.1",
-		"axepress/wp-graphql-plugin-boilerplate": "0.0.6"
+		"axepress/wp-graphql-plugin-boilerplate": "0.0.8"
 	},
 	"require-dev": {
 		"codeception/lib-innerbrowser": "^1.0",

@@ -24,12 +24,12 @@ if ( ! class_exists( '\WPGraphQL\FacetWP\Vendor\AxeWP\GraphQL\Abstracts\Interfac
 		 *
 		 * @var ?\WPGraphQL\Registry\TypeRegistry
 		 */
-		protected static $type_registry = null;
+		protected static $type_registry;
 
 		/**
 		 * {@inheritDoc}
 		 *
-		 * @param \WPGraphQL\Registry\TypeRegistry $type_registry The WPGraphQL TypeRegistry instance.
+		 * @param \WPGraphQL\Registry\TypeRegistry|null $type_registry The WPGraphQL TypeRegistry instance.
 		 */
 		public static function register( $type_registry = null ) : void {
 			self::$type_registry = $type_registry;

@@ -47,8 +47,6 @@ if ( ! class_exists( '\WPGraphQL\FacetWP\Vendor\AxeWP\GraphQL\Abstracts\Mutation
 
 		/**
 		 * Defines the mutation data modification closure.
-		 *
-		 * @return callable
 		 */
 		abstract public static function mutate_and_get_payload() : callable;
 

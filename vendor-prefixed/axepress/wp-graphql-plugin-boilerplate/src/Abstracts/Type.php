@@ -42,14 +42,14 @@ if ( ! class_exists( '\WPGraphQL\FacetWP\Vendor\AxeWP\GraphQL\Abstracts\Type' ) 
 
 		/**
 		 * Gets the $config array used to register the type to WPGraphQL.
+		 *
+		 * @return array<string, mixed>
 		 */
 		protected static function get_type_config() : array {
-			$config = [
+			return [
 				'description'     => static::get_description(),
 				'eagerlyLoadType' => static::should_load_eagerly(),
 			];
-
-			return $config;
 		}
 
 		/**

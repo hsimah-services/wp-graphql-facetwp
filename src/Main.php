@@ -9,6 +9,7 @@
 namespace WPGraphQL\FacetWP;
 
 use WPGraphQL\FacetWP\Registry\TypeRegistry;
+use WPGraphQL\FacetWP\Vendor\AxeWP\GraphQL\Helper\Helper;
 
 if ( ! class_exists( 'WPGraphQL\FacetWP\Main' ) ) :
 
@@ -65,6 +66,9 @@ if ( ! class_exists( 'WPGraphQL\FacetWP\Main' ) ) :
 		 * @codeCoverageIgnore
 		 */
 		private function setup() : void {
+			// Setup boilerplate hook prefix.
+			Helper::set_hook_prefix( 'graphql_facetwp' );
+
 			// Initialize plugin type registry.
 			TypeRegistry::init();
 			CoreSchemaFilters::init();

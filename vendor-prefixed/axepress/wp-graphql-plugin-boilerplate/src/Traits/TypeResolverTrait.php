@@ -26,7 +26,7 @@ if ( ! trait_exists( '\WPGraphQL\FacetWP\Vendor\AxeWP\GraphQL\Traits\TypeResolve
 		/**
 		 * The function used to resolve the Interface type in the `resolveType` callback.
 		 *
-		 * @throws Error If $type_registry is not set.
+		 * @throws \Error If $type_registry is not set.
 		 */
 		protected static function get_type_resolver() : Closure {
 			/**

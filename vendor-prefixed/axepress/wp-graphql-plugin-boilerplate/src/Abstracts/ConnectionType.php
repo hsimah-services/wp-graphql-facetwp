@@ -87,7 +87,7 @@ if ( ! class_exists( '\WPGraphQL\FacetWP\Vendor\AxeWP\GraphQL\Abstracts\Connecti
 		 * @param ?string[] $filter_by an array of specific connections to return.
 		 */
 		final public static function get_connection_args( ?array $filter_by = null ) : array {
-			$connection_args = static::get_connection_args();
+			$connection_args = static::connection_args();
 
 			if ( empty( $filter_by ) ) {
 				return $connection_args;
