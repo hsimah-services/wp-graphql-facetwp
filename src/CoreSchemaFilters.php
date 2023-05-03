@@ -24,8 +24,8 @@ class CoreSchemaFilters implements Registrable {
 		add_filter( 'graphql_facetwp_type_prefix', [ self::class, 'get_type_prefix' ] );
 
 		// Filter the ConnectionResolver to use FacetWP.
-		add_filter( 'graphql_connection_query_args', [ __CLASS__, 'filter_connection_query_args' ], 10, 3 );
-		add_filter( 'graphql_connection_query', [ __CLASS__, 'filter_connection_query' ], 10, 2 );
+		add_filter( 'graphql_connection_query_args', [ self::class, 'filter_connection_query_args' ], 10, 3 );
+		add_filter( 'graphql_connection_query', [ self::class, 'filter_connection_query' ], 10, 2 );
 	}
 
 	/**
@@ -38,11 +38,13 @@ class CoreSchemaFilters implements Registrable {
 	/**
 	 * Filters connection query args.
 	 *
-	 * @param array                                                 $query_args Query args.
+	 * @param array<string,mixed>                                   $query_args Query args.
 	 * @param \WPGraphQL\Data\Connection\AbstractConnectionResolver $connection_resolver Connection resolver.
-	 * @param array                                                 $args       Connection args.
+	 * @param array<string,mixed>                                   $args       Connection args.
+	 *
+	 * @return array<string,mixed>
 	 */
-	public static function filter_connection_query_args( array $query_args, AbstractConnectionResolver $connection_resolver, array $args ) : array {
+	public static function filter_connection_query_args( array $query_args, AbstractConnectionResolver $connection_resolver, array $args ): array {
 		if ( empty( $args['where']['facets'] ) ) {
 			return $query_args;
 		}
@@ -65,8 +67,8 @@ class CoreSchemaFilters implements Registrable {
 	/**
 	 * Filters the Connection Query to handle a facet with no results.
 	 *
-	 * @param mixed                      $query The query to filter.
-	 * @param AbstractConnectionResolver $resolver The resolver.
+	 * @param mixed                                                 $query The query to filter.
+	 * @param \WPGraphQL\Data\Connection\AbstractConnectionResolver $resolver The resolver.
 	 *
 	 * @return mixed|null
 	 */
@@ -89,14 +91,20 @@ class CoreSchemaFilters implements Registrable {
 	/**
 	 * Parses the facet query args from the where args provided in the GraphQL query.
 	 *
-	 * @param array $args The facet query args.
+	 * @param array<string,array<string,mixed>> $args The facet query args.
+	 *
+	 * @return array<string,mixed>
 	 */
-	protected static function parse_facet_query_args( array $args ) : array {
+	protected static function parse_facet_query_args( array $args ): array {
 		$facets = get_graphql_allowed_facets();
 
 		$facet_args = [];
 		foreach ( $args as $field_name => $value ) {
-			// If no facet has the same graphql_single_name as $field name, return.
+			/**
+			 * If the facet has a graphql_single_name, use that instead of the field name.
+			 *
+			 * @var string|false $key
+			 */ 
 			$key = array_search( $field_name, array_column( $facets, 'graphql_field_name' ), true );
 
 			if ( false === $key ) {
@@ -139,7 +147,7 @@ class CoreSchemaFilters implements Registrable {
 					}
 					break;
 				default:
-					$arg_value = apply_filters( 'facetwp_facet_query_arg_value', null, $value, $facets[ $key ]['type'], $facets[ $key ]['name'], $field_name, $args );
+					$arg_value = apply_filters( 'facetwp_facet_query_arg_value', null, $value, $facets[ $key ]['type'], $facets[ $key ]['name'], $field_name, $args ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
 
 					if ( null !== $arg_value ) {
 						$facet_args[ $facets[ $key ]['name'] ] = $arg_value;
@@ -147,6 +155,7 @@ class CoreSchemaFilters implements Registrable {
 			}
 		}
 
+		/** @var array<string,mixed> $facet_args */
 		return $facet_args;
 	}
 }

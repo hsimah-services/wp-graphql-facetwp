@@ -8,7 +8,6 @@
 
 namespace WPGraphQL\FacetWP\Type\Input;
 
-use GraphQL\Error\UserError;
 use WPGraphQL;
 use WPGraphQL\FacetWP\Vendor\AxeWP\GraphQL\Abstracts\InputType;
 
@@ -44,17 +43,18 @@ class FacetsInput extends InputType {
 			);
 		}
 	}
+
 	/**
 	 * {@inheritDoc}
 	 */
-	public static function type_name() : string {
+	public static function type_name(): string {
 		return 'FacetsInput';
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public static function get_description() : string {
+	public static function get_description(): string {
 		return __( 'Input for filtering by FacetWP facets.', 'wpgraphql-facetwp' );
 	}
 
@@ -63,7 +63,7 @@ class FacetsInput extends InputType {
 	 *
 	 * @return array
 	 */
-	public static function get_fields() : array {
+	public static function get_fields(): array {
 		$facet_configs = get_graphql_allowed_facets();
 		$fields        = [];
 
