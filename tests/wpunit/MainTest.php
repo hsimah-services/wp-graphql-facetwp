@@ -2,7 +2,7 @@
 
 use WPGraphQL\FacetWP\Main;
 
-class GFTest extends \Codeception\TestCase\WPTestCase {
+class MainTest extends \Codeception\TestCase\WPTestCase {
 	/**
 	 * @var \WpunitTesterActions
 	 */

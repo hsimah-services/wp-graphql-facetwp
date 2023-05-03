@@ -48,3 +48,6 @@ tests/*.suite.yml
 coverage/*
 build/
 .log/
+
+# Strauss installer
+bin/strauss.phar
