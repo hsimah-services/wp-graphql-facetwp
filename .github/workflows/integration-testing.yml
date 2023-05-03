@@ -19,7 +19,7 @@ jobs:
   continuous_integration:
     runs-on: ubuntu-latest
     name: WordPress ${{ matrix.wordpress }} on PHP ${{ matrix.php }}
-    if: contains(github.event.pull_request.labels.*.name, 'safe to test ✔')
+    if: contains(github.event.pull_request.labels.*.name, 'safe to test ✔') || ( github.event_name == 'push' && ( github.ref == 'refs/heads/develop' || github.ref == 'refs/heads/main' ) )
 
     strategy:
       matrix:

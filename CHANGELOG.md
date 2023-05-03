@@ -15,6 +15,7 @@
 - chore: Fix doc reference and internal usage of `register_graphql_facet_type()` function to be called on `graphql_facetwp_init` hook.
 - ci: Test against WordPress 6.2.
 - ci: Register test post facet so `graphql-schema-linter` generates a valid schema.
+- ci: Run GitHub workflows on `push` events to `main` or `develop` branches.
 - ci: Temporary ignore `graphql-schema-linter` errors from soon-to-be deprecated Types.
 
 ## v0.4.1
