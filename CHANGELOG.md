@@ -11,6 +11,7 @@
 - chore: Update Strauss to v0.14.0, and move the `strauss.phar` out of the repository.
 - chore: Relocate prefixed deps from `src/vendor` to `vendor-prefixed`. 
 - tests: Refactor and enable WPUnit tests.
+- chore: Fix doc reference and internal usage of `register_graphql_facet_type()` function to be called on `graphql_facetwp_init` hook.
 - ci: Test against WordPress 6.2.
 - ci: Register test post facet so `graphql-schema-linter` generates a valid schema.
 

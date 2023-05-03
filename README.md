@@ -57,9 +57,10 @@ Until we hit v1.0, we're using a modified version of [SemVer](https://semver.org
 **It is assumed that facets have been configured.**
 
 To register a FacetWP query in the WPGraphQL schema for a WordPress post type (eg `post`) simply call the following function:
-```
+
+```php
 // Register facet for Posts
-add_action( 'graphql_register_types', function () {
+add_action( 'graphql_facetwp_init', function () {
   register_graphql_facet_type( 'post' );
 } );
 ```
