@@ -5,7 +5,7 @@ Requires at least: 5.4.1
 Requires PHP: 7.4
 Requires FacetWP: 4.0
 Requires WPGraphQL: 1.6.0
-Tested up to: 6.1
+Tested up to: 6.2
 Stable tag: 0.4.1
 Maintained at: https://github.com/hsimah-services/wp-graphql-facetwp
 License: GPL-3

@@ -11,7 +11,7 @@
  * Requires PHP: 7.4
  * WPGraphQL requires at least: 1.6.0
  * FacetWP requires at least: 4.0
- * Tested up to: 6.0.2
+ * Tested up to: 6.2
  * License: GPL-3
  * License URI: https://www.gnu.org/licenses/gpl-3.0.html
  *
