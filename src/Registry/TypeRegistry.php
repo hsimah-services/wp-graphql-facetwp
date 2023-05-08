@@ -107,6 +107,8 @@ class TypeRegistry implements Registrable {
 			WPObject\FacetChoice::class,
 			WPObject\FacetPager::class,
 			WPObject\FacetRangeSettings::class,
+			WPObject\FacetSortOptionOrderBySetting::class,
+			WPObject\FacetSortOptionSetting::class,
 			WPObject\FacetSettings::class,
 			WPObject\Facet::class,
 		];

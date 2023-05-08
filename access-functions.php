@@ -44,3 +44,10 @@ if ( ! function_exists( 'get_graphql_allowed_facets' ) ) {
 		return FacetRegistry::get_allowed_facets();
 	}
 }
+
+if ( function_exists( 'add_action' ) ) {
+	add_action( 'graphql_facetwp_init', function() {
+		// Register the post type as a FacetWP queryable
+		register_graphql_facet_type( 'post' );
+	} );
+}

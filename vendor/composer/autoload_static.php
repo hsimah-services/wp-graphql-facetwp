@@ -68,6 +68,8 @@ class ComposerStaticInita808aacd30a48beb897daf0a9480d602
         'WPGraphQL\\FacetWP\\Type\\WPObject\\FacetPager' => __DIR__ . '/../..' . '/src/Type/WPObject/FacetPager.php',
         'WPGraphQL\\FacetWP\\Type\\WPObject\\FacetRangeSettings' => __DIR__ . '/../..' . '/src/Type/WPObject/FacetRangeSettings.php',
         'WPGraphQL\\FacetWP\\Type\\WPObject\\FacetSettings' => __DIR__ . '/../..' . '/src/Type/WPObject/FacetSettings.php',
+        'WPGraphQL\\FacetWP\\Type\\WPObject\\FacetSortOptionOrderBySetting' => __DIR__ . '/../..' . '/src/Type/WPObject/FacetSortOptionOrderBySetting.php',
+        'WPGraphQL\\FacetWP\\Type\\WPObject\\FacetSortOptionSetting' => __DIR__ . '/../..' . '/src/Type/WPObject/FacetSortOptionSetting.php',
         'WPGraphQL\\FacetWP\\Vendor\\AxeWP\\GraphQL\\Abstracts\\ConnectionType' => __DIR__ . '/../..' . '/vendor-prefixed/axepress/wp-graphql-plugin-boilerplate/src/Abstracts/ConnectionType.php',
         'WPGraphQL\\FacetWP\\Vendor\\AxeWP\\GraphQL\\Abstracts\\EnumType' => __DIR__ . '/../..' . '/vendor-prefixed/axepress/wp-graphql-plugin-boilerplate/src/Abstracts/EnumType.php',
         'WPGraphQL\\FacetWP\\Vendor\\AxeWP\\GraphQL\\Abstracts\\FieldsType' => __DIR__ . '/../..' . '/vendor-prefixed/axepress/wp-graphql-plugin-boilerplate/src/Abstracts/FieldsType.php',

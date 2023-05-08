@@ -222,10 +222,14 @@ class FacetRegistry {
 						],
 					];
 
+					// Stash the sort settings, since we don't get them from the payload.
+					$sort_settings = [];
+
 					// Apply the orderby args.
 					foreach ( $fwp_args['facets'] as $key => $facet_args ) {
 						if ( ! empty( $facet_args['sort_type'] ) ) {
 							$fwp_args['query_args'] = array_merge_recursive( $fwp_args['query_args'], $facet_args['query_args'] );
+							$sort_settings[ $key ]  = $facet_args['settings'];
 
 							$fwp_args['facets'][ $key ] = $facet_args['sort_type'];
 						}
@@ -255,8 +259,11 @@ class FacetRegistry {
 
 					// @todo helper function.
 					foreach ( $payload['facets'] as $key => $facet ) {
+						// Try to get the settings from the payload, otherwise fallback to the parsed query args.
 						if ( isset( $facet['settings'] ) ) {
 							$facet['settings'] = self::to_camel_case( $facet['settings'] );
+						} elseif ( isset( $sort_settings[ $key ] ) ) {
+							$facet['settings'] = self::to_camel_case( $sort_settings[ $key ] );
 						}
 
 						$payload['facets'][ $key ] = $facet;
@@ -545,12 +552,17 @@ class FacetRegistry {
 							break;
 
 						case 'sort':
-							$input         = $facet;
+							$input        = $facet;
+							$sort_options = self::parse_sort_facet_options( $cur );
+
 							$prev[ $name ] = [
 								'sort_type'  => $facet,
+								'settings'   => [
+									'default_label' => $cur['default_label'],
+									'sort_options'  => $cur['sort_options'],
+								],
 								'query_args' => [],
 							];
-							$sort_options  = self::parse_sort_facet_options( $cur );
 
 							if ( ! empty( $sort_options[ $facet ] ) ) {
 								$qa = $sort_options[ $facet ]['query_args'];

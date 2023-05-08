@@ -41,6 +41,8 @@ return array(
     'WPGraphQL\\FacetWP\\Type\\WPObject\\FacetPager' => $baseDir . '/src/Type/WPObject/FacetPager.php',
     'WPGraphQL\\FacetWP\\Type\\WPObject\\FacetRangeSettings' => $baseDir . '/src/Type/WPObject/FacetRangeSettings.php',
     'WPGraphQL\\FacetWP\\Type\\WPObject\\FacetSettings' => $baseDir . '/src/Type/WPObject/FacetSettings.php',
+    'WPGraphQL\\FacetWP\\Type\\WPObject\\FacetSortOptionOrderBySetting' => $baseDir . '/src/Type/WPObject/FacetSortOptionOrderBySetting.php',
+    'WPGraphQL\\FacetWP\\Type\\WPObject\\FacetSortOptionSetting' => $baseDir . '/src/Type/WPObject/FacetSortOptionSetting.php',
     'WPGraphQL\\FacetWP\\Vendor\\AxeWP\\GraphQL\\Abstracts\\ConnectionType' => $baseDir . '/vendor-prefixed/axepress/wp-graphql-plugin-boilerplate/src/Abstracts/ConnectionType.php',
     'WPGraphQL\\FacetWP\\Vendor\\AxeWP\\GraphQL\\Abstracts\\EnumType' => $baseDir . '/vendor-prefixed/axepress/wp-graphql-plugin-boilerplate/src/Abstracts/EnumType.php',
     'WPGraphQL\\FacetWP\\Vendor\\AxeWP\\GraphQL\\Abstracts\\FieldsType' => $baseDir . '/vendor-prefixed/axepress/wp-graphql-plugin-boilerplate/src/Abstracts/FieldsType.php',
