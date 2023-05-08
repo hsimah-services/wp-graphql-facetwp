@@ -10,6 +10,7 @@ namespace WPGraphQL\FacetWP\Registry;
 
 use WPGraphQL\Connection\PostObjects;
 use WPGraphQL\Data\Connection\PostObjectConnectionResolver;
+use WPGraphQL\FacetWP\Type\Enum\SortOptionsEnum;
 use WPGraphQL\FacetWP\Type\Input;
 
 /**
@@ -103,6 +104,10 @@ class FacetRegistry {
 			case 'rating':
 				// Single Int.
 				$type = 'Int';
+
+				break;
+			case 'sort':
+				$type = SortOptionsEnum::get_type_name( $config['name'] );
 
 				break;
 			case 'autocomplete':
@@ -502,6 +507,7 @@ class FacetRegistry {
 						case 'hierarchy':
 						case 'search':
 						case 'autocomplete':
+						case 'sort':
 							$prev[ $name ] = $facet;
 							break;
 						case 'slider':

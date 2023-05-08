@@ -47,6 +47,7 @@ class TypeRegistry implements Registrable {
 		// Enums to register.
 		$classes_to_register = [
 			Enum\ProximityRadiusOptions::class,
+			Enum\SortOptionsEnum::class,
 		];
 
 		/**

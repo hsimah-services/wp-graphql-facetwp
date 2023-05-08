@@ -30,6 +30,7 @@ return array(
     'WPGraphQL\\FacetWP\\Registry\\FacetRegistry' => $baseDir . '/src/Registry/FacetRegistry.php',
     'WPGraphQL\\FacetWP\\Registry\\TypeRegistry' => $baseDir . '/src/Registry/TypeRegistry.php',
     'WPGraphQL\\FacetWP\\Type\\Enum\\ProximityRadiusOptions' => $baseDir . '/src/Type/Enum/ProximityRadiusOptions.php',
+    'WPGraphQL\\FacetWP\\Type\\Enum\\SortOptionsEnum' => $baseDir . '/src/Type/Enum/SortOptionsEnum.php',
     'WPGraphQL\\FacetWP\\Type\\Input\\DateRangeArgs' => $baseDir . '/src/Type/Input/DateRangeArgs.php',
     'WPGraphQL\\FacetWP\\Type\\Input\\NumberRangeArgs' => $baseDir . '/src/Type/Input/NumberRangeArgs.php',
     'WPGraphQL\\FacetWP\\Type\\Input\\ProximityArgs' => $baseDir . '/src/Type/Input/ProximityArgs.php',

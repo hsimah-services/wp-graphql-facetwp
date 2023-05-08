@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInit94ba7081fc2468f9e563a32da84c1218
+class ComposerStaticInita808aacd30a48beb897daf0a9480d602
 {
     public static $files = array (
         '2624831776b6fbc9c15e25c2fb7f42d3' => __DIR__ . '/../..' . '/access-functions.php',
@@ -57,6 +57,7 @@ class ComposerStaticInit94ba7081fc2468f9e563a32da84c1218
         'WPGraphQL\\FacetWP\\Registry\\FacetRegistry' => __DIR__ . '/../..' . '/src/Registry/FacetRegistry.php',
         'WPGraphQL\\FacetWP\\Registry\\TypeRegistry' => __DIR__ . '/../..' . '/src/Registry/TypeRegistry.php',
         'WPGraphQL\\FacetWP\\Type\\Enum\\ProximityRadiusOptions' => __DIR__ . '/../..' . '/src/Type/Enum/ProximityRadiusOptions.php',
+        'WPGraphQL\\FacetWP\\Type\\Enum\\SortOptionsEnum' => __DIR__ . '/../..' . '/src/Type/Enum/SortOptionsEnum.php',
         'WPGraphQL\\FacetWP\\Type\\Input\\DateRangeArgs' => __DIR__ . '/../..' . '/src/Type/Input/DateRangeArgs.php',
         'WPGraphQL\\FacetWP\\Type\\Input\\NumberRangeArgs' => __DIR__ . '/../..' . '/src/Type/Input/NumberRangeArgs.php',
         'WPGraphQL\\FacetWP\\Type\\Input\\ProximityArgs' => __DIR__ . '/../..' . '/src/Type/Input/ProximityArgs.php',
@@ -90,9 +91,9 @@ class ComposerStaticInit94ba7081fc2468f9e563a32da84c1218
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInit94ba7081fc2468f9e563a32da84c1218::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInit94ba7081fc2468f9e563a32da84c1218::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInit94ba7081fc2468f9e563a32da84c1218::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInita808aacd30a48beb897daf0a9480d602::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInita808aacd30a48beb897daf0a9480d602::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInita808aacd30a48beb897daf0a9480d602::$classMap;
 
         }, null, ClassLoader::class);
     }
