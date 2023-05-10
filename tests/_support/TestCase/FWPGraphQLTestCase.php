@@ -41,12 +41,15 @@ class FWPGraphQLTestCase extends \Tests\WPGraphQL\TestCase\WPGraphQLTestCase {
 		parent::tearDown();
 	}
 
-	public function register_facet( array $config = [] ) : void {
-		$defaults = $this->tester->get_default_checkbox_facet_args();
+	public function register_facet( string $facet_type = 'checkbox', array $config = [] ) : array {
+		$method_name = 'get_default_' . $facet_type . '_facet_args';
+		$defaults = $this->tester->$method_name();
 
 		$config = array_merge( $defaults, $config );
 
 		FWP()->helper->settings['facets'][] = $config;
+
+		return $config;
 	}
 
 	public function clearFacets() : void {

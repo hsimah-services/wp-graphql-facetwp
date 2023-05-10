@@ -34,6 +34,7 @@ class MainTest extends \Codeception\TestCase\WPTestCase {
 	// Tests
 	/**
 	 * Test instance
+	 *
 	 * @covers \WPGraphQL\FacetWP\Main
 	 */
 	public function testInstance() {
@@ -43,6 +44,7 @@ class MainTest extends \Codeception\TestCase\WPTestCase {
 	}
 	/**
 	 * Test instance
+	 *
 	 * @covers \WPGraphQL\FacetWP\Main
 	 */
 	public function testInstanceBeforeInstantiation() {
