@@ -277,7 +277,7 @@ class FacetRegistry {
 						'facets'  => array_values( $payload['facets'] ),
 						'results' => count( $results ) ? $results : null,
 						'pager'   => $payload['pager'] ?? [],
-						'orderby' => $fwp_args['query_args']['orderby'] ?? [],
+						'is_sort' => ! empty( $fwp_args['query_args']['orderby'] ),
 					];
 				},
 			]
@@ -472,12 +472,14 @@ class FacetRegistry {
 				}
 
 				$resolver = new PostObjectConnectionResolver( $source, $args, $context, $info, $type );
+
 				if ( ! empty( $source['results'] ) ) {
 					$resolver->set_query_arg( 'post__in', $source['results'] );
 				}
 
-				if ( ! empty( $source['orderby'] ) ) {
-					$resolver->set_query_arg( 'orderby', $source['orderby'] );
+				// Use post__in when delegating sorting to FWP.
+				if ( ! empty( $source['is_sort'] ) ) {
+					$resolver->set_query_arg( 'orderby', 'post__in' );
 				}
 
 				return $resolver->get_connection();
@@ -515,67 +517,83 @@ class FacetRegistry {
 		$reduced_query = array_reduce(
 			$facets,
 			function ( $prev, $cur ) use ( $query ) {
-				$name  = $cur['name'];
-				$facet = isset( $query[ $name ] ) ? $query[ $name ] : null;
+				// Get the facet name.
+				$name             = $cur['name'] ?? '';
+				$camel_cased_name = ! empty( $name ) ? self::to_camel_case( $name ) : '';
+				$facet            = is_string( $camel_cased_name ) && isset( $query[ $camel_cased_name ] ) ? $query[ $camel_cased_name ] : null;
 
-				if ( isset( $facet ) ) {
-					switch ( $cur['type'] ) {
-						case 'checkboxes':
-						case 'fselect':
-						case 'rating':
-						case 'radio':
-						case 'dropdown':
-						case 'hierarchy':
-						case 'search':
-						case 'autocomplete':
-							$prev[ $name ] = $facet;
-							break;
-						case 'slider':
-						case 'date_range':
-						case 'number_range':
-							$input         = $facet;
-							$prev[ $name ] = [
-								$input['min'],
-								$input['max'],
-							];
+				// Fallback to snakeCased name.
+				if ( ! isset( $facet ) ) {
+					$facet = isset( $query[ $name ] ) ? $query[ $name ] : null;
+				}
 
-							break;
-						case 'proximity':
-							$input         = $facet;
-							$prev[ $name ] = [
-								$input['latitude'],
-								$input['longitude'],
-								$input['chosenRadius'],
-								$input['locationName'],
-							];
+				// Bail early if no facet set.
+				if ( empty( $facet ) ) {
+					return $prev;
+				}
 
-							break;
+				switch ( $cur['type'] ) {
+					case 'checkboxes':
+					case 'fselect':
+					case 'rating':
+					case 'radio':
+					case 'dropdown':
+					case 'hierarchy':
+					case 'search':
+					case 'autocomplete':
+						$prev[ $name ] = $facet;
+						break;
+					case 'slider':
+					case 'date_range':
+					case 'number_range':
+						$input         = $facet;
+						$prev[ $name ] = [
+							$input['min'],
+							$input['max'],
+						];
 
-						case 'sort':
-							$input        = $facet;
-							$sort_options = self::parse_sort_facet_options( $cur );
+						break;
+					case 'proximity':
+						$input         = $facet;
+						$prev[ $name ] = [
+							$input['latitude'],
+							$input['longitude'],
+							$input['chosenRadius'],
+							$input['locationName'],
+						];
 
-							$prev[ $name ] = [
-								'sort_type'  => $facet,
-								'settings'   => [
-									'default_label' => $cur['default_label'],
-									'sort_options'  => $cur['sort_options'],
-								],
-								'query_args' => [],
-							];
+						break;
 
-							if ( ! empty( $sort_options[ $facet ] ) ) {
-								$qa = $sort_options[ $facet ]['query_args'];
+					case 'sort':
+						$input        = $facet;
+						$sort_options = self::parse_sort_facet_options( $cur );
 
-								if ( isset( $qa['meta_query'] ) ) {
-									$prev[ $name ]['query_args']['meta_query'] = $qa['meta_query'];
-								}
+						// We pass these through to create our sort args.
+						$prev[ $name ] = [
+							'sort_type'  => $facet,
+							'settings'   => [
+								'default_label' => $cur['default_label'],
+								'sort_options'  => $cur['sort_options'],
+							],
+							'query_args' => [],
+						];
 
-								$prev[ $name ]['query_args']['orderby'] = $qa['orderby'];
+						/**
+						 * Define the query args for the sort.
+						 *
+						 * This is a shim of FacetWP_Facet_Sort::apply_sort()
+						 */
+						if ( ! empty( $sort_options[ $facet ] ) ) {
+							$qa = $sort_options[ $facet ]['query_args'];
+
+							if ( isset( $qa['meta_query'] ) ) {
+								$prev[ $name ]['query_args']['meta_query'] = $qa['meta_query'];
 							}
 
-							break;
-					}
+							$prev[ $name ]['query_args']['orderby'] = $qa['orderby'];
+						}
+
+						break;
 				}
 
 				return $prev;
