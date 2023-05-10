@@ -2,6 +2,9 @@
 
 ## Unreleased
 
+- feat: Add support for the Sort Facet. (Props to @ninie1205 for sponsoring this feature!)
+- fix: Fallback to snake_case when matching the FacetQueryArgs input value to the FacetWP facet name.
+
 ## v0.4.2
 
 This _minor_ release lays the groundwork for the upcoming Facet autoregistration / official Sort Facet support. It introduces a new `FacetConfig` interface, which is implemented by the `Facet` object. Additionally, we adopted the use of WPGraphQL Plugin Boilerplate to scaffold our PHP classes, updated our Composer dev dependencies, and started testing against WordPress 6.2 and running WPUnit tests as part of our CI workflow.
