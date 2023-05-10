@@ -93,7 +93,7 @@ query GetPostsByFacet( $query: FacetQueryArgs, $after: String, $search: String, 
     posts ( # The results of the facet query. Can be filtered by WPGraphQL connection where args 
       first: 10,
       after: $after,
-      where: { search: $search, orderby: $orderBy}
+      where: { search: $search, orderby: $orderBy} # The `orderby` arg is ignored if using the Sort facet.
     ) {
       pageInfo {
         hasNextPage
@@ -113,7 +113,7 @@ query GetPostsByFacet( $query: FacetQueryArgs, $after: String, $search: String, 
 Support for WooCommerce Products can be added with following configuration:
 
 ```php
-add_action( 'graphql_register_types', function () {
+add_action( 'graphql_facetwp_init', function () {
   register_graphql_facet_type( 'product' );
 });
 
@@ -153,7 +153,7 @@ add_filter( 'facetwp_graphql_facet_connection_config',
 ```
 
 ### Limitations
-Currently the plugin only has been tested using Checkbox and Radio facet types. Support for additional types is in development.
+Currently the plugin only has been tested using Checkbox, Radio, and Sort facet types. Support for additional types is in development.
 
 ## Testing
 
