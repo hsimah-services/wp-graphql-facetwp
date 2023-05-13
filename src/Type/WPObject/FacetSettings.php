@@ -93,6 +93,14 @@ class FacetSettings extends ObjectType {
 				'type'        => 'String',
 				'description' => __( 'Thousands separator', 'wpgraphql-facetwp' ),
 			],
+			'defaultLabel'       => [
+				'type'        => 'String',
+				'description' => __( 'Default label', 'wpgraphql-facetwp' ),
+			],
+			'sortOptions'        => [
+				'type'        => [ 'list_of' => FacetSortOptionSetting::get_type_name() ],
+				'description' => __( 'Sort options', 'wpgraphql-facetwp' ),
+			],
 		];
 	}
 }

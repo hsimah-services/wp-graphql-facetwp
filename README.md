@@ -93,7 +93,7 @@ query GetPostsByFacet( $query: FacetQueryArgs, $after: String, $search: String, 
     posts ( # The results of the facet query. Can be filtered by WPGraphQL connection where args 
       first: 10,
       after: $after,
-      where: { search: $search, orderby: $orderBy}
+      where: { search: $search, orderby: $orderBy} # The `orderby` arg is ignored if using the Sort facet.
     ) {
       pageInfo {
         hasNextPage
@@ -113,47 +113,58 @@ query GetPostsByFacet( $query: FacetQueryArgs, $after: String, $search: String, 
 Support for WooCommerce Products can be added with following configuration:
 
 ```php
-add_action( 'graphql_register_types', function () {
+// This is the same as all CPTs.
+add_action( 'graphql_facetwp_init', function () {
   register_graphql_facet_type( 'product' );
 });
 
+// This is required because WooGQL uses a custom connection resolver.
 add_filter( 'facetwp_graphql_facet_connection_config', 
-  function ( array $default_graphql_config, array $config ) {
-    $type     = $config['type'];
-    $singular = $config['singular'];
-    $field    = $config['field'];
-    $plural   = $config['plural'];
+  function ( array $default_graphql_config, array $facet_config ) {
+    $type = $config['type'];
 
-    return [
-        'fromType'          => $field,
-        'toType'            => $singular,
-        'fromFieldName'     => lcfirst( $plural ),
-        'connectionArgs'    => Products::get_connection_args(),
-        'resolveNode'       => function ( $node, $_args, $context) use ( $type ) {
+    $use_graphql_pagination = \WPGraphQL\FacetWP\Registry\FacetRegistry::use_graphql_pagination();
+
+    return array_merge(
+      $default_graphql_config,
+      [
+        'connectionArgs'    => \WPGraphQL\WooCommerce\Connection\Products::get_connection_args(),
+        'resolveNode'       => function ( $node, $_args, $context ) use ( $type ) {
             return $context->get_loader( $type )->load_deferred( $node->ID );
         },
-        'resolve'           => function ( $source, $args, $context, $info ) use ( $type ) {
-            $resolver = new PostObjectConnectionResolver( $source, $args, $context, $info, $type);
-
-            if ( $type === 'product' ) {
-              $resolver = Products::set_ordering_query_args( $resolver, $args );
+        'resolve'           => function ( $source, $args, $context, $info ) use ( $type, $use_graphql_pagination ) {
+          // If we're using FWP's offset pagination, we need to override the connection args.
+            if ( ! $use_graphql_pagination ) {
+              $args['first'] = $source['pager']['per_page'];
             }
 
+            $resolver = new \WPGraphQL\Data\Connection\PostObjectConnectionResolver( $source, $args, $context, $info, $type );
+
+            // Override the connection results with the FWP results.
             if( ! empty( $source['results'] ) ) {
               $resolver->->set_query_arg( 'post__in', $source['results'] );
             }
 
+            // Use post__in when delegating sorting to FWP.
+            if ( ! empty( $source['is_sort'] ) ) {
+              $resolver->set_query_arg( 'orderby', 'post__in' );
+            } elseif( 'product' === $type ) {
+              // If we're relying on WPGQL to sort, we need to to handle WooCommerce meta.
+              $resolver = Products::set_ordering_query_args( $resolver, $args );
+            }
+
             return $resolver ->get_connection();
         },
-    ];
+      ]
+    );
   },
-   100,
+  100,
   2
 );
 ```
 
 ### Limitations
-Currently the plugin only has been tested using Checkbox and Radio facet types. Support for additional types is in development.
+Currently the plugin only has been tested using Checkbox, Radio, and Sort facet types. Support for additional types is in development.
 
 ## Testing
 

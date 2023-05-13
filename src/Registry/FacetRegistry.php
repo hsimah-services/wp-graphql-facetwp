@@ -10,6 +10,7 @@ namespace WPGraphQL\FacetWP\Registry;
 
 use WPGraphQL\Connection\PostObjects;
 use WPGraphQL\Data\Connection\PostObjectConnectionResolver;
+use WPGraphQL\FacetWP\Type\Enum\SortOptionsEnum;
 use WPGraphQL\FacetWP\Type\Input;
 
 /**
@@ -103,6 +104,10 @@ class FacetRegistry {
 			case 'rating':
 				// Single Int.
 				$type = 'Int';
+
+				break;
+			case 'sort':
+				$type = SortOptionsEnum::get_type_name( $config['name'] );
 
 				break;
 			case 'autocomplete':
@@ -217,6 +222,20 @@ class FacetRegistry {
 						],
 					];
 
+					// Stash the sort settings, since we don't get them from the payload.
+					$sort_settings = [];
+
+					// Apply the orderby args.
+					foreach ( $fwp_args['facets'] as $key => $facet_args ) {
+						if ( ! empty( $facet_args['is_sort'] ) ) {
+							$fwp_args['query_args'] = array_merge_recursive( $fwp_args['query_args'], $facet_args['query_args'] );
+							$sort_settings[ $key ]  = $facet_args['settings'];
+
+							// Set the selected facet back to a string.
+							$fwp_args['facets'][ $key ] = $facet_args['selected'];
+						}
+					}
+
 					$filtered_ids = [];
 					if ( $use_graphql_pagination ) {
 
@@ -241,8 +260,11 @@ class FacetRegistry {
 
 					// @todo helper function.
 					foreach ( $payload['facets'] as $key => $facet ) {
+						// Try to get the settings from the payload, otherwise fallback to the parsed query args.
 						if ( isset( $facet['settings'] ) ) {
 							$facet['settings'] = self::to_camel_case( $facet['settings'] );
+						} elseif ( isset( $sort_settings[ $key ] ) ) {
+							$facet['settings'] = self::to_camel_case( $sort_settings[ $key ] );
 						}
 
 						$payload['facets'][ $key ] = $facet;
@@ -256,6 +278,7 @@ class FacetRegistry {
 						'facets'  => array_values( $payload['facets'] ),
 						'results' => count( $results ) ? $results : null,
 						'pager'   => $payload['pager'] ?? [],
+						'is_sort' => ! empty( $fwp_args['query_args']['orderby'] ),
 					];
 				},
 			]
@@ -450,8 +473,14 @@ class FacetRegistry {
 				}
 
 				$resolver = new PostObjectConnectionResolver( $source, $args, $context, $info, $type );
+
 				if ( ! empty( $source['results'] ) ) {
 					$resolver->set_query_arg( 'post__in', $source['results'] );
+				}
+
+				// Use post__in when delegating sorting to FWP.
+				if ( ! empty( $source['is_sort'] ) ) {
+					$resolver->set_query_arg( 'orderby', 'post__in' );
 				}
 
 				return $resolver->get_connection();
@@ -489,41 +518,79 @@ class FacetRegistry {
 		$reduced_query = array_reduce(
 			$facets,
 			function ( $prev, $cur ) use ( $query ) {
-				$name  = $cur['name'];
-				$facet = isset( $query[ $name ] ) ? $query[ $name ] : null;
+				// Get the facet name.
+				$name             = $cur['name'] ?? '';
+				$camel_cased_name = ! empty( $name ) ? self::to_camel_case( $name ) : '';
+				$facet            = is_string( $camel_cased_name ) && isset( $query[ $camel_cased_name ] ) ? $query[ $camel_cased_name ] : null;
 
-				if ( isset( $facet ) ) {
-					switch ( $cur['type'] ) {
-						case 'checkboxes':
-						case 'fselect':
-						case 'rating':
-						case 'radio':
-						case 'dropdown':
-						case 'hierarchy':
-						case 'search':
-						case 'autocomplete':
-							$prev[ $name ] = $facet;
-							break;
-						case 'slider':
-						case 'date_range':
-						case 'number_range':
-							$input         = $facet;
-							$prev[ $name ] = [
-								$input['min'],
-								$input['max'],
-							];
+				// Fallback to snakeCased name.
+				if ( ! isset( $facet ) ) {
+					$facet = isset( $query[ $name ] ) ? $query[ $name ] : null;
+				}
 
-							break;
-						case 'proximity':
-							$input         = $facet;
-							$prev[ $name ] = [
-								$input['latitude'],
-								$input['longitude'],
-								$input['chosenRadius'],
-								$input['locationName'],
-							];
-							break;
-					}
+				switch ( $cur['type'] ) {
+					case 'checkboxes':
+					case 'fselect':
+					case 'rating':
+					case 'radio':
+					case 'dropdown':
+					case 'hierarchy':
+					case 'search':
+					case 'autocomplete':
+						$prev[ $name ] = $facet;
+						break;
+					case 'slider':
+					case 'date_range':
+					case 'number_range':
+						$input         = $facet;
+						$prev[ $name ] = [
+							$input['min'] ?? null,
+							$input['max'] ?? null,
+						];
+
+						break;
+					case 'proximity':
+						$input         = $facet;
+						$prev[ $name ] = [
+							$input['latitude'] ?? null,
+							$input['longitude'] ?? null,
+							$input['chosenRadius'] ?? null,
+							$input['locationName'] ?? null,
+						];
+
+						break;
+
+					case 'sort':
+						$input        = $facet;
+						$sort_options = self::parse_sort_facet_options( $cur );
+
+						// We pass these through to create our sort args.
+						$prev[ $name ] = [
+							'is_sort'    => true,
+							'selected'   => $facet,
+							'settings'   => [
+								'default_label' => $cur['default_label'],
+								'sort_options'  => $cur['sort_options'],
+							],
+							'query_args' => [],
+						];
+
+						/**
+						 * Define the query args for the sort.
+						 *
+						 * This is a shim of FacetWP_Facet_Sort::apply_sort()
+						 */
+						if ( ! empty( $sort_options[ $facet ] ) ) {
+							$qa = $sort_options[ $facet ]['query_args'];
+
+							if ( isset( $qa['meta_query'] ) ) {
+								$prev[ $name ]['query_args']['meta_query'] = $qa['meta_query'];
+							}
+
+							$prev[ $name ]['query_args']['orderby'] = $qa['orderby'];
+						}
+
+						break;
 				}
 
 				return $prev;
@@ -616,5 +683,42 @@ class FacetRegistry {
 	 */
 	public static function use_graphql_pagination() : bool {
 		return apply_filters( 'wpgraphql_facetwp_user_graphql_pagination', false );
+	}
+
+	/**
+	 * Parses the sort options for a sort facet into a WP_Query compatible array.
+	 *
+	 * @see \FacetWP_Facet_Sort::parse_sort_facet()
+	 *
+	 * @param array<string, mixed> $facet The facet configuration.
+	 */
+	private static function parse_sort_facet_options( array $facet ) : array {
+		$sort_options = [];
+
+		foreach ( $facet['sort_options'] as $row ) {
+			$parsed = FWP()->builder->parse_query_obj( [ 'orderby' => $row['orderby'] ] );
+
+			$sort_options[ $row['name'] ] = [
+				'label'      => $row['label'],
+				'query_args' => array_intersect_key(
+					$parsed,
+					[
+						'meta_query' => true,
+						'orderby'    => true,
+					]
+				),
+			];
+		}
+
+		$sort_options = apply_filters(
+			'facetwp_facet_sort_options',
+			$sort_options,
+			[
+				'facet'         => $facet,
+				'template_name' => 'graphql',
+			]
+		);
+
+		return $sort_options;
 	}
 }
