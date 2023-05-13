@@ -5,14 +5,33 @@
 	"license": "GPL-3.0-or-later",
 	"authors": [
 		{
+			"name": "AxePress Development",
+			"email": "support@axepress.dev",
+			"homepage": "https://axepress.dev"
+		},
+		{
+			"name": "David Levine",
+			"role": "Lead Developer"
+		},
+		{
 			"name": "Hamish Blake",
+			"role": "Original Developer",
 			"email": "hsimah.services@gmail.com"
 		}
 	],
 	"support": {
+		"email": "support@axepress.dev",
 		"issues": "https://github.com/hsimah-services/wp-graphql-facetwp/issues",
+		"forum": "https://github.com/hsimah-services/wp-graphql-facetwp/discussions",
 		"source": "https://github.com/hsimah-services/wp-graphql-facetwp"
 	},
+	"readme": "README.md",
+	"funding": [
+		{
+			"type":"github",
+			"url": "https://github.com/sponsors/AxeWP"
+		}
+	],
 	"config": {
 		"platform": {
 			"php": "7.4"

@@ -5,7 +5,7 @@
  * @package AxeWP\GraphQL\Helper
  *
  * @license GPL-3.0-or-later
- * Modified by Hamish Blake using Strauss.
+ * Modified by AxePress Development using Strauss.
  * @see https://github.com/BrianHenryIE/strauss
  */
 

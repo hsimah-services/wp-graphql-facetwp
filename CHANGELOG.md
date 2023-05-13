@@ -1,9 +1,13 @@
 # Changelog
 
-## Unreleased
+## v0.4.3
+
+This _minor_ release adds support for the [Sort Facet](https://facetwp.com/help-center/facets/facet-types/sort). It also fixes a bug where the FacetQueryArgs input value was not being correctly matched to the correct Facet.
+
+**Note:** To support the Sort facet when using custom WPGraphQL Connection Resolvers, you must set the connection's `orderby` argument to `post__id`. The [example WooCommerce snippet](./README.md#woocommerce-support) has been updated to reflect this change, and you should update your custom code accordingly.
 
 - feat: Add support for the Sort Facet. (Props to @ninie1205 for sponsoring this feature!)
-- fix: Fallback to snake_case when matching the FacetQueryArgs input value to the FacetWP facet name.
+- fix: Fallback to `snake_case` when matching the `FacetQueryArgs` input value to the FacetWP facet name.
 - docs: Update WooCommerce snippet in README.md to support the Sort Facet.
 
 ## v0.4.2

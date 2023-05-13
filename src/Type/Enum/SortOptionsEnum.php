@@ -3,7 +3,7 @@
  * GraphQL Enum Type - SortOptionsEnum.
  *
  * @package WPGraphQL\FacetWP\Type\Enum
- * @since   @todo
+ * @since   0.4.3
  */
 
 namespace WPGraphQL\FacetWP\Type\Enum;

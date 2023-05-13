@@ -3,7 +3,7 @@
  * GraphQL Object Type - FacetSortOptionSetting.
  *
  * @package WPGraphQL\FacetWP\Type\WPObject
- * @since   @todo
+ * @since   0.4.3
  */
 
 namespace WPGraphQL\FacetWP\Type\WPObject;
