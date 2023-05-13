@@ -7,7 +7,7 @@ Adds WPGraphQL support for [FacetWP](https://facetwp.com/).
 * [Documentation](#usage)
 -----
 
-![Packagist License](https://img.shields.io/packagist/l/hsimah-services/wp-graphql-facetwp?color=green) ![Packagist Version](https://img.shields.io/packagist/v/hsimah-services/wp-graphql-facetwp?label=stable) ![GitHub commits since latest release (by SemVer)](https://img.shields.io/github/commits-since/hsimah-services/wp-graphql-facetwp/0.4.2) ![GitHub forks](https://img.shields.io/github/forks/hsimah-services/wp-graphql-facetwp?style=social) ![GitHub Repo stars](https://img.shields.io/github/stars/hsimah-services/wp-graphql-facetwp?style=social)<br />
+![Packagist License](https://img.shields.io/packagist/l/hsimah-services/wp-graphql-facetwp?color=green) ![Packagist Version](https://img.shields.io/packagist/v/hsimah-services/wp-graphql-facetwp?label=stable) ![GitHub commits since latest release (by SemVer)](https://img.shields.io/github/commits-since/hsimah-services/wp-graphql-facetwp/0.4.3) ![GitHub forks](https://img.shields.io/github/forks/hsimah-services/wp-graphql-facetwp?style=social) ![GitHub Repo stars](https://img.shields.io/github/stars/hsimah-services/wp-graphql-facetwp?style=social)<br />
 ![CodeQuality](https://img.shields.io/github/actions/workflow/status/hsimah-services/wp-graphql-facetwp/code-quality.yml?branch=develop&label=Code%20Quality)
 ![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/hsimah-services/wp-graphql-facetwp/integration-testing.yml?branch=develop&label=Integration%20Testing)
 ![Coding Standards](https://img.shields.io/github/actions/workflow/status/hsimah-services/wp-graphql-facetwp/code-standard.yml?branch=develop&label=WordPress%20Coding%20Standards)
@@ -46,6 +46,14 @@ Until we hit v1.0, we're using a modified version of [SemVer](https://semver.org
 * v0.**x**: "Major" releases. These releases introduce new features, and _may_ contain breaking changes to either the PHP API or the GraphQL schema
 * v0.x.**y**: "Minor" releases. These releases introduce new features and enhancements and address bugs. They _do not_ contain breaking changes.
 * v0.x.y.**z**: "Patch" releases. These releases are reserved for addressing issue with the previous release only.
+
+## Development and Support
+
+WPGraphQL for FacetWP was initially created by [Hamish Blake](https://www.hsimah.com/). Maintainance and development are now provided by [AxePress Development](https://axepress.dev/). Community contributions are _welcome_ and **encouraged**.
+
+Basic support is provided for free, both in [this repo](https://github.com/hsimah-services/wp-graphql-facetwp/issues) and at the `#facetwp` channel in [WPGraphQL Slack](https://join.slack.com/t/wp-graphql/shared_invite/zt-3vloo60z-PpJV2PFIwEathWDOxCTTLA).
+
+Priority support and custom development is available to [AxePress Development sponsors](https://github.com/sponsors/AxeWP).
 
 ## Usage:
 
