@@ -227,11 +227,12 @@ class FacetRegistry {
 
 					// Apply the orderby args.
 					foreach ( $fwp_args['facets'] as $key => $facet_args ) {
-						if ( ! empty( $facet_args['sort_type'] ) ) {
+						if ( ! empty( $facet_args['is_sort'] ) ) {
 							$fwp_args['query_args'] = array_merge_recursive( $fwp_args['query_args'], $facet_args['query_args'] );
 							$sort_settings[ $key ]  = $facet_args['settings'];
 
-							$fwp_args['facets'][ $key ] = $facet_args['sort_type'];
+							// Set the selected facet back to a string.
+							$fwp_args['facets'][ $key ] = $facet_args['selected'];
 						}
 					}
 
@@ -527,11 +528,6 @@ class FacetRegistry {
 					$facet = isset( $query[ $name ] ) ? $query[ $name ] : null;
 				}
 
-				// Bail early if no facet set.
-				if ( empty( $facet ) ) {
-					return $prev;
-				}
-
 				switch ( $cur['type'] ) {
 					case 'checkboxes':
 					case 'fselect':
@@ -548,18 +544,18 @@ class FacetRegistry {
 					case 'number_range':
 						$input         = $facet;
 						$prev[ $name ] = [
-							$input['min'],
-							$input['max'],
+							$input['min'] ?? null,
+							$input['max'] ?? null,
 						];
 
 						break;
 					case 'proximity':
 						$input         = $facet;
 						$prev[ $name ] = [
-							$input['latitude'],
-							$input['longitude'],
-							$input['chosenRadius'],
-							$input['locationName'],
+							$input['latitude'] ?? null,
+							$input['longitude'] ?? null,
+							$input['chosenRadius'] ?? null,
+							$input['locationName'] ?? null,
 						];
 
 						break;
@@ -570,7 +566,8 @@ class FacetRegistry {
 
 						// We pass these through to create our sort args.
 						$prev[ $name ] = [
-							'sort_type'  => $facet,
+							'is_sort'    => true,
+							'selected'   => $facet,
 							'settings'   => [
 								'default_label' => $cur['default_label'],
 								'sort_options'  => $cur['sort_options'],

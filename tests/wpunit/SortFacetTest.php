@@ -161,8 +161,6 @@ class SortFacetTest extends FWPGraphQLTestCase {
 				break;
 			}
 
-			error_log( 'checking if ' . $direction . ' ' . print_r( $actual[ $i ], true ) . print_r( $actual[ $i + 1 ], true ) );
-
 			if ( 'ASC' === $direction ) {
 				$this->assertLessThanOrEqual( $actual[ $i + 1 ][ $key ], $actual[ $i ][ $key ], $key . ' is not in ascending order.' );
 			} else {
