@@ -4,6 +4,7 @@
 
 - feat: Add support for the Sort Facet. (Props to @ninie1205 for sponsoring this feature!)
 - fix: Fallback to snake_case when matching the FacetQueryArgs input value to the FacetWP facet name.
+- docs: Update WooCommerce snippet in README.md to support the Sort Facet.
 
 ## v0.4.2
 
