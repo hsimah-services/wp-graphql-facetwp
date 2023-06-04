@@ -22,7 +22,7 @@ class FacetConfig extends InterfaceType {
 	/**
 	 * {@inheritDoc}
 	 */
-	public static function register( $type_registry = null ) : void {
+	public static function register( $type_registry = null ): void {
 		self::$type_registry = WPGraphQL::get_type_registry(); /* @phpstan-ignore-line */
 
 		register_graphql_interface_type( static::get_type_name(), static::get_type_config() );
@@ -31,21 +31,21 @@ class FacetConfig extends InterfaceType {
 	/**
 	 * {@inheritDoc}
 	 */
-	public static function type_name() : string {
+	public static function type_name(): string {
 		return 'FacetConfig';
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public static function get_description() : string {
+	public static function get_description(): string {
 		return __( 'The Facet configuration.', 'wpgraphql-facetwp' );
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public static function get_fields() : array {
+	public static function get_fields(): array {
 		return [
 			'choices'  => [
 				'type'        => [

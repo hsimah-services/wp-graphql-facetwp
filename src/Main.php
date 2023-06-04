@@ -27,7 +27,7 @@ if ( ! class_exists( 'WPGraphQL\FacetWP\Main' ) ) :
 		/**
 		 * Constructor
 		 */
-		public static function instance() : self {
+		public static function instance(): self {
 			if ( ! isset( self::$instance ) || ! self::$instance instanceof self ) {
 				// @codeCoverageIgnoreStart
 				if ( ! function_exists( 'is_plugin_active' ) ) {
@@ -54,7 +54,7 @@ if ( ! class_exists( 'WPGraphQL\FacetWP\Main' ) ) :
 		 *
 		 * @codeCoverageIgnore
 		 */
-		private function includes() : void {
+		private function includes(): void {
 			if ( defined( 'WPGRAPHQL_FACETWP_AUTOLOAD' ) && false !== WPGRAPHQL_FACETWP_AUTOLOAD && defined( 'WPGRAPHQL_FACETWP_PLUGIN_DIR' ) ) {
 				require_once WPGRAPHQL_FACETWP_PLUGIN_DIR . 'vendor/autoload.php';
 			}
@@ -65,7 +65,7 @@ if ( ! class_exists( 'WPGraphQL\FacetWP\Main' ) ) :
 		 *
 		 * @codeCoverageIgnore
 		 */
-		private function setup() : void {
+		private function setup(): void {
 			// Setup boilerplate hook prefix.
 			Helper::set_hook_prefix( 'graphql_facetwp' );
 
@@ -93,7 +93,7 @@ if ( ! class_exists( 'WPGraphQL\FacetWP\Main' ) ) :
 		 *
 		 * @codeCoverageIgnore
 		 */
-		public function __wakeup() : void {
+		public function __wakeup(): void {
 			// De-serializing instances of the class is forbidden.
 			_doing_it_wrong( __FUNCTION__, esc_html__( 'De-serializing instances of the WPGraphQL\FacetWP\Main class is not allowed', 'wpgraphql-facetwp' ), '0.0.1' );
 		}

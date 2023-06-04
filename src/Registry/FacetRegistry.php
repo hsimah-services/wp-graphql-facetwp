@@ -17,7 +17,6 @@ use WPGraphQL\FacetWP\Type\Input;
  * Class - FacetRegistry
  */
 class FacetRegistry {
-
 	/**
 	 * The facet configs to register to WPGraphQL
 	 *
@@ -28,9 +27,11 @@ class FacetRegistry {
 	/**
 	 * Gets the facet configs to be registered to WPGraphQL.
 	 *
+	 * @return array<string, mixed>
+	 *
 	 * @since 0.4.1
 	 */
-	public static function get_allowed_facets() : array {
+	public static function get_allowed_facets(): array {
 		if ( ! isset( self::$facets ) ) {
 			$configs = FWP()->helper->get_facets();
 
@@ -58,9 +59,9 @@ class FacetRegistry {
 	/**
 	 * Gets the GraphQL input type for a facet.
 	 *
-	 * @param array $config The facet config.
+	 * @param array<string, mixed> $config The facet config.
 	 *
-	 * @return string|array
+	 * @return string|array<string, mixed> The GraphQL input type.
 	 *
 	 * @since 0.4.1
 	 */
@@ -138,7 +139,7 @@ class FacetRegistry {
 	 *
 	 * @param string $type The Post Type name.
 	 */
-	public static function register( string $type ) : void {
+	public static function register( string $type ): void {
 		$post_type = get_post_type_object( $type );
 
 		if ( null === $post_type || ! $post_type->show_in_graphql ) {
@@ -161,9 +162,9 @@ class FacetRegistry {
 	/**
 	 * Register facet-type root field.
 	 *
-	 * @param array $facet_config The config array.
+	 * @param array<string, mixed> $facet_config The config array.
 	 */
-	private static function register_root_field( array $facet_config ) :void {
+	private static function register_root_field( array $facet_config ): void {
 		$type     = $facet_config['type'];
 		$singular = $facet_config['singular'];
 		$field    = $facet_config['field'];
@@ -288,9 +289,9 @@ class FacetRegistry {
 	/**
 	 * Register input argument types.
 	 *
-	 * @param array $facet_config The config array.
+	 * @param array<string, mixed> $facet_config The config array.
 	 */
-	private static function register_input_arg_types( array $facet_config ) : void {
+	private static function register_input_arg_types( array $facet_config ): void {
 		$field = $facet_config['field'];
 
 		$use_graphql_pagination = self::use_graphql_pagination();
@@ -410,9 +411,9 @@ class FacetRegistry {
 	/**
 	 * Register custom output types.
 	 *
-	 * @param array $facet_config The config array.
+	 * @param array<string, mixed> $facet_config The config array.
 	 */
-	private static function register_custom_output_types( array $facet_config ) : void {
+	private static function register_custom_output_types( array $facet_config ): void {
 		$singular = $facet_config['singular'];
 		$field    = $facet_config['field'];
 
@@ -448,9 +449,9 @@ class FacetRegistry {
 	/**
 	 * Register facet-type connection types.
 	 *
-	 * @param array $facet_config The config array.
+	 * @param array<string, mixed> $facet_config The config array.
 	 */
-	private static function register_facet_connection( array $facet_config ) : void {
+	private static function register_facet_connection( array $facet_config ): void {
 		$type     = $facet_config['type'];
 		$singular = $facet_config['singular'];
 		$field    = $facet_config['field'];
@@ -503,11 +504,11 @@ class FacetRegistry {
 	/**
 	 * Parse WPGraphQL query into FacetWP query
 	 *
-	 * @param array $query @todo.
+	 * @param array<string, mixed> $query The WPGraphQL query.
 	 *
-	 * @return array FacetWP query
+	 * @return array<string, mixed> The FacetWP query.
 	 */
-	private static function parse_query( array $query ) : array {
+	private static function parse_query( array $query ): array {
 		// Bail early if no query set.
 		if ( empty( $query ) ) {
 			return [];
@@ -607,7 +608,7 @@ class FacetRegistry {
 	 * @todo move to helper class.
 	 *
 	 * @param string|array<string, string> $input The string or list of strings to convert.
-	 * @return string|array
+	 * @return string|array<string, string> The converted string or list of strings.
 	 */
 	private static function to_camel_case( $input ) {
 		if ( is_array( $input ) ) {
@@ -683,7 +684,7 @@ class FacetRegistry {
 	 *
 	 * @see https://graphql.org/learn/pagination/
 	 */
-	public static function use_graphql_pagination() : bool {
+	public static function use_graphql_pagination(): bool {
 		return apply_filters( 'wpgraphql_facetwp_user_graphql_pagination', false );
 	}
 
@@ -693,8 +694,10 @@ class FacetRegistry {
 	 * @see \FacetWP_Facet_Sort::parse_sort_facet()
 	 *
 	 * @param array<string, mixed> $facet The facet configuration.
+	 *
+	 * @return array<string, array<string, mixed>> The parsed sort options.
 	 */
-	private static function parse_sort_facet_options( array $facet ) : array {
+	private static function parse_sort_facet_options( array $facet ): array {
 		$sort_options = [];
 
 		foreach ( $facet['sort_options'] as $row ) {

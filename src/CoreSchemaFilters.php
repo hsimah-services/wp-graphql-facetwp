@@ -17,7 +17,7 @@ class CoreSchemaFilters implements Registrable {
 	/**
 	 * {@inheritDoc}
 	 */
-	public static function init() : void {
+	public static function init(): void {
 		// Prefix the GraphQL type names.
 		add_filter( 'graphql_facetwp_type_prefix', [ self::class, 'get_type_prefix' ] );
 	}
@@ -25,7 +25,7 @@ class CoreSchemaFilters implements Registrable {
 	/**
 	 * Don't prefix type names.
 	 */
-	public static function get_type_prefix() : string {
+	public static function get_type_prefix(): string {
 		return '';
 	}
 }

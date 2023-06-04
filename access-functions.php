@@ -24,10 +24,10 @@ if ( ! function_exists( 'register_graphql_facet_type' ) ) {
 	 *
 	 * @param string $type_name The name of the WP object type to register.
 	 */
-	function register_graphql_facet_type( string $type_name ) : void {
+	function register_graphql_facet_type( string $type_name ): void {
 		add_action(
 			get_graphql_register_action(),
-			function() use ( $type_name ) {
+			static function () use ( $type_name ) {
 				FacetRegistry::register( $type_name );
 			}
 		);
@@ -38,9 +38,11 @@ if ( ! function_exists( 'get_graphql_allowed_facets' ) ) {
 	/**
 	 * Get the facets that are allowed to be queried via GraphQL.
 	 *
+	 * @return array<string, mixed>
+	 *
 	 * @since 0.4.1
 	 */
-	function get_graphql_allowed_facets() : array {
+	function get_graphql_allowed_facets(): array {
 		return FacetRegistry::get_allowed_facets();
 	}
 }
