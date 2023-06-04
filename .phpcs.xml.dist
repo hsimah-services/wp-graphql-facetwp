@@ -1,7 +1,6 @@
 <?xml version="1.0"?>
 <ruleset name="WordPress Coding Standards for WPGraphQL for FacetWP" xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/squizlabs/PHP_CodeSniffer/master/phpcs.xsd">
 	<description>Sniffs for the WPGraphQL plugin ecosystem </description>
-	<!-- What to scan -->
 
 	<!-- What to scan: include any root-level PHP files, and the /src folder -->
 	<file>./access-functions.php</file>
