@@ -45,7 +45,7 @@ class FacetRegistry {
 			self::$facets = array_values(
 				array_filter(
 					$configs,
-					function( $config ) {
+					function ( $config ) {
 						return $config['show_in_graphql'];
 					}
 				)
@@ -492,7 +492,7 @@ class FacetRegistry {
 		 * @param array $facet_config The facet data array used to generate the config.
 		 */
 		$graphql_connection_config = apply_filters(
-			'facetwp_graphql_facet_connection_config',
+			'facetwp_graphql_facet_connection_config', // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
 			$default_facet_connection_config,
 			$facet_config
 		);
@@ -584,7 +584,7 @@ class FacetRegistry {
 							$qa = $sort_options[ $facet ]['query_args'];
 
 							if ( isset( $qa['meta_query'] ) ) {
-								$prev[ $name ]['query_args']['meta_query'] = $qa['meta_query'];
+								$prev[ $name ]['query_args']['meta_query'] = $qa['meta_query']; // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
 							}
 
 							$prev[ $name ]['query_args']['orderby'] = $qa['orderby'];
@@ -703,7 +703,7 @@ class FacetRegistry {
 				'query_args' => array_intersect_key(
 					$parsed,
 					[
-						'meta_query' => true,
+						'meta_query' => true, // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
 						'orderby'    => true,
 					]
 				),
@@ -711,7 +711,7 @@ class FacetRegistry {
 		}
 
 		$sort_options = apply_filters(
-			'facetwp_facet_sort_options',
+			'facetwp_facet_sort_options', // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
 			$sort_options,
 			[
 				'facet'         => $facet,
