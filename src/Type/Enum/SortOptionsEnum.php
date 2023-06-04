@@ -32,7 +32,7 @@ class SortOptionsEnum implements GraphQLType, Registrable {
 		// Get the facets where the type is 'sort'.
 		$sort_facets = array_filter(
 			$allowed_facets,
-			function ( $facet ) {
+			static function ( $facet ) {
 				return 'sort' === $facet['type'];
 			}
 		);
