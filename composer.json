@@ -74,7 +74,7 @@
 	},
 	"require": {
 		"php": ">=7.4, <=8.1",
-		"axepress/wp-graphql-plugin-boilerplate": "0.0.8"
+		"axepress/wp-graphql-plugin-boilerplate": "dev-dev/remove-type_registry-property"
 	},
 	"require-dev": {
 		"codeception/lib-innerbrowser": "^1.0",

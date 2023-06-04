@@ -7,7 +7,6 @@
 
 namespace WPGraphQL\FacetWP\Type\WPInterface;
 
-use WPGraphQL;
 use WPGraphQL\FacetWP\Type\WPObject\FacetChoice;
 use WPGraphQL\FacetWP\Type\WPObject\FacetSettings;
 use WPGraphQL\FacetWP\Vendor\AxeWP\GraphQL\Abstracts\InterfaceType;
@@ -18,15 +17,6 @@ use WPGraphQL\FacetWP\Vendor\AxeWP\GraphQL\Traits\TypeResolverTrait;
  */
 class FacetConfig extends InterfaceType {
 	use TypeResolverTrait;
-
-	/**
-	 * {@inheritDoc}
-	 */
-	public static function register( $type_registry = null ): void {
-		self::$type_registry = WPGraphQL::get_type_registry(); /* @phpstan-ignore-line */
-
-		register_graphql_interface_type( static::get_type_name(), static::get_type_config() );
-	}
 
 	/**
 	 * {@inheritDoc}

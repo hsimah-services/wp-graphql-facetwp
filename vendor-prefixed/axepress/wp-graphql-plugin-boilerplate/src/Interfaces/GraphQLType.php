@@ -20,6 +20,6 @@ if ( ! interface_exists( '\WPGraphQL\FacetWP\Vendor\AxeWP\GraphQL\Interfaces\Gra
 		/**
 		 * Register connections to the GraphQL Schema.
 		 */
-		public static function register() : void;
+		public static function register(): void;
 	}
 }

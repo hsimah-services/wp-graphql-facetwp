@@ -22,6 +22,6 @@ if ( ! interface_exists( '\WPGraphQL\FacetWP\Vendor\AxeWP\GraphQL\Interfaces\Typ
 		 *
 		 * @return string[]
 		 */
-		public static function get_interfaces() : array;
+		public static function get_interfaces(): array;
 	}
 }

@@ -33,6 +33,6 @@ if ( ! interface_exists( '\WPGraphQL\FacetWP\Vendor\AxeWP\GraphQL\Interfaces\Typ
 		 *   resolve?: callable,
 		 * }>
 		 */
-		public static function get_connections() : array;
+		public static function get_connections(): array;
 	}
 }
