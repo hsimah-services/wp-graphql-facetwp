@@ -38,7 +38,7 @@ if ( ! function_exists( 'get_graphql_allowed_facets' ) ) {
 	/**
 	 * Get the facets that are allowed to be queried via GraphQL.
 	 *
-	 * @return array<string, mixed>
+	 * @return array<string,array<string, mixed>>
 	 *
 	 * @since 0.4.1
 	 */

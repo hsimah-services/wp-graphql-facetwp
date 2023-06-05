@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInita808aacd30a48beb897daf0a9480d602
+class ComposerStaticInit66fb134fc8ebefe7caa9380cdecf7bb2
 {
     public static $files = array (
         '2624831776b6fbc9c15e25c2fb7f42d3' => __DIR__ . '/../..' . '/access-functions.php',
@@ -56,15 +56,19 @@ class ComposerStaticInita808aacd30a48beb897daf0a9480d602
         'WPGraphQL\\FacetWP\\Main' => __DIR__ . '/../..' . '/src/Main.php',
         'WPGraphQL\\FacetWP\\Registry\\FacetRegistry' => __DIR__ . '/../..' . '/src/Registry/FacetRegistry.php',
         'WPGraphQL\\FacetWP\\Registry\\TypeRegistry' => __DIR__ . '/../..' . '/src/Registry/TypeRegistry.php',
+        'WPGraphQL\\FacetWP\\Type\\Enum\\FacetTypeEnum' => __DIR__ . '/../..' . '/src/Type/Enum/FacetTypeEnum.php',
         'WPGraphQL\\FacetWP\\Type\\Enum\\ProximityRadiusOptions' => __DIR__ . '/../..' . '/src/Type/Enum/ProximityRadiusOptions.php',
         'WPGraphQL\\FacetWP\\Type\\Enum\\SortOptionsEnum' => __DIR__ . '/../..' . '/src/Type/Enum/SortOptionsEnum.php',
         'WPGraphQL\\FacetWP\\Type\\Input\\DateRangeArgs' => __DIR__ . '/../..' . '/src/Type/Input/DateRangeArgs.php',
+        'WPGraphQL\\FacetWP\\Type\\Input\\FacetsInput' => __DIR__ . '/../..' . '/src/Type/Input/FacetsInput.php',
         'WPGraphQL\\FacetWP\\Type\\Input\\NumberRangeArgs' => __DIR__ . '/../..' . '/src/Type/Input/NumberRangeArgs.php',
         'WPGraphQL\\FacetWP\\Type\\Input\\ProximityArgs' => __DIR__ . '/../..' . '/src/Type/Input/ProximityArgs.php',
         'WPGraphQL\\FacetWP\\Type\\Input\\SliderArgs' => __DIR__ . '/../..' . '/src/Type/Input/SliderArgs.php',
         'WPGraphQL\\FacetWP\\Type\\WPInterface\\FacetConfig' => __DIR__ . '/../..' . '/src/Type/WPInterface/FacetConfig.php',
+        'WPGraphQL\\FacetWP\\Type\\WPInterface\\NodeWithFacets' => __DIR__ . '/../..' . '/src/Type/WPInterface/NodeWithFacets.php',
         'WPGraphQL\\FacetWP\\Type\\WPObject\\Facet' => __DIR__ . '/../..' . '/src/Type/WPObject/Facet.php',
         'WPGraphQL\\FacetWP\\Type\\WPObject\\FacetChoice' => __DIR__ . '/../..' . '/src/Type/WPObject/FacetChoice.php',
+        'WPGraphQL\\FacetWP\\Type\\WPObject\\FacetObjects' => __DIR__ . '/../..' . '/src/Type/WPObject/FacetObjects.php',
         'WPGraphQL\\FacetWP\\Type\\WPObject\\FacetPager' => __DIR__ . '/../..' . '/src/Type/WPObject/FacetPager.php',
         'WPGraphQL\\FacetWP\\Type\\WPObject\\FacetRangeSettings' => __DIR__ . '/../..' . '/src/Type/WPObject/FacetRangeSettings.php',
         'WPGraphQL\\FacetWP\\Type\\WPObject\\FacetSettings' => __DIR__ . '/../..' . '/src/Type/WPObject/FacetSettings.php',
@@ -93,9 +97,9 @@ class ComposerStaticInita808aacd30a48beb897daf0a9480d602
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInita808aacd30a48beb897daf0a9480d602::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInita808aacd30a48beb897daf0a9480d602::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInita808aacd30a48beb897daf0a9480d602::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit66fb134fc8ebefe7caa9380cdecf7bb2::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit66fb134fc8ebefe7caa9380cdecf7bb2::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInit66fb134fc8ebefe7caa9380cdecf7bb2::$classMap;
 
         }, null, ClassLoader::class);
     }
