@@ -140,6 +140,12 @@ class CheckboxFacetTest extends FacetTestCase {
 		return '
 			query GetPostsByFacet( $where: RootQueryToPostConnectionWhereArgs ) {
 				posts( where: $where ) {
+					edges {
+						activeFacets{
+							type
+							name
+						}
+					}
 					nodes {
 						databaseId
 						title

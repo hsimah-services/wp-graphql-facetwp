@@ -18,8 +18,6 @@ class AccessFunctionsTest extends FWPGraphQLTestCase {
 		$settings                                 = get_option( 'graphql_general_settings' );
 		$settings['public_introspection_enabled'] = 'on';
 		update_option( 'graphql_general_settings', $settings );
-
-		$this->clearFacets();
 	}
 
 	/**
@@ -27,8 +25,6 @@ class AccessFunctionsTest extends FWPGraphQLTestCase {
 	 */
 	public function tearDown(): void {
 		delete_option( 'graphql_general_settings' );
-
-		$this->clearFacets();
 
 		parent::tearDown();
 	}

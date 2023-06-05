@@ -59,8 +59,9 @@ class CoreSchemaFilters implements Registrable {
 		$payload = FWP()->api->process_request( $fwp_args );
 
 		return [
-			'post__in' => ! empty( $payload['results'] ) ? $payload['results'] : [ 'no_results' ], // We use 'no_results' as a special value to indicate that the facet has no results.
-			'fields'   => 'ids',
+			'post__in'      => ! empty( $payload['results'] ) ? $payload['results'] : [ 'no_results' ], // We use 'no_results' as a special value to indicate that the facet has no results.
+			'fields'        => 'ids',
+			'__fwp_payload' => $payload,
 		];
 	}
 
@@ -78,6 +79,10 @@ class CoreSchemaFilters implements Registrable {
 		}
 
 		$query_args = $resolver->get_query_args();
+
+		/**
+		 * Store the payload on the query object so that it can be accessed in the connection.
+		 */
 
 		// If FWP finds no results, return null.
 		if ( isset( $query_args['post__in'] ) && 'no_results' === $query_args['post__in'][0] ) {
