@@ -17,21 +17,21 @@ class FacetSortOptionSetting extends ObjectType {
 	/**
 	 * {@inheritDoc}
 	 */
-	public static function type_name() : string {
+	public static function type_name(): string {
 		return 'FacetSortOptionSetting';
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public static function get_description() : string {
+	public static function get_description(): string {
 		return __( 'Sort Options setting for Sort facets', 'wpgraphql-facetwp' );
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public static function get_fields() : array {
+	public static function get_fields(): array {
 		return [
 			'label'   => [
 				'type'        => 'String',

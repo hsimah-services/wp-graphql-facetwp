@@ -36,7 +36,7 @@ if ( ! function_exists( 'graphql_facetwp_constants' ) ) {
 	/**
 	 * Define plugin constants.
 	 */
-	function graphql_facetwp_constants() : void {
+	function graphql_facetwp_constants(): void {
 			// Plugin version.
 		if ( ! defined( 'WPGRAPHQL_FACETWP_VERSION' ) ) {
 			define( 'WPGRAPHQL_FACETWP_VERSION', '0.4.3' );
@@ -70,7 +70,7 @@ if ( ! function_exists( 'graphql_facetwp_deps_not_ready' ) ) {
 	 *
 	 * @return array<class-string, string> The list of missing dependencies.
 	 */
-	function graphql_facetwp_deps_not_ready() : array {
+	function graphql_facetwp_deps_not_ready(): array {
 		$wpgraphql_version = '1.6.0';
 		$facetwp_version   = '4.0';
 
@@ -92,7 +92,7 @@ if ( ! function_exists( 'graphql_facetwp_init' ) ) {
 	/**
 	 * Initializes the plugin.
 	 */
-	function graphql_facetwp_init() : void {
+	function graphql_facetwp_init(): void {
 		graphql_facetwp_constants();
 
 		$not_ready = graphql_facetwp_deps_not_ready();
@@ -116,7 +116,7 @@ if ( ! function_exists( 'graphql_facetwp_init' ) ) {
 		foreach ( $not_ready as $dep => $version ) {
 			add_action(
 				'admin_notices',
-				function() use ( $dep, $version ) {
+				static function () use ( $dep, $version ) {
 					?>
 					<div class="error notice">
 						<p>
@@ -142,7 +142,7 @@ add_action( 'facetwp_init', 'graphql_facetwp_init' );
 
 add_filter(
 	'facetwp_graphql_facet_connection_config',
-	function ( array $default_graphql_config ) {
+	static function ( array $default_graphql_config ) {
 		return $default_graphql_config;
 	},
 	10,

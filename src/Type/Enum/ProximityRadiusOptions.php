@@ -18,21 +18,21 @@ class ProximityRadiusOptions extends EnumType {
 	/**
 	 * {@inheritDoc}
 	 */
-	protected static function type_name() : string {
+	protected static function type_name(): string {
 		return 'FacetProximityRadiusOptions';
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public static function get_description() : string {
+	public static function get_description(): string {
 		return __( 'Proximity radius options', 'wpgraphql-facetwp' );
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public static function get_values() : array {
+	public static function get_values(): array {
 		return [
 			WPEnumType::get_safe_name( '10' )  => [
 				'description' => __( 'Radius of 10', 'wpgraphql-facetwp' ),

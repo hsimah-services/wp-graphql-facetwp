@@ -22,14 +22,14 @@ class TypeRegistry implements Registrable {
 	/**
 	 * Registers types, connections, unions, and mutations to GraphQL schema.
 	 */
-	public static function init() : void {
+	public static function init(): void {
 		self::initialize_registry();
 	}
 
 	/**
 	 * Initializes the plugin type registry.
 	 */
-	private static function initialize_registry() : void {
+	private static function initialize_registry(): void {
 		$classes_to_register = array_merge(
 			self::enums(),
 			self::inputs(),
@@ -42,8 +42,10 @@ class TypeRegistry implements Registrable {
 
 	/**
 	 * List of Enum classes to register.
+	 *
+	 * @return string[]
 	 */
-	private static function enums() : array {
+	private static function enums(): array {
 		// Enums to register.
 		$classes_to_register = [
 			Enum\ProximityRadiusOptions::class,
@@ -62,8 +64,10 @@ class TypeRegistry implements Registrable {
 
 	/**
 	 * List of Input classes to register.
+	 *
+	 * @return string[]
 	 */
-	private static function inputs() : array {
+	private static function inputs(): array {
 		$classes_to_register = [
 			Input\DateRangeArgs::class,
 			Input\NumberRangeArgs::class,
@@ -83,8 +87,10 @@ class TypeRegistry implements Registrable {
 
 	/**
 	 * List of Interface classes to register.
+	 *
+	 * @return string[]
 	 */
-	private static function interfaces() : array {
+	private static function interfaces(): array {
 		$classes_to_register = [
 			WPInterface\FacetConfig::class,
 		];
@@ -101,8 +107,10 @@ class TypeRegistry implements Registrable {
 
 		/**
 		 * List of Object classes to register.
+		 *
+		 * @return string[]
 		 */
-	public static function objects() : array {
+	public static function objects(): array {
 		$classes_to_register = [
 			WPObject\FacetChoice::class,
 			WPObject\FacetPager::class,
@@ -130,9 +138,9 @@ class TypeRegistry implements Registrable {
 	 *
 	 * @param string[] $classes_to_register .
 	 *
-	 * @throws Exception .
+	 * @throws \Exception .
 	 */
-	private static function register_types( array $classes_to_register ) : void {
+	private static function register_types( array $classes_to_register ): void {
 		// Bail if there are no classes to register.
 		if ( empty( $classes_to_register ) ) {
 			return;

@@ -1,5 +1,8 @@
 # Changelog
 
+## Unreleased
+- chore: Implement `axepress/wp-graphql-cs` PHP_CodeSniffer ruleset.
+
 ## v0.4.3
 
 This _minor_ release adds support for the [Sort Facet](https://facetwp.com/help-center/facets/facet-types/sort). It also fixes a bug where the FacetQueryArgs input value was not being correctly matched to the correct Facet.

@@ -18,21 +18,21 @@ class ProximityArgs extends InputType {
 	/**
 	 * {@inheritDoc}
 	 */
-	public static function type_name() : string {
+	public static function type_name(): string {
 		return 'FacetProximityArgs';
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public static function get_description() : string {
+	public static function get_description(): string {
 		return __( 'Input args for Proximity facet type', 'wpgraphql-facetwp' );
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
-	public static function get_fields() : array {
+	public static function get_fields(): array {
 		return [
 			'chosenRadius' => [
 				'type'        => ProximityRadiusOptions::get_type_name(),
