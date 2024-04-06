@@ -68,7 +68,7 @@ if ( ! function_exists( 'graphql_facetwp_deps_not_ready' ) ) {
 	/**
 	 * Checks if all the the required plugins are installed and activated.
 	 *
-	 * @return array<class-string, string> The list of missing dependencies.
+	 * @return array<class-string,string> The list of missing dependencies.
 	 */
 	function graphql_facetwp_deps_not_ready(): array {
 		$wpgraphql_version = '1.6.0';

@@ -45,7 +45,7 @@ class SortOptionsEnum implements GraphQLType, Registrable {
 	/**
 	 * Registers the enum type for the provided facet.
 	 *
-	 * @param array<string, mixed> $facet The facet to register the enum type for.
+	 * @param array<string,mixed> $facet The facet to register the enum type for.
 	 */
 	public static function register_enum( array $facet ): string {
 		$name = self::get_type_name( $facet['name'] );
