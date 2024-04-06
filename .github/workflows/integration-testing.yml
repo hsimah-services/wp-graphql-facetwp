@@ -47,6 +47,8 @@ jobs:
           # Old WP versions that dont support newer PHP versions
           - php: "8.2"
             wordpress: "6.0"
+          - php: "8.2"
+            wordpress: "5.9"
           - php: "8.1"
             wordpress: "5.9"
           # New WP versions that dont support older PHP versions
