@@ -8,6 +8,8 @@
  * Modified by AxePress Development using {@see https://github.com/BrianHenryIE/strauss}.
  */
 
+declare( strict_types=1 );
+
 namespace WPGraphQL\FacetWP\Vendor\AxeWP\GraphQL\Abstracts;
 
 use WPGraphQL\FacetWP\Vendor\AxeWP\GraphQL\Interfaces\GraphQLType;

@@ -8,6 +8,8 @@
  * Modified by AxePress Development using {@see https://github.com/BrianHenryIE/strauss}.
  */
 
+declare( strict_types=1 );
+
 namespace WPGraphQL\FacetWP\Vendor\AxeWP\GraphQL\Interfaces;
 
 if ( ! interface_exists( '\WPGraphQL\FacetWP\Vendor\AxeWP\GraphQL\Interfaces\TypeWithInputFields' ) ) {
@@ -19,11 +21,7 @@ if ( ! interface_exists( '\WPGraphQL\FacetWP\Vendor\AxeWP\GraphQL\Interfaces\Typ
 		/**
 		 * Gets the input fields for the type.
 		 *
-		 * @return array<string, array{
-		 *   type: string|array<string, string | array<string, string>>,
-		 *   description: string,
-		 *   defaultValue?: string
-		 * }>
+		 * @return array<string,array{type:string|array<string,string|array<string,string>>,description:string,defaultValue?:string}>
 		 */
 		public static function get_fields(): array;
 	}
