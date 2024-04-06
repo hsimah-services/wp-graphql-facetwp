@@ -2,6 +2,7 @@
 
 ## Unreleased
 
+- feat: Add WPGraphQL to Plugin Dependencies header.
 - chore: Implement strict phpstan rules and lint.
 - chore: Update Composer dependencies and lint.
 - ci: Test against WP 6.5.

@@ -3,12 +3,13 @@
  * Plugin Name: WPGraphQL for FacetWP
  * Plugin URI: https://github.com/hsimah-services/wp-graphql-facetwp
  * Description: Adds FacetWP support to WPGraphQL
- * Author: hsimah
+ * Author: hsimah, justlevine
  * Author URI: http://www.hsimah.com
  * Version: 0.4.4
  * Text Domain: wpgraphql-facetwp
  * Requires at least: 5.4.1
  * Requires PHP: 7.4
+ * Requires Plugins: wp-graphql
  * WPGraphQL requires at least: 1.6.0
  * FacetWP requires at least: 4.0
  * Tested up to: 6.5
