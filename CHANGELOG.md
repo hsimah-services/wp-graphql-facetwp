@@ -6,6 +6,7 @@
 - chore!: Refactor plugin entrypoint to use `WPGraphQL\FacetWP` namespace.
 - chore: Implement strict phpstan rules and lint.
 - chore: Update Composer dependencies and lint.
+- chore: Update WPGraphQL Plugin Boilerplate to v0.1.0.
 - ci: Test against WP 6.5.
 - ci: Update GitHub Workflows.
 - ci: Update Strauss to v0.17.0.
