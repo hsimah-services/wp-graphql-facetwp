@@ -3,6 +3,7 @@
  * Includes the composer Autoloader used for packages and classes in the src/ directory.
  *
  * @package WPGraphQL\FacetWP
+ * @since 0.5.0
  */
 
 declare( strict_types = 1 );
