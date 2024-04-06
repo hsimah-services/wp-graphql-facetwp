@@ -6,6 +6,7 @@
 - chore: Update Composer dependencies and lint.
 - ci: Test against WP 6.5.
 - ci: Update GitHub Workflows.
+- ci: Update Strauss to v0.17.0.
 
 ## v0.4.4
 

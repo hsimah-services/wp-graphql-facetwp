@@ -52,7 +52,7 @@
 			"packages": [
 				"axepress/wp-graphql-plugin-boilerplate"
 			],
-			"delete_vendor_files": false,
+			"delete_vendor_packages": true,
 			"include_modified_date": false
 		}
 	},
@@ -112,8 +112,11 @@
 		"build-test": "@docker-build -t",
 		"run-app": "@docker-run -a",
 		"run-test": "@docker-run -t",
+		"strauss-install": [
+			"test -f ./bin/strauss.phar || curl -o bin/strauss.phar -L -C - https://github.com/BrianHenryIE/strauss/releases/download/0.17.0/strauss.phar"
+		],
 		"strauss": [
-			"test -f ./bin/strauss.phar || curl -o bin/strauss.phar -L -C - https://github.com/BrianHenryIE/strauss/releases/download/0.14.0/strauss.phar",
+			"@strauss-install",
 			"@php bin/strauss.phar",
 			"composer dump-autoload --optimize"
 		],
