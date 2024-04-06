@@ -7,7 +7,7 @@
 This _major_ release refactors the root files to use the `WPGraphQL\FacetWP` namespace. It also adds support for the Plugin Dependencies header added in WordPress 6.5, adds explicit support for PHP 8.2 and WordPress 6.5, and more.
 
 > [!NOTE]
-> Although this release is technically contains breaking changes, these changes are limited to developers directly extending the `wp-graphql-facetwp.php` file and `WPGraphQL\FacetWP\Main` class.
+> Although this release technically contains breaking changes, these changes are limited to developers directly extending the `wp-graphql-facetwp.php` file and `WPGraphQL\FacetWP\Main` class.
 > If you are using the plugin as intended, you should not experience any issues when upgrading.
 
 - feat: Add support for Plugin Dependencies header.
