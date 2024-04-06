@@ -2,6 +2,8 @@
 
 ## Unreleased
 
+ci: update GitHub Workflows.
+
 ## v0.4.4
 
 This _minor_ release implements the new WPGraphQL Coding Standards ruleset for `PHP_CodeSniffer`. While many of the addressed sniffs are cosmetic, numerous smells regarding performance, type safety, sanitization, and 3rd-party interoperability have been fixed as well.
