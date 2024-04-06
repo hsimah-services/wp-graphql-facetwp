@@ -3,6 +3,7 @@
 ## Unreleased
 
 - feat: Add WPGraphQL to Plugin Dependencies header.
+- chore!: Refactor plugin entrypoint to use `WPGraphQL\FacetWP` namespace.
 - chore: Implement strict phpstan rules and lint.
 - chore: Update Composer dependencies and lint.
 - ci: Test against WP 6.5.
