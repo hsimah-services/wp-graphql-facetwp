@@ -52,6 +52,7 @@ class ComposerStaticInita808aacd30a48beb897daf0a9480d602
         'AxeWP\\GraphQL\\Traits\\TypeNameTrait' => __DIR__ . '/..' . '/axepress/wp-graphql-plugin-boilerplate/src/Traits/TypeNameTrait.php',
         'AxeWP\\GraphQL\\Traits\\TypeResolverTrait' => __DIR__ . '/..' . '/axepress/wp-graphql-plugin-boilerplate/src/Traits/TypeResolverTrait.php',
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
+        'WPGraphQL\\FacetWP\\Autoloader' => __DIR__ . '/../..' . '/src/Autoloader.php',
         'WPGraphQL\\FacetWP\\CoreSchemaFilters' => __DIR__ . '/../..' . '/src/CoreSchemaFilters.php',
         'WPGraphQL\\FacetWP\\Main' => __DIR__ . '/../..' . '/src/Main.php',
         'WPGraphQL\\FacetWP\\Registry\\FacetRegistry' => __DIR__ . '/../..' . '/src/Registry/FacetRegistry.php',

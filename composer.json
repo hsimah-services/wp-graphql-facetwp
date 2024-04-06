@@ -159,8 +159,7 @@
 			"/docker-compose.yml",
 			"/phpstan.neon.dist",
 			"/phpunit.xml.dist",
-			"/README.md",
-			"/strauss.phar"
+			"/README.md"
 		]
 	}
 }

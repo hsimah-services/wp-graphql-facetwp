@@ -25,6 +25,7 @@ return array(
     'AxeWP\\GraphQL\\Traits\\TypeNameTrait' => $vendorDir . '/axepress/wp-graphql-plugin-boilerplate/src/Traits/TypeNameTrait.php',
     'AxeWP\\GraphQL\\Traits\\TypeResolverTrait' => $vendorDir . '/axepress/wp-graphql-plugin-boilerplate/src/Traits/TypeResolverTrait.php',
     'Composer\\InstalledVersions' => $vendorDir . '/composer/InstalledVersions.php',
+    'WPGraphQL\\FacetWP\\Autoloader' => $baseDir . '/src/Autoloader.php',
     'WPGraphQL\\FacetWP\\CoreSchemaFilters' => $baseDir . '/src/CoreSchemaFilters.php',
     'WPGraphQL\\FacetWP\\Main' => $baseDir . '/src/Main.php',
     'WPGraphQL\\FacetWP\\Registry\\FacetRegistry' => $baseDir . '/src/Registry/FacetRegistry.php',
