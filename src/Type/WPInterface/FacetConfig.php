@@ -68,7 +68,7 @@ class FacetConfig extends InterfaceType {
 	 *
 	 * @param array<string,mixed> $value The value.
 	 */
-	public static function get_resolved_type_name( array $value ): ?string {
+	public static function get_resolved_type_name( $value ): ?string {
 		return graphql_format_type_name( $value['type'] ) . 'Facet';
 	}
 }
