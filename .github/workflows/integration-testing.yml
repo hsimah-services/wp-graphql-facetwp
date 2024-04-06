@@ -30,27 +30,28 @@ jobs:
 
     strategy:
       matrix:
-        php: [ '8.1', '8.0', '7.4' ]
-        wordpress: [ '6.2', '6.1', '6.0', '5.9' ]
+        php: ["8.2", "8.1", "8.0"]
+        wordpress: ["6.5", "6.4", "6.3", "6.2", "6.1", "6.0", "5.9" ]
         include:
-          - php: '8.1'
-            wordpress: '6.2'
-            extensions: 'true'
+          - php: "8.2"
+            wordpress: "6.5"
             coverage: 1
-          # Older versions of WordPress
-          - php: '8.0'
-            wordpress: '5.8'
-          - php: '8.0'
-            wordpress: '5.7'
-          - php: '7.4'
-            wordpress: '5.8'
-          - php: '7.4'
-            wordpress: '5.7'
-          - php: '7.4'
-            wordpress: '5.6'
+          # Test old versions against PHP 8.0
+          - php: "7.4"
+            wordpress: "6.1"
+          - php: "7.4"
+            wordpress: "6.0"
+          - php: "7.4"
+            wordpress: "5.9"
         exclude:
-          - php: '7.4'
-            wordpress: '6.2'
+          # Old WP versions that dont support newer PHP versions
+          - php: "8.2"
+            wordpress: "6.0"
+          - php: "8.1"
+            wordpress: "5.9"
+          # New WP versions that dont support older PHP versions
+          - php: "8.0"
+            wordpress: "6.5"
       fail-fast: false
 
     steps:
