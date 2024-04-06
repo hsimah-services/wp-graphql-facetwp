@@ -631,7 +631,7 @@ class FacetRegistry {
 
 	/**
 	 * @todo Work in progress - pull settings from facetwp instead of hard coding them.
-	 * 
+	 *
 	 * phpcs:disable
 	 */
 	private static function register_facet_settings() : void {

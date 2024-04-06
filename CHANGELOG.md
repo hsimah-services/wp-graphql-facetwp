@@ -2,8 +2,9 @@
 
 ## Unreleased
 
-ci: update GitHub Workflows.
-ci: Test against WP 6.5.
+- chore: Update Composer dependencies and lint.
+- ci: Test against WP 6.5.
+- ci: update GitHub Workflows.
 
 ## v0.4.4
 

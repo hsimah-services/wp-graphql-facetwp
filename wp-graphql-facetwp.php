@@ -80,7 +80,7 @@ if ( ! function_exists( 'graphql_facetwp_deps_not_ready' ) ) {
 			$deps['WPGraphQL'] = $wpgraphql_version;
 		}
 
-		if ( ! class_exists( 'FacetWP' ) || defined( 'FACETWP_VERSION' ) && version_compare( FACETWP_VERSION, $facetwp_version, '<' ) ) {
+		if ( ! class_exists( 'FacetWP' ) || ( defined( 'FACETWP_VERSION' ) && version_compare( FACETWP_VERSION, $facetwp_version, '<' ) ) ) {
 			$deps['FacetWP'] = $facetwp_version;
 		}
 

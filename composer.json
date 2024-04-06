@@ -73,7 +73,7 @@
 		}
 	},
 	"require": {
-		"php": ">=7.4, <=8.1",
+		"php": ">=7.4",
 		"axepress/wp-graphql-plugin-boilerplate": "0.0.9"
 	},
 	"require-dev": {
@@ -87,15 +87,16 @@
 		"codeception/module-webdriver": "^1.0",
 		"codeception/phpunit-wrapper": "^9.0",
 		"codeception/util-universalframework": "^1.0",
-		"lucatume/wp-browser": "^3.0",
+		"lucatume/wp-browser": "<3.5",
 		"phpstan/phpstan": "^1.8",
 		"phpstan/extension-installer": "^1.1",
 		"szepeviktor/phpstan-wordpress": "^1.1",
 		"wp-graphql/wp-graphql-testcase": "~2.3",
 		"axepress/wp-graphql-stubs": "^1.13",
-		"axepress/wp-graphql-cs": "^1.0.0-beta",
+		"axepress/wp-graphql-cs": "^2.0.0-beta",
 		"wp-cli/wp-cli-bundle": "^2.8.1",
-		"php-coveralls/php-coveralls": "^2.5"
+		"php-coveralls/php-coveralls": "^2.5",
+		"phpcompatibility/php-compatibility": "dev-develop as 9.99.99"
 	},
 	"scripts": {
 		"install-test-env": "bash bin/install-test-env.sh",
@@ -127,10 +128,10 @@
 			"php ./vendor/bin/phpcs -i"
 		],
 		"check-cs": [
-			"php ./vendor/bin/phpcs src"
+			"php ./vendor/bin/phpcs"
 		],
 		"fix-cs": [
-			"php ./vendor/bin/phpcbf src"
+			"php ./vendor/bin/phpcbf"
 		],
 		"phpstan": [
 			"vendor/bin/phpstan analyze --ansi --memory-limit=1G"
