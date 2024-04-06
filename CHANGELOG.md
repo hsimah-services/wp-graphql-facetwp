@@ -3,6 +3,7 @@
 ## Unreleased
 
 ci: update GitHub Workflows.
+ci: Test against WP 6.5.
 
 ## v0.4.4
 
