@@ -95,7 +95,8 @@
 		"axepress/wp-graphql-stubs": "^1.13",
 		"axepress/wp-graphql-cs": "^2.0.0-beta",
 		"wp-cli/wp-cli-bundle": "^2.8.1",
-		"php-coveralls/php-coveralls": "^2.5"
+		"php-coveralls/php-coveralls": "^2.5",
+		"phpcompatibility/php-compatibility": "dev-develop as 9.99.99"
 	},
 	"scripts": {
 		"install-test-env": "bash bin/install-test-env.sh",
