@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+- chore: Update Strauss to v0.19.1 and Composer dependencies.
+
 ## v0.5.0
 
 This _major_ release refactors the root files to use the `WPGraphQL\FacetWP` namespace. It also adds support for the Plugin Dependencies header added in WordPress 6.5, adds explicit support for PHP 8.2 and WordPress 6.5, and more.
