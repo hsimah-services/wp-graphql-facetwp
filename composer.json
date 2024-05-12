@@ -91,7 +91,7 @@
 		"phpstan/phpstan": "^1.8",
 		"phpstan/extension-installer": "^1.1",
 		"szepeviktor/phpstan-wordpress": "^1.1",
-		"wp-graphql/wp-graphql-testcase": "~2.3",
+		"wp-graphql/wp-graphql-testcase": "~3.0.1",
 		"axepress/wp-graphql-stubs": "^1.13",
 		"axepress/wp-graphql-cs": "^2.0.0-beta",
 		"wp-cli/wp-cli-bundle": "^2.8.1",
@@ -113,7 +113,7 @@
 		"run-app": "@docker-run -a",
 		"run-test": "@docker-run -t",
 		"strauss-install": [
-			"test -f ./bin/strauss.phar || curl -o bin/strauss.phar -L -C - https://github.com/BrianHenryIE/strauss/releases/download/0.17.0/strauss.phar"
+			"test -f ./bin/strauss.phar || curl -o bin/strauss.phar -L -C - https://github.com/BrianHenryIE/strauss/releases/download/0.19.1/strauss.phar"
 		],
 		"strauss": [
 			"@strauss-install",
