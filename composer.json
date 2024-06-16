@@ -28,7 +28,7 @@
 	"readme": "README.md",
 	"funding": [
 		{
-			"type":"github",
+			"type": "github",
 			"url": "https://github.com/sponsors/AxeWP"
 		}
 	],
@@ -91,7 +91,7 @@
 		"phpstan/phpstan": "^1.8",
 		"phpstan/extension-installer": "^1.1",
 		"szepeviktor/phpstan-wordpress": "^1.1",
-		"wp-graphql/wp-graphql-testcase": "~3.0.1",
+		"wp-graphql/wp-graphql-testcase": "~3.3.0",
 		"axepress/wp-graphql-stubs": "^1.13",
 		"axepress/wp-graphql-cs": "^2.0.0-beta",
 		"wp-cli/wp-cli-bundle": "^2.8.1",
@@ -140,26 +140,11 @@
 			"vendor/bin/phpstan analyze --ansi --memory-limit=1G"
 		]
 	},
-	"archive": {
-		"name": "wp-graphql-facetwp",
-		"exclude": [
-			"/.*",
-			"!.wordpress-org",
-			"bin",
-			"docker",
-			"docs",
-			"phpstan",
-			"plugin-build",
-			"tests",
-			"!vendor",
-			"/codeception.dist.yml",
-			"/codeception.yml",
-			"/composer.json",
-			"/composer.lock",
-			"/docker-compose.yml",
-			"/phpstan.neon.dist",
-			"/phpunit.xml.dist",
-			"/README.md"
-		]
-	}
+	"zip": [
+		"composer install --no-dev --optimize-autoloader",
+		"mkdir -p plugin-build/wp-graphql-facetwp",
+		"rsync -rc --exclude-from=.distignore --exclude=plugin-build . plugin-build/wp-graphql-facetwp/ --delete --delete-excluded -v",
+		"cd plugin-build ; zip -r wp-graphql-facetwp.zip wp-graphql-facetwp",
+		"rm -rf plugin-build/wp-graphql-facetwp/"
+	]
 }

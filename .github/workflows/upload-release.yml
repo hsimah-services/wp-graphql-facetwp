@@ -21,13 +21,13 @@ jobs:
           tools: composer
 
       - name: Install dependencies
-        run: |
-          composer install --no-dev --optimize-autoloader
+        uses: ramsey/composer-install@v3
+        with:
+          composer-options: "--no-progress --no-dev --optimize-autoloader"
 
-      - name: Create Artifact
+      - name: Build and zip
         run: |
-          mkdir plugin-build
-          composer archive -vvv --format=zip --file="plugin-build/wp-graphql-facetwp"
+          composer run-script zip
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4

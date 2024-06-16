@@ -25,11 +25,10 @@ plugin-build
 auth.json
 
 # Composer deps
-!vendor
+vendor
+!vendor-prefixed
 vendor/*
-!vendor/autoload.php
-!vendor/composer
-vendor/composer/*/
+!vendor-prefixed/.gitkeep
 
 # NPM deps
 node_modules
