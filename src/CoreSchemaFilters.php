@@ -109,7 +109,7 @@ class CoreSchemaFilters implements Registrable {
 			 * If the facet has a graphql_single_name, use that instead of the field name.
 			 *
 			 * @var string|false $key
-			 */ 
+			 */
 			$key = array_search( $field_name, array_column( $facets, 'graphql_field_name' ), true );
 
 			if ( false === $key ) {

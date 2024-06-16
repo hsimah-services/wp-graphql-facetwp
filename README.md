@@ -7,7 +7,7 @@ Adds WPGraphQL support for [FacetWP](https://facetwp.com/).
 * [Documentation](#usage)
 -----
 
-![Packagist License](https://img.shields.io/packagist/l/hsimah-services/wp-graphql-facetwp?color=green) ![Packagist Version](https://img.shields.io/packagist/v/hsimah-services/wp-graphql-facetwp?label=stable) ![GitHub commits since latest release (by SemVer)](https://img.shields.io/github/commits-since/hsimah-services/wp-graphql-facetwp/0.4.4) ![GitHub forks](https://img.shields.io/github/forks/hsimah-services/wp-graphql-facetwp?style=social) ![GitHub Repo stars](https://img.shields.io/github/stars/hsimah-services/wp-graphql-facetwp?style=social)<br />
+![Packagist License](https://img.shields.io/packagist/l/hsimah-services/wp-graphql-facetwp?color=green) ![Packagist Version](https://img.shields.io/packagist/v/hsimah-services/wp-graphql-facetwp?label=stable) ![GitHub commits since latest release (by SemVer)](https://img.shields.io/github/commits-since/hsimah-services/wp-graphql-facetwp/0.5.0) ![GitHub forks](https://img.shields.io/github/forks/hsimah-services/wp-graphql-facetwp?style=social) ![GitHub Repo stars](https://img.shields.io/github/stars/hsimah-services/wp-graphql-facetwp?style=social)<br />
 ![CodeQuality](https://img.shields.io/github/actions/workflow/status/hsimah-services/wp-graphql-facetwp/code-quality.yml?branch=develop&label=Code%20Quality)
 ![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/hsimah-services/wp-graphql-facetwp/integration-testing.yml?branch=develop&label=Integration%20Testing)
 ![Coding Standards](https://img.shields.io/github/actions/workflow/status/hsimah-services/wp-graphql-facetwp/code-standard.yml?branch=develop&label=WordPress%20Coding%20Standards)
@@ -24,13 +24,19 @@ This plugin has been tested and is functional with SearchWP.
 * PHP 7.4-8.1.x
 * WordPress 5.4.1+
 * WPGraphQL 1.6.0+ (1.9.0+ recommended)
-* FacetWP 4.0
+* FacetWP 4.0+
 
 ## Quick Install
 
 1. Install & activate [WPGraphQL](https://www.wpgraphql.com/).
 2. Install & activate [FacetWP](https://facetwp.com/).
-3. Download the [latest release](https://github.com/hsimah-services/wp-graphql-facetwp/releases) `.zip` file, upload it to your WordPress install, and activate the plugin.
+3. Download the `wp-graphql-facetwp.zip` file from the [latest release](https://github.com/hsimah-services/wp-graphql-facetwp/releases/latest) upload it to your WordPress install, and activate the plugin.
+
+> [!IMPORTANT]
+>
+> Make sure you are downloading the [`wp-graphql-facetwp.zip`](https://github.com/hsimah-services/wp-graphql-facetwp/releases/latest/download/wp-graphql-facetwp.zip) file from the releases page, not the `Source code (zip)` file nor a clone of the repository.
+>
+> If you wish to use the source code, you will need to run `composer install` inside the plugin folder to install the required dependencies.
 
 ### With Composer
 

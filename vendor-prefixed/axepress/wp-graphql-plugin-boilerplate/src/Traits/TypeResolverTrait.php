@@ -5,9 +5,10 @@
  * @package AxeWP\GraphQL\Traits
  *
  * @license GPL-3.0-or-later
- * Modified by AxePress Development using Strauss.
- * @see https://github.com/BrianHenryIE/strauss
+ * Modified by AxePress Development using {@see https://github.com/BrianHenryIE/strauss}.
  */
+
+declare( strict_types=1 );
 
 namespace WPGraphQL\FacetWP\Vendor\AxeWP\GraphQL\Traits;
 
@@ -34,7 +35,7 @@ if ( ! trait_exists( '\WPGraphQL\FacetWP\Vendor\AxeWP\GraphQL\Traits\TypeResolve
 				if ( empty( $type_name ) ) {
 					throw new Error(
 					// translators: the GraphQL interface type name.
-						sprintf( __( 'The value passed to %s failed to resolve to a valid GraphQL type', 'wp-graphql-plugin-name' ), static::class )
+						sprintf( esc_html__( 'The value passed to %s failed to resolve to a valid GraphQL type', 'wp-graphql-plugin-name' ), static::class )
 					);
 				}
 

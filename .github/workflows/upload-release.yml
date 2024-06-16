@@ -11,7 +11,8 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
+
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
@@ -20,20 +21,22 @@ jobs:
           tools: composer
 
       - name: Install dependencies
-        run: |
-          composer install --no-dev --optimize-autoloader
+        uses: ramsey/composer-install@v3
+        with:
+          composer-options: "--no-progress --no-dev --optimize-autoloader"
 
-      - name: Create Artifact
+      - name: Build and zip
         run: |
-          mkdir plugin-build
-          composer archive -vvv --format=zip --file="plugin-build/wp-graphql-facetwp"
+          composer run-script zip
+
       - name: Upload artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: wp-graphql-facetwp
           path: plugin-build/wp-graphql-facetwp.zip
+
       - name: Upload release asset
-        uses: softprops/action-gh-release@v1
+        uses: softprops/action-gh-release@v2
         with:
           files: plugin-build/wp-graphql-facetwp.zip
         env:

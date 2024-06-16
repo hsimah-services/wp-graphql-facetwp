@@ -3,23 +3,26 @@
  * Plugin Name: WPGraphQL for FacetWP
  * Plugin URI: https://github.com/hsimah-services/wp-graphql-facetwp
  * Description: Adds FacetWP support to WPGraphQL
- * Author: hsimah
+ * Author: hsimah, justlevine
  * Author URI: http://www.hsimah.com
- * Version: 0.4.4
+ * Version: 0.5.0
  * Text Domain: wpgraphql-facetwp
  * Requires at least: 5.4.1
  * Requires PHP: 7.4
+ * Requires Plugins: wp-graphql
  * WPGraphQL requires at least: 1.6.0
  * FacetWP requires at least: 4.0
- * Tested up to: 6.2.2
+ * Tested up to: 6.5
  * License: GPL-3
  * License URI: https://www.gnu.org/licenses/gpl-3.0.html
  *
- * @package WPGraphQL_FacetWP
+ * @package WPGraphQL\FacetWP
  * @author  hsimah
  * @license GPL-3
- * @version 0.4.4
+ * @version 0.5.0
  */
+
+namespace WPGraphQL\FacetWP;
 
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) {
@@ -32,119 +35,110 @@ if ( file_exists( __DIR__ . '/c3.php' ) ) {
 	require_once __DIR__ . '/c3.php';
 }
 
-if ( ! function_exists( 'graphql_facetwp_constants' ) ) {
+// Load the autoloader.
+require_once __DIR__ . '/src/Autoloader.php';
+if ( ! \WPGraphQL\FacetWP\Autoloader::autoload() ) {
+	return;
+}
+
 	/**
 	 * Define plugin constants.
 	 */
-	function graphql_facetwp_constants(): void {
-			// Plugin version.
-		if ( ! defined( 'WPGRAPHQL_FACETWP_VERSION' ) ) {
-			define( 'WPGRAPHQL_FACETWP_VERSION', '0.4.4' );
-		}
+function constants(): void {
+		// Plugin version.
+	if ( ! defined( 'WPGRAPHQL_FACETWP_VERSION' ) ) {
+		define( 'WPGRAPHQL_FACETWP_VERSION', '0.5.0' );
+	}
 
-		// Plugin Folder Path.
-		if ( ! defined( 'WPGRAPHQL_FACETWP_PLUGIN_DIR' ) ) {
-			define( 'WPGRAPHQL_FACETWP_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
-		}
+	// Plugin Folder Path.
+	if ( ! defined( 'WPGRAPHQL_FACETWP_PLUGIN_DIR' ) ) {
+		define( 'WPGRAPHQL_FACETWP_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
+	}
 
-		// Plugin Folder URL.
-		if ( ! defined( 'WPGRAPHQL_FACETWP_PLUGIN_URL' ) ) {
-			define( 'WPGRAPHQL_FACETWP_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
-		}
+	// Plugin Folder URL.
+	if ( ! defined( 'WPGRAPHQL_FACETWP_PLUGIN_URL' ) ) {
+		define( 'WPGRAPHQL_FACETWP_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
+	}
 
-		// Plugin Root File.
-		if ( ! defined( 'WPGRAPHQL_FACETWP_PLUGIN_FILE' ) ) {
-			define( 'WPGRAPHQL_FACETWP_PLUGIN_FILE', __FILE__ );
-		}
+	// Plugin Root File.
+	if ( ! defined( 'WPGRAPHQL_FACETWP_PLUGIN_FILE' ) ) {
+		define( 'WPGRAPHQL_FACETWP_PLUGIN_FILE', __FILE__ );
+	}
 
-		// Whether to autoload the files or not.
-		if ( ! defined( 'WPGRAPHQL_FACETWP_AUTOLOAD' ) ) {
-			define( 'WPGRAPHQL_FACETWP_AUTOLOAD', true );
-		}
+	// Whether to autoload the files or not.
+	if ( ! defined( 'WPGRAPHQL_FACETWP_AUTOLOAD' ) ) {
+		define( 'WPGRAPHQL_FACETWP_AUTOLOAD', true );
 	}
 }
 
-if ( ! function_exists( 'graphql_facetwp_deps_not_ready' ) ) {
 	/**
 	 * Checks if all the the required plugins are installed and activated.
 	 *
-	 * @return array<class-string, string> The list of missing dependencies.
+	 * @return array<string,string> The list of missing dependencies.
 	 */
-	function graphql_facetwp_deps_not_ready(): array {
-		$wpgraphql_version = '1.6.0';
-		$facetwp_version   = '4.0';
+function dependencies_not_ready(): array {
+	$wpgraphql_version = '1.6.0';
+	$facetwp_version   = '4.0';
 
-		$deps = [];
+	$deps = [];
 
-		if ( ! class_exists( 'WPGraphQL' ) || ( defined( 'WPGRAPHQL_VERSION' ) && version_compare( WPGRAPHQL_VERSION, $wpgraphql_version, '<' ) ) ) {
-			$deps['WPGraphQL'] = $wpgraphql_version;
-		}
-
-		if ( ! class_exists( 'FacetWP' ) || defined( 'FACETWP_VERSION' ) && version_compare( FACETWP_VERSION, $facetwp_version, '<' ) ) {
-			$deps['FacetWP'] = $facetwp_version;
-		}
-
-		return $deps;
+	if ( ! class_exists( 'WPGraphQL' ) || ( defined( 'WPGRAPHQL_VERSION' ) && version_compare( WPGRAPHQL_VERSION, $wpgraphql_version, '<' ) ) ) {
+		$deps['WPGraphQL'] = $wpgraphql_version;
 	}
+
+	if ( ! class_exists( 'FacetWP' ) || ( defined( 'FACETWP_VERSION' ) && version_compare( FACETWP_VERSION, $facetwp_version, '<' ) ) ) {
+		$deps['FacetWP'] = $facetwp_version;
+	}
+
+	return $deps;
 }
 
-if ( ! function_exists( 'graphql_facetwp_init' ) ) {
 	/**
 	 * Initializes the plugin.
 	 */
-	function graphql_facetwp_init(): void {
-		graphql_facetwp_constants();
+function init(): void {
+	constants();
 
-		$not_ready = graphql_facetwp_deps_not_ready();
+	$not_ready = dependencies_not_ready();
 
-		if ( empty( $not_ready ) && defined( 'WPGRAPHQL_FACETWP_PLUGIN_DIR' ) ) {
-			require_once WPGRAPHQL_FACETWP_PLUGIN_DIR . 'src/Main.php';
-			\WPGraphQL\FacetWP\Main::instance();
+	if ( empty( $not_ready ) && defined( 'WPGRAPHQL_FACETWP_PLUGIN_DIR' ) ) {
+		require_once WPGRAPHQL_FACETWP_PLUGIN_DIR . 'src/Main.php';
+		\WPGraphQL\FacetWP\Main::instance();
 
-			return;
-		}
+		return;
+	}
 
-		/**
-		 * For users with lower capabilities, don't show the notice.
-		 *
-		 * @todo Are we sure we don't what to tell all users with backend access that the plugin isnt working?
-		 */
-		if ( ! current_user_can( 'manage_options' ) ) {
-			return;
-		}
+	/**
+	 * For users with lower capabilities, don't show the notice.
+	 *
+	 * @todo Are we sure we don't what to tell all users with backend access that the plugin isnt working?
+	 */
+	if ( ! current_user_can( 'manage_options' ) ) {
+		return;
+	}
 
-		foreach ( $not_ready as $dep => $version ) {
-			add_action(
-				'admin_notices',
-				static function () use ( $dep, $version ) {
-					?>
+	foreach ( $not_ready as $dep => $version ) {
+		add_action(
+			'admin_notices',
+			static function () use ( $dep, $version ) {
+				?>
 					<div class="error notice">
 						<p>
-							<?php
-								printf(
-									/* translators: dependency not ready error message */
-									esc_html__( '%1$s (v%2$s) must be active for WPGraphQL Plugin Name to work.', 'wpgraphql-facetwp' ),
-									esc_attr( $dep ),
-									esc_attr( $version )
-								);
-							?>
+						<?php
+							printf(
+								/* translators: dependency not ready error message */
+								esc_html__( '%1$s (v%2$s) must be active for WPGraphQL Plugin Name to work.', 'wpgraphql-facetwp' ),
+								esc_attr( $dep ),
+								esc_attr( $version )
+							);
+						?>
 						</p>
 					</div>
 
 					<?php
-				}
-			);
-		}
+			}
+		);
 	}
 }
 
-add_action( 'facetwp_init', 'graphql_facetwp_init' );
-
-add_filter(
-	'facetwp_graphql_facet_connection_config',
-	static function ( array $default_graphql_config ) {
-		return $default_graphql_config;
-	},
-	10,
-	1
-);
+add_action( 'facetwp_init', 'WPGraphQL\FacetWP\init' );

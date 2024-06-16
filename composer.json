@@ -28,7 +28,7 @@
 	"readme": "README.md",
 	"funding": [
 		{
-			"type":"github",
+			"type": "github",
 			"url": "https://github.com/sponsors/AxeWP"
 		}
 	],
@@ -52,7 +52,7 @@
 			"packages": [
 				"axepress/wp-graphql-plugin-boilerplate"
 			],
-			"delete_vendor_files": false,
+			"delete_vendor_packages": true,
 			"include_modified_date": false
 		}
 	},
@@ -73,8 +73,8 @@
 		}
 	},
 	"require": {
-		"php": ">=7.4, <=8.1",
-		"axepress/wp-graphql-plugin-boilerplate": "0.0.9"
+		"php": ">=7.4",
+		"axepress/wp-graphql-plugin-boilerplate": "^0.1.0"
 	},
 	"require-dev": {
 		"codeception/lib-innerbrowser": "^1.0",
@@ -87,15 +87,16 @@
 		"codeception/module-webdriver": "^1.0",
 		"codeception/phpunit-wrapper": "^9.0",
 		"codeception/util-universalframework": "^1.0",
-		"lucatume/wp-browser": "^3.0",
+		"lucatume/wp-browser": "<3.5",
 		"phpstan/phpstan": "^1.8",
 		"phpstan/extension-installer": "^1.1",
 		"szepeviktor/phpstan-wordpress": "^1.1",
-		"wp-graphql/wp-graphql-testcase": "~2.3",
+		"wp-graphql/wp-graphql-testcase": "~3.3.0",
 		"axepress/wp-graphql-stubs": "^1.13",
-		"axepress/wp-graphql-cs": "^1.0.0-beta",
+		"axepress/wp-graphql-cs": "^2.0.0-beta",
 		"wp-cli/wp-cli-bundle": "^2.8.1",
-		"php-coveralls/php-coveralls": "^2.5"
+		"php-coveralls/php-coveralls": "^2.5",
+		"phpcompatibility/php-compatibility": "dev-develop as 9.99.99"
 	},
 	"scripts": {
 		"install-test-env": "bash bin/install-test-env.sh",
@@ -111,8 +112,11 @@
 		"build-test": "@docker-build -t",
 		"run-app": "@docker-run -a",
 		"run-test": "@docker-run -t",
+		"strauss-install": [
+			"test -f ./bin/strauss.phar || curl -o bin/strauss.phar -L -C - https://github.com/BrianHenryIE/strauss/releases/download/0.19.1/strauss.phar"
+		],
 		"strauss": [
-			"test -f ./bin/strauss.phar || curl -o bin/strauss.phar -L -C - https://github.com/BrianHenryIE/strauss/releases/download/0.14.0/strauss.phar",
+			"@strauss-install",
 			"@php bin/strauss.phar",
 			"composer dump-autoload --optimize"
 		],
@@ -127,36 +131,20 @@
 			"php ./vendor/bin/phpcs -i"
 		],
 		"check-cs": [
-			"php ./vendor/bin/phpcs src"
+			"php ./vendor/bin/phpcs"
 		],
 		"fix-cs": [
-			"php ./vendor/bin/phpcbf src"
+			"php ./vendor/bin/phpcbf"
 		],
 		"phpstan": [
 			"vendor/bin/phpstan analyze --ansi --memory-limit=1G"
 		]
 	},
-	"archive": {
-		"name": "wp-graphql-facetwp",
-		"exclude": [
-			"/.*",
-			"!.wordpress-org",
-			"bin",
-			"docker",
-			"docs",
-			"phpstan",
-			"plugin-build",
-			"tests",
-			"!vendor",
-			"/codeception.dist.yml",
-			"/codeception.yml",
-			"/composer.json",
-			"/composer.lock",
-			"/docker-compose.yml",
-			"/phpstan.neon.dist",
-			"/phpunit.xml.dist",
-			"/README.md",
-			"/strauss.phar"
-		]
-	}
+	"zip": [
+		"composer install --no-dev --optimize-autoloader",
+		"mkdir -p plugin-build/wp-graphql-facetwp",
+		"rsync -rc --exclude-from=.distignore --exclude=plugin-build . plugin-build/wp-graphql-facetwp/ --delete --delete-excluded -v",
+		"cd plugin-build ; zip -r wp-graphql-facetwp.zip wp-graphql-facetwp",
+		"rm -rf plugin-build/wp-graphql-facetwp/"
+	]
 }

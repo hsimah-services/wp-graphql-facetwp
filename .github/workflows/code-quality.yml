@@ -11,6 +11,14 @@ on:
       - main
     types: [ opened, synchronize, reopened, labeled ]
 
+
+# Cancel previous workflow run groups that have not completed.
+concurrency:
+  # Group workflow runs by workflow name, along with the head branch ref of the pull request
+  # or otherwise the branch or tag ref.
+  group: ${{ github.workflow }}-${{ github.event_name == 'pull_request_target' && github.head_ref || github.ref }}
+  cancel-in-progress: true
+
 jobs:
   run:
     runs-on: ubuntu-latest
@@ -18,7 +26,7 @@ jobs:
     if: contains(github.event.pull_request.labels.*.name, 'safe to test ✔') || ( github.event_name == 'push' && ( github.ref == 'refs/heads/develop' || github.ref == 'refs/heads/main' ) )
     services:
       mariadb:
-        image: mariadb
+        image: mariadb:10
         ports:
           - 3306:3306
         env:
@@ -27,12 +35,9 @@ jobs:
         options: --health-cmd="mysqladmin ping" --health-interval=10s --health-timeout=5s --health-retries=3
 
     steps:
-      - name: Cancel previous runs of this workflow (pull requests only)
-        if: ${{ github.event_name == 'pull_request' }}
-        uses: styfle/cancel-workflow-action@0.11.0
 
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           ref: ${{ github.event.pull_request.head.sha }}
 
@@ -45,7 +50,7 @@ jobs:
           tools: composer:v2, wp-cli
 
       - name: Install dependencies
-        uses: ramsey/composer-install@v2
+        uses: ramsey/composer-install@v3
         with:
           composer-options: "--no-progress"
 

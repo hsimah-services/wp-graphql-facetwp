@@ -171,7 +171,7 @@ class AccessFunctionsTest extends FWPGraphQLTestCase {
 		];
 
 		$actual = $this->graphql( compact( 'query', 'variables' ) );
-		$this->assertIsValidQueryResponse( $actual );
+		$this->assertResponseIsValid( $actual );
 		$this->assertArrayNotHasKey( 'errors', $actual );
 
 		// Check that the facet is returned.

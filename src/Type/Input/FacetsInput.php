@@ -62,14 +62,7 @@ class FacetsInput extends InputType {
 				'type'        => [ 'list_of' => FacetConfig::get_type_name() ],
 				'description' => __( 'The active facets on this connection', 'wpgraphql-facetwp' ),
 				'resolve'     => static function ( $source, array $args, AppContext $context ) {
-					$keys = array_keys( (array) $source );
-					foreach ( $keys as $key ) {
-						error_log( $key . ': ' . gettype( $source[ $key ] ) );
-					}
-					error_log( $source['node']::class );
-					error_log( $source['connection']::class );
-					error_log( print_r( $source['node'], true ) );
-					return [];
+					// @todo.
 				},
 			]
 		);
