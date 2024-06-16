@@ -60,10 +60,26 @@ class Autoloader {
 	 * Displays a notice if the autoloader is missing.
 	 */
 	protected static function missing_autoloader_notice(): void {
-		$error_message = __( 'WPGraphQL for FacetWP: The Composer autoloader was not found. If you installed the plugin from the GitHub source code, make sure to run `composer install`.', 'wpgraphql-facetwp' );
+		// Translators: %s is a link to the latest release file.
+		$error_message = __( 'WPGraphQL for FacetWP: The Composer autoloader was not found. This usually means you downloaded the repository source code instead of the latest %s release file. If you are intentionally using the GitHub source code, make sure to run `composer install`.', 'wpgraphql-facetwp' );
+
+		$release_link = '<a href="https://github.com/hsimah-services/wp-graphql-facetwp/releases/latest/download/wp-graphql-facetwp.zip" target="_blank">wp-graphql-facetwp.zip</a>';
 
 		if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
-			error_log( esc_html( $error_message ) ); // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log -- This is a development notice.
+			error_log( // phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log -- This is a development notice.
+				sprintf(
+					esc_html( $error_message ),
+					wp_kses(
+						$release_link,
+						[
+							'a' => [
+								'href'   => [],
+								'target' => [],
+							],
+						]
+					)
+				)
+			);
 		}
 
 		$hooks = [
@@ -74,11 +90,24 @@ class Autoloader {
 		foreach ( $hooks as $hook ) {
 			add_action(
 				$hook,
-				static function () use ( $error_message ) {
+				static function () use ( $error_message, $release_link ) {
 					?>
 					<div class="error notice">
 						<p>
-							<?php echo esc_html( $error_message ); ?>
+							<?php
+							printf(
+								esc_html( $error_message ),
+								wp_kses(
+									$release_link,
+									[
+										'a' => [
+											'href'   => [],
+											'target' => [],
+										],
+									]
+								)
+							)
+							?>
 						</p>
 					</div>
 					<?php
