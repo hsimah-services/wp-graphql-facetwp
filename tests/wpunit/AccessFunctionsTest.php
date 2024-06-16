@@ -1,6 +1,7 @@
 <?php
 
 use Tests\WPGraphQL\FacetWP\TestCase\FWPGraphQLTestCase;
+use WPGraphQL\Type\WPEnumType;
 
 /**
  * Tests access functons
@@ -194,7 +195,7 @@ class AccessFunctionsTest extends FWPGraphQLTestCase {
 										$this->expectedField( 'count', 5 ),
 									]
 								),
-								$this->expectedField( 'type', 'checkboxes' ),
+								$this->expectedField( 'type', WPEnumType::get_safe_name( $expected['type']) ),
 								$this->expectedObject(
 									'settings',
 									[

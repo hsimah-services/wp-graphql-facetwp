@@ -27,7 +27,7 @@ class FacetRegistry {
 	/**
 	 * Gets the facet configs to be registered to WPGraphQL.
 	 *
-	 * @return array<string,mixed>[]
+	 * @return array<string,array<string,mixed>>
 	 *
 	 * @since 0.4.1
 	 */

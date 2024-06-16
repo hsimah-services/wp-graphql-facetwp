@@ -2,6 +2,8 @@
 
 ## [Unreleased]
 
+- feat: Add Facets as `FacetsInput` where args on `RootQuery` connections to post types.
+- feat!: Change `Facet.type` from type `String` to type `FacetTypeEnum`.
 - chore!: Remove `vendor` and `vendor-prefixed/*` from the GitHub repository.
 - chore: Update Strauss to v0.19.1 and Composer dependencies.
 - ci: Cleanup zip and release workflow.
