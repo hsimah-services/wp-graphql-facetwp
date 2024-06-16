@@ -84,8 +84,6 @@ class FacetsInput extends InputType {
 
 	/**
 	 * {@inheritDoc}
-	 *
-	 * @return array
 	 */
 	public static function get_fields(): array {
 		$facet_configs = get_graphql_allowed_facets();
@@ -104,10 +102,10 @@ class FacetsInput extends InputType {
 					__( 'The %1$s facet.', 'wpgraphql-facetwp' ),
 					$config['label']
 				),
-				'type'        => $config['graphql_type'],
+				'type'        => (string) $config['graphql_type'],
 			];
 
-			$fields[ $config['graphql_field_name'] ] = $field_config;
+			$fields[ (string) $config['graphql_field_name'] ] = $field_config;
 		}
 
 		return $fields;
